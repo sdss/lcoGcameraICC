@@ -1,1 +1,20 @@
 * text=auto !eol
+etc/gcamera.cfg -text
+python/__init__.py -text
+python/alta/__init__.py -text
+python/alta/alta.i -text
+python/alta/alta.py -text
+python/alta/alta_wrap.cxx -text
+python/alta/altacam.py -text
+python/alta/makefile -text
+python/gcameraICC/Commands/CameraCmd.py -text
+python/gcameraICC/Commands/CmdSet.py -text
+python/gcameraICC/Commands/DebugCmd.py -text
+python/gcameraICC/Commands/PingCmd.py -text
+python/gcameraICC/Commands/__TopCmd.py -text
+python/gcameraICC/Commands/__init__.py -text
+python/gcameraICC/__init__.py -text
+python/gcameraICC/keydict.py -text
+python/gcameraICC/main.py -text
+/setup.py -text
+ups/gcameraICC.table -text

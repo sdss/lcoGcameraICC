@@ -1,0 +1,6 @@
+setupRequired('apogee')
+setupRequired('sdss3tools')
+
+pathPrepend(PATH, ${PRODUCT_DIR}/bin)
+pathPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
+pathPrepend(PYTHONPATH, ${PRODUCT_DIR}/lib)
