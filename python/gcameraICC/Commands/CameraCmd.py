@@ -55,6 +55,8 @@ class CameraCmd(Commands.CmdSet.CmdSet):
     def statusCmd(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
+        
+        cmd.respond('cameraConnected=%s' % (self.actor.cam != None))
         self.coolerStatusCmd(cmd, doFinish=False)
         
         if doFinish:
@@ -178,8 +180,9 @@ class CameraCmd(Commands.CmdSet.CmdSet):
         """ Generate status keywords. Does NOT finish the command.
         """
 
-        coolerStatus = self.actor.cam.coolerStatus()
-        cmd.respond(coolerStatus)
+        if self.actor.cam:
+            coolerStatus = self.actor.cam.coolerStatus()
+            cmd.respond(coolerStatus)
 
         if doFinish:
             cmd.finish()

@@ -12,8 +12,10 @@ import alta.altacam as alta
 import pdb
 
 class GCamera(coreActor.Actor):
-    def __init__(self, name, productName=None, configFile=None, debugLevel=30):
-        coreActor.Actor.__init__(self, name, productName=productName, configFile=configFile)
+    def __init__(self, name, productName=None, configFile=None, doConnect=True, 
+                 debugLevel=30):
+        coreActor.Actor.__init__(self, name, productName=productName, 
+                                 configFile=configFile)
 
         self.logger.setLevel(debugLevel)
 
@@ -22,7 +24,8 @@ class GCamera(coreActor.Actor):
         self.cmdr.connect()
 
         self.cam = None
-        self.connectCamera()
+        if doConnect:
+            self.connectCamera()
 
         self.run()
 
@@ -41,7 +44,7 @@ class GCamera(coreActor.Actor):
         return self.cam
         
 def test1():
-    gcamera = GCamera('gcamera', productName='gcameraICC', debugLevel=5)
+    gcamera = GCamera('gcamera', productName='gcameraICC', debugLevel=5, doConnect=False)
     
 if __name__ == "__main__":
     test1()

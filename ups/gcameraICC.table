@@ -1,3 +1,4 @@
+setupRequired('actorcore')
 setupRequired('apogee')
 setupRequired('sdss3tools')
 
