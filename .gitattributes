@@ -16,6 +16,5 @@ python/gcameraICC/Commands/__init__.py -text
 python/gcameraICC/__init__.py -text
 python/gcameraICC/gcameraICC_main.py -text
 python/gcameraICC/keydict.py -text
-python/gcameraICC/main.py -text
 /setup.py -text
 ups/gcameraICC.table -text

@@ -12,35 +12,46 @@ import time
 import pyfits
 
 import opscore.protocols.validation as validation
-import opscore.protocols.keys as keys
+import opscore.protocols.keys as opsKeys
 import opscore.protocols.types as types
 
 import RO.Astro.Tm.MJDFromPyTuple as astroMJD
 
-import Commands.CmdSet
 from opscore.utility.qstr import qstr
 
-class CameraCmd(Commands.CmdSet.CmdSet):
+class CameraCmd(object):
     """ Wrap camera commands.  """
     
     def __init__(self, actor):
-        Commands.CmdSet.CmdSet.__init__(self, actor)
+        self.actor = actor
 
         self.dataRoot = self.actor.config.get('gcamera', 'dataRoot')
         self.filePrefix = self.actor.config.get('gcamera', 'filePrefix')
+
+        # We track the names of any currently valid dark and flat files.
+        self.darkFile = None
+        self.darkTemp = 99.9
+        self.flatFile = None
+        self.flatCartridge = -1
         
         self.simRoot = None
         self.simSeqno = 1
 
-        self.keys = keys.CmdKey.setKeys(
-            keys.KeysDictionary("gcamera_camera", (1, 1),
-                                keys.Key("time", types.Float(), help="exposure time."),
-                                keys.Key("mjd", types.Int(), help="MJD for simulation sequence"),
-                                keys.Key("seqno", types.Int(), 
-                                         help="image number for simulation sequence."),
-                                keys.Key("filename", types.String(),
-                                         help="the filename to write to"),
-                                )
+        self.keys = opsKeys.CmdKey.setKeys(
+            opsKeys.KeysDictionary("gcamera_camera", (1, 1),
+                                   opsKeys.Key("time", types.Float(), help="exposure time."),
+                                   opsKeys.Key("mjd", types.Int(), help="MJD for simulation sequence"),
+                                   opsKeys.Key("cartridge", types.Int(), help="cartridge number; used to bind flats to images."),
+                                   opsKeys.Key("seqno", types.Int(), 
+                                               help="image number for simulation sequence."),
+                                   opsKeys.Key("darkSeqno", types.Int(), 
+                                               help="dark image number for simulation sequence."),
+                                   opsKeys.Key("flatSeqno", types.Int(), 
+                                               help="flat image number for simulation sequence."),
+                                   opsKeys.Key("filename", types.String(),
+                                               help="the filename to write to"),
+                                   opsKeys.Key("temp", types.Float(), help="camera temperature setpoint."),
+                                   )
             )
 
         self.vocab = [
@@ -48,15 +59,24 @@ class CameraCmd(Commands.CmdSet.CmdSet):
             ('setFormat', '', self.setFormatCmd),
             ('simulate', '(off)', self.simulateOffCmd),
             ('simulate', '<mjd> <seqno>', self.simulateFromSeqCmd),
-#            ('setTemp', '<temp>', self.setTemp)
-            ('expose', '<time> [<filename>]', self.exposeCmd),
+            ('setTemp', '<temp>', self.setTempCmd),
+            ('expose', '<time> [<cartridge>] [<filename>]', self.exposeCmd),
+            ('dark', '<time> [<filename>]', self.exposeCmd),
+            ('flat', '<time> <cartridge> [<filename>]', self.exposeCmd),
             ]
 
+    def scanDir(self, dir):
+        """(Re-) etablish the dark and flat file names by scanning a directory. """ 
+        pass
+    
     def statusCmd(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
-        
-        cmd.respond('cameraConnected=%s' % (self.actor.cam != None))
+        cam = self.actor.cam
+        cmd.respond('cameraConnected=%s' % (cam != None))
+        if cam:
+            cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
+
         self.coolerStatusCmd(cmd, doFinish=False)
         
         if doFinish:
@@ -66,7 +86,8 @@ class CameraCmd(Commands.CmdSet.CmdSet):
         """ Configure ourselves. """
 
         self.actor.cam.setBOSSformat()
-        
+        self.statusCmd(cmd, doFinish=False)
+
         if doFinish:
             cmd.finish()
 
@@ -75,12 +96,17 @@ class CameraCmd(Commands.CmdSet.CmdSet):
         cmdFunc(resp)
     
     def simulateOffCmd(self, cmd):
+        """ stop reading image files from disk. """
+        
         self.sendSimulatingKey('Off', cmd.finish)
         self.simRoot = None
 
     def simulateFromSeqCmd(self, cmd):
-        mjd = cmd.cmd.keywords['mjd'].values[0]
-        seqno = cmd.cmd.keywords['seqno'].values[0]
+        """ define a MJD+image number to start reading image files from """
+
+        cmdKeys = cmd.cmd.keywords
+        mjd = cmdKeys['mjd'].values[0]
+        seqno = cmdKeys['seqno'].values[0]
 
         simRoot = os.path.join(self.dataRoot, str(mjd))
         if not os.path.isdir(simRoot):
@@ -102,7 +128,7 @@ class CameraCmd(Commands.CmdSet.CmdSet):
         return filename
                                 
     def genNextRealPath(self, cmd):
-        """ Return the next filename to use. """
+        """ Return the next filename to use. Exposures are numbered from 1 for each night. """
 
         gimgPattern = '^gimg-(\d{4})\.fits$'
 
@@ -147,9 +173,11 @@ class CameraCmd(Commands.CmdSet.CmdSet):
     def exposeCmd(self, cmd, doFinish=True):
         """ expose time=SEC [filename=FILENAME] """
 
-        itime = cmd.cmd.keywords['time'].values[0]
-        if 'filename' in cmd.cmd.keywords:
-            filename = cmd.cmd.keywords['filename'].values[0]
+        expType = cmd.cmd.name
+        cmdKeys = cmd.cmd.keywords
+        itime = cmdKeys['time'].values[0]
+        if 'filename' in cmdKeys:
+            filename = cmdKeys['filename'].values[0]
         else:
             filename = self.getNextPath(cmd)
             
@@ -166,13 +194,22 @@ class CameraCmd(Commands.CmdSet.CmdSet):
                 time.sleep(itime)
         else:
             imDict = self.actor.cam.expose(itime)
+            imDict['type'] = 'object' if (expType == 'expose') else expType
             imDict['filename'] = filename
+            imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
 
             #cmd.respond('exposureState="finishing",0.0,0.0')
             self.writeFITS(imDict)
         
             # Try hard to recover image memory. 
             del imDict
+
+        if expType == 'dark':
+            self.darkFile = filename
+            self.darkTemp = self.actor.cam.read_TempCCD()
+        if expType == 'flat':
+            self.flatFile = filename
+            self.flatCartridge = itime = cmdKeys['cartridge'].values[0]
 
         cmd.finish('exposureState="done",0.0,0.0; filename="%s"' % (filename))
 
@@ -194,7 +231,10 @@ class CameraCmd(Commands.CmdSet.CmdSet):
            cmd  - the controlling command.
            temp - the new setpoint, or None if the loop should be turned off. """
 
-        self.cam.setCooler(temp)
+        cmdKeys = cmd.cmd.keywords
+        temp = cmdKeys['temp'].values[0]
+
+        self.actor.cam.setCooler(temp)
         self.coolerStatusCmd(cmd, doFinish=doFinish)
 
     def pingCmd(self, cmd):
@@ -228,6 +268,12 @@ class CameraCmd(Commands.CmdSet.CmdSet):
         hdr.update('DATE-OBS', self.getTS(d['startTime']), 'start of integration')
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
+        if d['type'] == 'object':
+            if self.darkFile:
+                hdr.update('DARKFILE', self.darkFile)
+            if self.flatFile:
+                hdr.update('FLATFILE', self.flatFile)
+            
 #        hdr.update('FULLX', self.m_ImagingCols)
 #        hdr.update('FULLY', self.m_ImagingRows)
         hdr.update('BEGX', d.get('begx', 0))
