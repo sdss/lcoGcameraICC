@@ -21,6 +21,6 @@ class PingCmd():
 
     def ping_cmd(self, cmd):
         """ Top-level "ping" command handler. Query all the controllers for liveness/happiness. """
-
+        
         cmd.finish('text="Pong."')
 

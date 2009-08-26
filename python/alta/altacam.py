@@ -147,7 +147,7 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiStartX(x0 * self.bin_x)
         self.write_RoiStartY(y0 * self.bin_y)
         
-    def setBOSSformat(self):
+    def setBOSSFormat(self):
         self.__checkSelf()
 
         w = 1024
@@ -167,6 +167,23 @@ class AltaCam(alta.CApnCamera):
 
         # self.write_DigitizeOverscan(1);
 
+    def setFlatFormat(self):
+        self.__checkSelf()
+
+        w = 1024
+        h = 1024
+        ow = 0
+        oh = 0
+        binx = 1
+        biny = 1
+
+        self.write_RoiBinningH(binx)
+        self.write_RoiBinningV(biny)
+
+        self.write_RoiPixelsH((w + ow)/binx)
+        self.write_RoiPixelsV((h + oh)/biny)
+        self.write_RoiStartX(1)
+        self.write_RoiStartY(1)
 
     def expose(self, itime, filename=None):
         return self._expose(itime, True, filename)

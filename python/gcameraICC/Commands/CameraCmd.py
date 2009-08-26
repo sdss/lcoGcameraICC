@@ -55,21 +55,18 @@ class CameraCmd(object):
             )
 
         self.vocab = [
-            ('status', '', self.statusCmd),
-            ('setFormat', '', self.setFormatCmd),
-            ('simulate', '(off)', self.simulateOffCmd),
-            ('simulate', '<mjd> <seqno>', self.simulateFromSeqCmd),
-            ('setTemp', '<temp>', self.setTempCmd),
-            ('expose', '<time> [<cartridge>] [<filename>]', self.exposeCmd),
-            ('dark', '<time> [<filename>]', self.exposeCmd),
-            ('flat', '<time> <cartridge> [<filename>]', self.exposeCmd),
+            ('status', '', self.status),
+            ('setBOSSFormat', '', self.setBOSSFormat),
+            ('setFlatFormat', '', self.setFlatFormat),
+            ('simulate', '(off)', self.simulateOff),
+            ('simulate', '<mjd> <seqno>', self.simulateFromSeq),
+            ('setTemp', '<temp>', self.setTemp),
+            ('expose', '<time> [<cartridge>] [<filename>]', self.expose),
+            ('dark', '<time> [<filename>]', self.expose),
+            ('flat', '<time> <cartridge> [<filename>]', self.expose),
             ]
 
-    def scanDir(self, dir):
-        """(Re-) etablish the dark and flat file names by scanning a directory. """ 
-        pass
-    
-    def statusCmd(self, cmd, doFinish=True):
+    def status(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
         cam = self.actor.cam
@@ -77,16 +74,25 @@ class CameraCmd(object):
         if cam:
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
 
-        self.coolerStatusCmd(cmd, doFinish=False)
-        
+        self.coolerStatus(cmd, doFinish=False)
+
         if doFinish:
             cmd.finish()
 
-    def setFormatCmd(self, cmd, doFinish=True):
+    def setBOSSFormat(self, cmd, doFinish=True):
         """ Configure ourselves. """
 
-        self.actor.cam.setBOSSformat()
-        self.statusCmd(cmd, doFinish=False)
+        self.actor.cam.setBOSSFormat()
+        self.status(cmd, doFinish=False)
+
+        if doFinish:
+            cmd.finish()
+
+    def setFlatFormat(self, cmd, doFinish=True):
+        """ Configure ourselves for flats. """
+
+        self.actor.cam.setFlatFormat()
+        self.status(cmd, doFinish=False)
 
         if doFinish:
             cmd.finish()
@@ -95,13 +101,13 @@ class CameraCmd(object):
         resp = 'simulating=%s,%s,%d' % (state, self.simRoot, self.simSeqno)
         cmdFunc(resp)
     
-    def simulateOffCmd(self, cmd):
+    def simulateOff(self, cmd):
         """ stop reading image files from disk. """
         
         self.sendSimulatingKey('Off', cmd.finish)
         self.simRoot = None
 
-    def simulateFromSeqCmd(self, cmd):
+    def simulateFromSeq(self, cmd):
         """ define a MJD+image number to start reading image files from """
 
         cmdKeys = cmd.cmd.keywords
@@ -170,7 +176,7 @@ class CameraCmd(object):
         else:
             return self.genNextRealPath(cmd)
 
-    def exposeCmd(self, cmd, doFinish=True):
+    def expose(self, cmd, doFinish=True):
         """ expose time=SEC [filename=FILENAME] """
 
         expType = cmd.cmd.name
@@ -184,6 +190,8 @@ class CameraCmd(object):
         readTimeEstimate = 2.0
         cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime,itime))
 
+        if expType == 'flat':
+            self.setFlatFormat(cmd, doFinish=False)
         if self.simRoot:
             if not filename:
                 self.sendSimulatingKey('Off', cmd.respond)
@@ -207,13 +215,16 @@ class CameraCmd(object):
         if expType == 'dark':
             self.darkFile = filename
             self.darkTemp = self.actor.cam.read_TempCCD()
+            cmd.respond('text="setting dark file for %0.1fC: %s"' % (self.darkTemp, self.darkFile))
         if expType == 'flat':
             self.flatFile = filename
             self.flatCartridge = itime = cmdKeys['cartridge'].values[0]
+            self.setBOSSFormat(cmd, doFinish=False)
+            cmd.respond('text="setting flat file for cartridge %d: %s"' % (self.flatCartridge, self.flatFile))
 
         cmd.finish('exposureState="done",0.0,0.0; filename="%s"' % (filename))
 
-    def coolerStatusCmd(self, cmd, doFinish=True):
+    def coolerStatus(self, cmd, doFinish=True):
         """ Generate status keywords. Does NOT finish the command.
         """
 
@@ -224,7 +235,7 @@ class CameraCmd(object):
         if doFinish:
             cmd.finish()
 
-    def setTempCmd(self, cmd, doFinish=True):
+    def setTemp(self, cmd, doFinish=True):
         """ Adjust the cooling loop.
 
         Args:
@@ -235,9 +246,9 @@ class CameraCmd(object):
         temp = cmdKeys['temp'].values[0]
 
         self.actor.cam.setCooler(temp)
-        self.coolerStatusCmd(cmd, doFinish=doFinish)
+        self.coolerStatus(cmd, doFinish=doFinish)
 
-    def pingCmd(self, cmd):
+    def ping(self, cmd):
         """ Top-level "ping" command handler. Query all the controllers for liveness/happiness. """
 
         cmd.finish('text="Pong."')
