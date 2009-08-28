@@ -19,7 +19,7 @@ class GCamera(coreActor.Actor):
 
         self.logger.setLevel(debugLevel)
 
-        self.cmdr = coreCmdr.Cmdr('%s.%s' % (name, name), self)
+        self.cmdr = coreCmdr.Cmdr(name, self)
         self.cmdr.connectionMade = self.connectionMade
         self.cmdr.connect()
 

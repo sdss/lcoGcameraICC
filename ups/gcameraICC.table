@@ -1,4 +1,4 @@
-setupRequired("actorcore")
+setupRequired("actorcore CPL")
 setupRequired("apogee")
 setupRequired("sdss3tools")
 

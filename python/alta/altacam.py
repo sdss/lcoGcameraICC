@@ -185,14 +185,14 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiStartX(1)
         self.write_RoiStartY(1)
 
-    def expose(self, itime, filename=None):
-        return self._expose(itime, True, filename)
-    def dark(self, itime, filename=None):
-        return self._expose(itime, False, filename)
-    def bias(self, filename=None):
-        return self._expose(0.0, False, filename)
+    def expose(self, itime, filename=None, cmd=None):
+        return self._expose(itime, True, filename, cmd=cmd)
+    def dark(self, itime, filename=None, cmd=None):
+        return self._expose(itime, False, filename, cmd=cmd)
+    def bias(self, filename=None, cmd=None):
+        return self._expose(0.0, False, filename, cmd=cmd)
         
-    def _expose(self, itime, openShutter, filename):
+    def _expose(self, itime, openShutter, filename, cmd=None):
         """ Take an exposure.
 
         Args:
@@ -230,11 +230,9 @@ class AltaCam(alta.CApnCamera):
             time.sleep(itime - 0.2)
 
         # We are close to the end of the exposure. Start polling the camera
-        print >> sys.stderr, "nearing readout"
         for i in range(50):
             now = time.time()
             state = self.read_ImagingStatus()
-            print >> sys.stderr, "state=%d" % (state)
             if state < 0: 
                 raise RuntimeError("bad state=%d" % (state))
             if state == 3:
@@ -249,6 +247,8 @@ class AltaCam(alta.CApnCamera):
         else:
             fitsType = 'dark'
 
+        if cmd:
+            cmd.respond('exposureState="reading",2.0,2.0')
         t0 = time.time()
         image = self.fetchImage()
         t1 = time.time()

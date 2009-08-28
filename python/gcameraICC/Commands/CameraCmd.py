@@ -63,7 +63,7 @@ class CameraCmd(object):
             ('setTemp', '<temp>', self.setTemp),
             ('expose', '<time> [<cartridge>] [<filename>]', self.expose),
             ('dark', '<time> [<filename>]', self.expose),
-            ('flat', '<time> <cartridge> [<filename>]', self.expose),
+            ('flat', '<time> [<cartridge>] [<filename>]', self.expose),
             ]
 
     def status(self, cmd, doFinish=True):
@@ -119,7 +119,7 @@ class CameraCmd(object):
             cmd.fail('text="%s is not an existing directory"' % (simRoot))
             return
 
-        simPath = self.genFilename(simRoot, seqno)
+        simPath = os.path.join(simRoot, self.genFilename(seqno))
         if not os.path.isfile(simPath):
             cmd.fail('text="%s is not an existing file"' % (simPath))
             return
@@ -129,10 +129,9 @@ class CameraCmd(object):
 
         self.sendSimulatingKey('On', cmd.finish)
 
-    def genFilename(self, root, seqno):
-        filename = os.path.join(root, '%s-%04d.fits' % (self.filePrefix, seqno))
-        return filename
-                                
+    def genFilename(self, seqno):
+        return '%s-%04d.fits' % (self.filePrefix, seqno)
+                       
     def genNextRealPath(self, cmd):
         """ Return the next filename to use. Exposures are numbered from 1 for each night. """
 
@@ -159,16 +158,26 @@ class CameraCmd(object):
                 seqno = 1
             else:
                 seqno = int(m.group(1)) + 1
-            
-        return self.genFilename(dataDir, seqno)
+
+        self.seqno = seqno
+        return dataDir, self.genFilename(seqno)
             
     def genNextSimPath(self, cmd):
-        """ Return the next filename to use. """
+        """ Return the next filename to use. 
 
-        filename = self.genFilename(self.simRoot, self.simSeqno)
+        Returns:
+          dirname     - the full path of the file
+          filename    - the name of the disk file.
+         """
+
+        filename = self.genFilename(self.simSeqno)
         self.simSeqno += 1
-    
-        return filename if os.path.isfile(filename) else None
+
+        pathname = os.path.join(self.simDir, filename)
+        if os.path.isfile(pathname):
+            return self.simDir, filename 
+        else:
+            return None, None
 
     def getNextPath(self, cmd):
         if self.simRoot:
@@ -183,15 +192,19 @@ class CameraCmd(object):
         cmdKeys = cmd.cmd.keywords
         itime = cmdKeys['time'].values[0]
         if 'filename' in cmdKeys:
-            filename = cmdKeys['filename'].values[0]
+            pathname = cmdKeys['filename'].values[0]
         else:
-            filename = self.getNextPath(cmd)
-            
+            dirname, filename = self.getNextPath(cmd)
+            pathname = os.path.join(dirname, filename)
+
         readTimeEstimate = 2.0
         cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime,itime))
 
         if expType == 'flat':
             self.setFlatFormat(cmd, doFinish=False)
+        else:
+            self.setBOSSFormat(cmd, doFinish=False)
+
         if self.simRoot:
             if not filename:
                 self.sendSimulatingKey('Off', cmd.respond)
@@ -201,28 +214,35 @@ class CameraCmd(object):
             else:
                 time.sleep(itime)
         else:
-            imDict = self.actor.cam.expose(itime)
+            imDict = self.actor.cam.expose(itime, cmd=cmd)
             imDict['type'] = 'object' if (expType == 'expose') else expType
-            imDict['filename'] = filename
+            imDict['filename'] = pathname
             imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
 
-            #cmd.respond('exposureState="finishing",0.0,0.0')
             self.writeFITS(imDict)
         
-            # Try hard to recover image memory. 
-            del imDict
-
         if expType == 'dark':
-            self.darkFile = filename
+            self.darkFile = pathname
             self.darkTemp = self.actor.cam.read_TempCCD()
-            cmd.respond('text="setting dark file for %0.1fC: %s"' % (self.darkTemp, self.darkFile))
-        if expType == 'flat':
-            self.flatFile = filename
-            self.flatCartridge = itime = cmdKeys['cartridge'].values[0]
+            if not self.simRoot:
+                darknote = open(os.path.join(dirname, 'dark-%04d.dat' % (self.seqno)), 'w+')
+                darknote.write('filename=%s\n' % (self.darkFile))
+                darknote.write('temp=%0.2f\n' % (self.darkTemp))
+                darknote.close()
+                cmd.respond('text="setting dark file for %0.1fC: %s"' % (self.darkTemp, self.darkFile))
+            
+        elif expType == 'flat':
+            self.flatFile = pathname
+            self.flatCartridge = cmdKeys['cartridge'].values[0] if ('cartridge' in cmdKeys) else 0
             self.setBOSSFormat(cmd, doFinish=False)
-            cmd.respond('text="setting flat file for cartridge %d: %s"' % (self.flatCartridge, self.flatFile))
+            if not self.simRoot:
+                flatnote = open(os.path.join(dirname, 'flat-%04d-%02d.dat' % (self.seqno, self.flatCartridge)), 'w+')
+                flatnote.write('filename=%s\n' % (self.flatFile))
+                flatnote.write('cartridge=%d\n' % (self.flatCartridge))
+                flatnote.close()
+                cmd.respond('text="setting flat file for cartridge %d: %s"' % (self.flatCartridge, self.flatFile))
 
-        cmd.finish('exposureState="done",0.0,0.0; filename="%s"' % (filename))
+        cmd.finish('exposureState="done",0.0,0.0; filename=%s' % (os.path.join(dirname, filename)))
 
     def coolerStatus(self, cmd, doFinish=True):
         """ Generate status keywords. Does NOT finish the command.
@@ -284,6 +304,7 @@ class CameraCmd(object):
                 hdr.update('DARKFILE', self.darkFile)
             if self.flatFile:
                 hdr.update('FLATFILE', self.flatFile)
+                hdr.update('FLATCART', self.flatCartridge)
             
 #        hdr.update('FULLX', self.m_ImagingCols)
 #        hdr.update('FULLY', self.m_ImagingRows)
@@ -292,7 +313,6 @@ class CameraCmd(object):
         hdr.update('BINX', d.get('binx', 1))
         hdr.update('BINY', d.get('biny', 1))
 
-        # pyfits now does the right thing with uint16
         hdu.writeto(filename)
 
         del hdu
