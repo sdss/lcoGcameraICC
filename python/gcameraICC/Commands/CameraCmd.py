@@ -44,10 +44,6 @@ class CameraCmd(object):
                                    opsKeys.Key("cartridge", types.Int(), help="cartridge number; used to bind flats to images."),
                                    opsKeys.Key("seqno", types.Int(), 
                                                help="image number for simulation sequence."),
-                                   opsKeys.Key("darkSeqno", types.Int(), 
-                                               help="dark image number for simulation sequence."),
-                                   opsKeys.Key("flatSeqno", types.Int(), 
-                                               help="flat image number for simulation sequence."),
                                    opsKeys.Key("filename", types.String(),
                                                help="the filename to write to"),
                                    opsKeys.Key("temp", types.Float(), help="camera temperature setpoint."),
@@ -78,6 +74,36 @@ class CameraCmd(object):
 
         if doFinish:
             cmd.finish()
+
+    def findFileMatch(files, seqno):
+        """ Return the filename in the list whose sequence is closest below the given seqno. """
+
+        prefixLength = len(prefix)+1
+
+        names = [os.basename(f) for f in files]
+        names = [n.split('-')[1] for n in names]
+        names.sort()
+        names.reverse()
+
+        seqStr = str(seqno)
+        match = None
+        for i in range(len(names)):
+            if name[i] < seqno:
+                match = i
+                break
+
+        return match
+        
+    def findDarkAndFlat(self, dirname, forSeqno):
+        darkFiles = glob.glob(os.path.join(dirname, 'dark-*'))
+        darkIdx = findFileMatch(darkFiles, forSeqno)
+        dark = darkFiles[darkIdx] if darkIdx != None else None
+
+        flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
+        flatIdx = findFileMatch(flatFiles, forSeqno)
+        flat = flatFiles[flatIdx] if flatIdx != None else None
+        
+        return dark, flat
 
     def setBOSSFormat(self, cmd, doFinish=True):
         """ Configure ourselves. """
@@ -173,9 +199,9 @@ class CameraCmd(object):
         filename = self.genFilename(self.simSeqno)
         self.simSeqno += 1
 
-        pathname = os.path.join(self.simDir, filename)
+        pathname = os.path.join(self.simRoot, filename)
         if os.path.isfile(pathname):
-            return self.simDir, filename 
+            return self.simRoot, filename 
         else:
             return None, None
 
@@ -214,10 +240,16 @@ class CameraCmd(object):
             else:
                 time.sleep(itime)
         else:
-            imDict = self.actor.cam.expose(itime, cmd=cmd)
+            if expType == 'dark':
+                imDict = self.actor.cam.dark(itime, cmd=cmd)
+            else:
+                imDict = self.actor.cam.expose(itime, cmd=cmd)
             imDict['type'] = 'object' if (expType == 'expose') else expType
             imDict['filename'] = pathname
             imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
+            if expType == 'expose':
+                imDict['darkFile'] = self.darkFile
+                imDict['flatFile'] = self.flatFile
 
             self.writeFITS(imDict)
         
@@ -287,7 +319,9 @@ class CameraCmd(object):
 
     def writeFITS(self, d):
         filename = d['filename']
-
+        darkFile = d.get('darkFile', None)
+        flatFile = d.get('flatFile', None)
+        
         # pdb.set_trace()
 
         hdu = pyfits.PrimaryHDU(d['data'])
@@ -300,10 +334,10 @@ class CameraCmd(object):
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         if d['type'] == 'object':
-            if self.darkFile:
-                hdr.update('DARKFILE', self.darkFile)
-            if self.flatFile:
-                hdr.update('FLATFILE', self.flatFile)
+            if darkFile:
+                hdr.update('DARKFILE', darkFile)
+            if flatFile:
+                hdr.update('FLATFILE', flatFile)
                 hdr.update('FLATCART', self.flatCartridge)
             
 #        hdr.update('FULLX', self.m_ImagingCols)
