@@ -317,6 +317,17 @@ class CameraCmd(object):
         return time.strftime(format, time.gmtime(t)) \
                + ".%01d%s" % (10 * math.modf(t)[0], zone)
 
+    def addPixelWcs(self, header, wcsName=""):
+            """Add a WCS that sets the bottom left pixel's centre to be (0.5, 0.5)"""
+            header.update("CRVAL1%s" % wcsName, 0, "(output) Column pixel of Reference Pixel")
+            header.update("CRVAL2%s" % wcsName, 0, "(output) Row pixel of Reference Pixel")
+            header.update("CRPIX1%s" % wcsName, 0.5, "Column Pixel Coordinate of Reference")
+            header.update("CRPIX2%s" % wcsName, 0.5, "Row Pixel Coordinate of Reference")
+            header.update("CTYPE1%s" % wcsName, "LINEAR", "Type of projection")
+            header.update("CTYPE1%s" % wcsName, "LINEAR", "Type of projection")
+            header.update("CUNIT1%s" % wcsName, "PIXEL", "Column unit")
+            header.update("CUNIT2%s" % wcsName, "PIXEL", "Row unit")
+
     def writeFITS(self, d):
         filename = d['filename']
         darkFile = d.get('darkFile', None)
@@ -333,6 +344,7 @@ class CameraCmd(object):
         hdr.update('DATE-OBS', self.getTS(d['startTime']), 'start of integration')
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
+        hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
         if d['type'] == 'object':
             if darkFile:
                 hdr.update('DARKFILE', darkFile)
@@ -347,6 +359,8 @@ class CameraCmd(object):
         hdr.update('BINX', d.get('binx', 1))
         hdr.update('BINY', d.get('biny', 1))
 
+        self.addPixelWcs(hdr)
+        
         hdu.writeto(filename)
 
         del hdu
