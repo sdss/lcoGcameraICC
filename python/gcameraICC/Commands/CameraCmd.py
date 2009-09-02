@@ -238,6 +238,7 @@ class CameraCmd(object):
                 cmd.fail('exposureState="done",0.0,0.0; text="Ran off the end of the simulated data"')
                 return
             else:
+                cmd.warn('text="Simulating a %ds exposure"' % itime)
                 time.sleep(itime)
         else:
             if expType == 'dark':
