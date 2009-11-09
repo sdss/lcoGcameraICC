@@ -7,7 +7,7 @@ import opscore.actor.model as opsModel
 import actorcore.Actor as coreActor
 import actorcore.CmdrConnection as coreCmdr
 
-import alta.altacam as alta
+import gcameraICC.alta.altacam as alta
 
 import pdb
 
