@@ -15,7 +15,7 @@ sdss3tools_numpy_incl_dir = os.path.join(os.getenv('SDSS3TOOLS_DIR'), 'python')
 sdss3tools.setup(
         description = "ICC to control SDSS3 Alta guide camera",
         name = "gcameraICC",
-        packages = ['python/gcameraICC'],
+        #packages = ['python/gcameraICC'],
         ext_modules=[Extension('_alta', ['python/gcameraICC/alta/alta.i'],
                                swig_opts=['-c++', '-I'+apogee_src_dir, '-I'+sdss3tools_numpy_incl_dir, '-DALTA_STANDALONE'],
                                include_dirs=[apogee_src_dir, numpy_incl_dir],
