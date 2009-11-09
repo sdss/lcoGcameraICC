@@ -124,14 +124,15 @@ class CameraCmd(object):
         if doFinish:
             cmd.finish()
 
-    def sendSimulatingKey(self, state, cmdFunc):
+    def sendSimulatingKey(self, cmdFunc):
+        state = 'On' if self.simRoot else 'Off'
         resp = 'simulating=%s,%s,%d' % (state, self.simRoot, self.simSeqno)
         cmdFunc(resp)
     
     def simulateOff(self, cmd):
         """ stop reading image files from disk. """
         
-        self.sendSimulatingKey('Off', cmd.finish)
+        self.sendSimulatingKey(cmd.finish)
         self.simRoot = None
 
     def simulateFromSeq(self, cmd):
@@ -159,7 +160,7 @@ class CameraCmd(object):
         self.simRoot = simRoot
         self.simSeqno = seqno
 
-        self.sendSimulatingKey('On', cmd.finish)
+        self.sendSimulatingKey(cmd.finish)
 
     def genFilename(self, seqno):
         return '%s-%04d.fits' % (self.filePrefix, seqno)
