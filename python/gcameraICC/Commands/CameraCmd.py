@@ -40,7 +40,7 @@ class CameraCmd(object):
         self.keys = opsKeys.CmdKey.setKeys(
             opsKeys.KeysDictionary("gcamera_camera", (1, 1),
                                    opsKeys.Key("time", types.Float(), help="exposure time."),
-                                   opsKeys.Key("mjd", types.Int(), help="MJD for simulation sequence"),
+                                   opsKeys.Key("mjd", types.String(), help="MJD for simulation sequence"),
                                    opsKeys.Key("cartridge", types.Int(), help="cartridge number; used to bind flats to images."),
                                    opsKeys.Key("seqno", types.Int(), 
                                                help="image number for simulation sequence."),
@@ -71,6 +71,7 @@ class CameraCmd(object):
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
 
         self.coolerStatus(cmd, doFinish=False)
+        self.sendSimulatingKey(cmd.inform)
 
         if doFinish:
             cmd.finish()
@@ -134,7 +135,12 @@ class CameraCmd(object):
         self.simRoot = None
 
     def simulateFromSeq(self, cmd):
-        """ define a MJD+image number to start reading image files from """
+        """ define a MJD+image number to start reading image files from.
+
+        CmdArgs:
+            mjd     - a string indicating the directory under the data root.
+            seqno   - an integer indicating which image to start returning.
+        """
 
         cmdKeys = cmd.cmd.keywords
         mjd = cmdKeys['mjd'].values[0]
