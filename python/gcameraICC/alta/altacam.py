@@ -82,7 +82,7 @@ class AltaCam(alta.CApnCamera):
         #
         status = self.read_CoolerStatus()
         try:
-            statusName = coolerStatusNames[int(status)]
+            statusName = self.coolerStatusNames[int(status)]
         except:
             statusName = 'Invalid'
 

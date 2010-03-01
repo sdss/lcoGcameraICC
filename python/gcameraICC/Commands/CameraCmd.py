@@ -65,7 +65,7 @@ class CameraCmd(object):
     def status(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
-        versionName, versionString = self.icc.versionString(cmd)
+        versionName, versionString = self.actor.versionString(cmd)
         cmd.inform('%s=%s' % (versionName, qstr(versionString)))
 
         cam = self.actor.cam
@@ -73,9 +73,7 @@ class CameraCmd(object):
         if cam:
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
 
-        self.icc.exposure.setState(cmd=cmd)
         self.coolerStatus(cmd, doFinish=False)
-
         self.sendSimulatingKey(cmd.inform)
 
         if doFinish:
