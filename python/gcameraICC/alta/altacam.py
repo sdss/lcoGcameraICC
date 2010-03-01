@@ -13,6 +13,9 @@ import time
 from traceback import print_exc
 
 class AltaCam(alta.CApnCamera):
+    # The CoolerStatus enum values, with slightly shortened names.
+    coolerStatusNames = ('Off', 'RampingToSetPoint', 'Correcting', 'RampingToAmbient', 
+                         'AtAmbient', 'AtMax', 'AtMin', 'AtSetPoint')
 
     def __init__(self, hostname):
         """ Connect to an Alta-E at the given IP address and start to initialize it. """
@@ -70,16 +73,22 @@ class AltaCam(alta.CApnCamera):
 
         self.__checkSelf()
 
-        status = self.read_CoolerStatus()
         setpoint = self.read_CoolerSetPoint()
         drive = self.read_CoolerDrive()
         ccdTemp = self.read_TempCCD()
         heatsinkTemp = self.read_TempHeatsink()
         fan = self.read_FanMode()
-        
-        return "cooler=%0.1f,%0.1f,%0.1f,%0.1f,%d,%d" % (setpoint,
+
+        #
+        status = self.read_CoolerStatus()
+        try:
+            statusName = coolerStatusNames[int(status)]
+        except:
+            statusName = 'Invalid'
+
+        return "cooler=%0.1f,%0.1f,%0.1f,%0.1f,%d,%s" % (setpoint,
                                                          ccdTemp, heatsinkTemp,
-                                                         drive, fan, status)
+                                                         drive, fan, statusName)
     def setCooler(self, setPoint):
         """ Set the cooler setpoint.
 
