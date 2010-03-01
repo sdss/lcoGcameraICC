@@ -14,6 +14,7 @@ import pdb
 class GCamera(coreActor.Actor):
     def __init__(self, name, productName=None, configFile=None, doConnect=True, 
                  debugLevel=30):
+        self.headURL = "$HeadURL$"
         coreActor.Actor.__init__(self, name, productName=productName, 
                                  configFile=configFile)
 
