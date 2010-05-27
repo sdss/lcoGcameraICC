@@ -60,13 +60,13 @@ class CameraCmd(object):
             ('expose', '<time> [<cartridge>] [<filename>]', self.expose),
             ('dark', '<time> [<filename>]', self.expose),
             ('flat', '<time> [<cartridge>] [<filename>]', self.expose),
+            ('reconnect', '', self.reconnect),
             ]
 
     def status(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
-        versionName, versionString = self.actor.versionString(cmd)
-        cmd.inform('%s=%s' % (versionName, qstr(versionString)))
+        self.actor.sendVersionKey(cmd)
 
         cam = self.actor.cam
         cmd.respond('cameraConnected=%s' % (cam != None))
@@ -122,6 +122,15 @@ class CameraCmd(object):
         """ Configure ourselves for flats. """
 
         self.actor.cam.setFlatFormat()
+        self.status(cmd, doFinish=False)
+
+        if doFinish:
+            cmd.finish()
+
+    def reconnect(self, cmd, doFinish=True):
+        """ (re-)connect to the camera. """
+
+        self.actor.connectCamera()
         self.status(cmd, doFinish=False)
 
         if doFinish:

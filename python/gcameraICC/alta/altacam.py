@@ -58,6 +58,7 @@ class AltaCam(alta.CApnCamera):
             self.ok = self.InitDriver(ipAddr, 80, 0)
             if self.ok:
                 break
+            self.CloseDriver()
             count -= 1
             time.sleep(1)
 
