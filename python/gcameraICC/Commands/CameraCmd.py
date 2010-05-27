@@ -370,12 +370,12 @@ class CameraCmd(object):
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
-        if darkFile:
+        if d['type'] != "dark":
             hdr.update('DARKFILE', darkFile)
-        if d['type'] == 'object':
-            if flatFile:
-                hdr.update('FLATFILE', flatFile)
-                hdr.update('FLATCART', self.flatCartridge)
+            hdr.update('FLATCART', self.flatCartridge)
+        if d['type'] == 'object' and flatFile:
+            hdr.update('FLATFILE', flatFile)
+
             
 #        hdr.update('FULLX', self.m_ImagingCols)
 #        hdr.update('FULLY', self.m_ImagingRows)
