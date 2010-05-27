@@ -355,14 +355,11 @@ class CameraCmd(object):
 
     def writeFITS(self, d):
         filename = d['filename']
-        darkFile = d.get('darkFile', None)
-        flatFile = d.get('flatFile', None)
+        darkFile = d.get('darkFile', "")
+        flatFile = d.get('flatFile', "")
         
-        # pdb.set_trace()
-
         hdu = pyfits.PrimaryHDU(d['data'])
         hdr = hdu.header
-
         hdr.update('IMAGETYP', d['type'])
         hdr.update('EXPTIME',  d['iTime'])
         hdr.update('TIMESYS', 'TAI')
@@ -370,7 +367,7 @@ class CameraCmd(object):
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
-        if d['type'] != "dark":
+        if d['type'] != "dark" and darkFile:
             hdr.update('DARKFILE', darkFile)
             hdr.update('FLATCART', self.flatCartridge)
         if d['type'] == 'object' and flatFile:
