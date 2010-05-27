@@ -69,11 +69,13 @@ class CameraCmd(object):
         self.actor.sendVersionKey(cmd)
 
         cam = self.actor.cam
-        cmd.respond('cameraConnected=%s' % (cam != None))
         if cam:
+            cmd.respond('cameraConnected=%s' % (cam != None))
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
+            self.coolerStatus(cmd, doFinish=False)
+        else:
+            cmd.warn('cameraConnected=%s' % (cam != None))
 
-        self.coolerStatus(cmd, doFinish=False)
         self.sendSimulatingKey(cmd.inform)
 
         if doFinish:
@@ -316,6 +318,8 @@ class CameraCmd(object):
 
         cmdKeys = cmd.cmd.keywords
         temp = cmdKeys['temp'].values[0]
+
+        cmd.inform('text="setting camera cooler setpoint to %0.1f degC"' % (temp))
 
         self.actor.cam.setCooler(temp)
         self.coolerStatus(cmd, doFinish=doFinish)
