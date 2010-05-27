@@ -270,8 +270,9 @@ class CameraCmd(object):
             imDict['filename'] = pathname
             imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
             if expType == 'expose':
-                imDict['darkFile'] = self.darkFile
                 imDict['flatFile'] = self.flatFile
+            if expType != "dark":
+                imDict['darkFile'] = self.darkFile
 
             self.writeFITS(imDict)
         
@@ -369,9 +370,9 @@ class CameraCmd(object):
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
+        if darkFile:
+            hdr.update('DARKFILE', darkFile)
         if d['type'] == 'object':
-            if darkFile:
-                hdr.update('DARKFILE', darkFile)
             if flatFile:
                 hdr.update('FLATFILE', flatFile)
                 hdr.update('FLATCART', self.flatCartridge)
