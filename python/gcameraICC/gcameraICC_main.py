@@ -27,6 +27,8 @@ class GCamera(coreActor.Actor):
             self.cam = None
 
         self.bcast.inform('text="trying to connect to camera at %s...."' % (altaHostname))
+        reactor.doSelect(1)
+
         try:
             self.cam = alta.AltaCam(altaHostname)
         except Exception, e:
@@ -48,7 +50,13 @@ class GCamera(coreActor.Actor):
 
     def statusCheck(self):
         self.callCommand("status")
-        reactorCallLater(5*60, self.statusCheck)
+
+        try:
+            statusPeriod = int(self.config.get('alta', 'statusPeriod'))
+        except:
+            statusPeriod = 5*60
+
+        reactor.callLater(statusPeriod, self.statusCheck)
 
     def connectionMade(self):
         reactor.callLater(3, self.connectCamera)
