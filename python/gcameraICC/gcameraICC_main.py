@@ -11,7 +11,7 @@ class GCamera(coreActor.Actor):
                  debugLevel=30):
         self.headURL = "$HeadURL$"
         coreActor.Actor.__init__(self, name, productName=productName, 
-                                 configFile=configFile)
+                                 configFile=os.path.join('../etc', configFile))
 
         self.logger.setLevel(debugLevel)
 
@@ -70,5 +70,5 @@ def ecameraMain():
 if __name__ == "__main__":
     # Need to add command line opts.
     ecameraMain()
-    gcameraMain()
+    #gcameraMain()
 
