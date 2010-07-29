@@ -61,8 +61,14 @@ class GCamera(coreActor.Actor):
     def connectionMade(self):
         reactor.callLater(3, self.connectCamera)
 
-def test1():
+def gcameraMain():
     gcamera = GCamera('gcamera', productName='gcameraICC', doConnect=True)
     
+def ecameraMain():
+    gcamera = GCamera('ecamera', productName='gcameraICC', configFile='ecamera.cfg', doConnect=True)
+    
 if __name__ == "__main__":
-    test1()
+    # Need to add command line opts.
+    ecameraMain()
+    gcameraMain()
+
