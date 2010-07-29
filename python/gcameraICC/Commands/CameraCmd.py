@@ -25,8 +25,8 @@ class CameraCmd(object):
     def __init__(self, actor):
         self.actor = actor
 
-        self.dataRoot = self.actor.config.get('gcamera', 'dataRoot')
-        self.filePrefix = self.actor.config.get('gcamera', 'filePrefix')
+        self.dataRoot = self.actor.config.get(self.actor.name, 'dataRoot')
+        self.filePrefix = self.actor.config.get(self.actor.name, 'filePrefix')
 
         # We track the names of any currently valid dark and flat files.
         self.darkFile = None
