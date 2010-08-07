@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import logging
 import os
 
@@ -63,13 +65,20 @@ class GCamera(coreActor.Actor):
         reactor.callLater(3, self.connectCamera)
 
 def gcameraMain():
-    gcamera = GCamera('gcamera', productName='gcameraICC', doConnect=True)
+    gcamera = GCamera('gcamera', productName='gcameraICC', configFile='gcamera.cfg', doConnect=True)
     
 def ecameraMain():
     gcamera = GCamera('ecamera', productName='gcameraICC', configFile='ecamera.cfg', doConnect=True)
     
 if __name__ == "__main__":
     # Need to add command line opts.
-    ecameraMain()
-    #gcameraMain()
+    import os
+    import sys
+
+    name = os.path.basename(sys.argv[0])
+    if name.startswith('gcamera'):
+        gcameraMain()
+    elif name.startswith('ecamera'):
+        ecameraMain()
+
 
