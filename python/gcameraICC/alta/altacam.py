@@ -162,7 +162,7 @@ class AltaCam(alta.CApnCamera):
 
         w = 1024
         h = 1024
-        ow = 0
+        ow = 24
         oh = 0
         binx = 2
         biny = 2
@@ -174,15 +174,16 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiPixelsV((h + oh)/biny)
         self.write_RoiStartX(1)
         self.write_RoiStartY(1)
-
-        # self.write_DigitizeOverscan(1);
+        oc = self.read_OverscanColumns()
+        print  "overscan cols = %d" % (oc)
+        self.write_DigitizeOverscan(1)
 
     def setFlatFormat(self):
         self.__checkSelf()
 
         w = 1024
         h = 1024
-        ow = 0
+        ow = 24
         oh = 0
         binx = 1
         biny = 1
@@ -194,6 +195,9 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiPixelsV((h + oh)/biny)
         self.write_RoiStartX(1)
         self.write_RoiStartY(1)
+        oc = self.read_OverscanColumns()
+        print  "overscan cols = %d" % (oc)
+        self.write_DigitizeOverscan(1)
 
     def expose(self, itime, filename=None, cmd=None):
         return self._expose(itime, True, filename, cmd=cmd)
