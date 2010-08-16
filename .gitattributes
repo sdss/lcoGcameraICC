@@ -2,6 +2,7 @@
 etc/ecamera.cfg -text
 etc/gcamera.cfg -text
 python/__init__.py -text
+python/ecameraICC -text
 python/gcameraICC/Commands/CameraCmd.py -text
 python/gcameraICC/Commands/PingCmd.py -text
 python/gcameraICC/Commands/__init__.py -text
@@ -12,6 +13,7 @@ python/gcameraICC/alta/alta.py -text
 python/gcameraICC/alta/alta_wrap.cxx -text
 python/gcameraICC/alta/altacam.py -text
 python/gcameraICC/alta/makefile -text
+python/gcameraICC/ecameraICC_main.py -text
 python/gcameraICC/gcameraICC_main.py -text
 python/gcameraICC/keydict.py -text
 /setup.py -text
