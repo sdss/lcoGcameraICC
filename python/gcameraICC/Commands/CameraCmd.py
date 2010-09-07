@@ -61,8 +61,23 @@ class CameraCmd(object):
             ('dark', '<time> [<filename>]', self.expose),
             ('flat', '<time> [<cartridge>] [<filename>]', self.expose),
             ('reconnect', '', self.reconnect),
+            ('resync', '', self.resync),
             ]
 
+    def resync(self, cmd):
+        try:
+            dark, flat = self.findDarkAndFlat(self.dataRoot, self.seqno)
+            self.darkFile = dark
+            self.flatFile = flat
+            m = re.search('^flat-(\d+)-(\d+)\.dat$', flat)
+            if m:
+                self.flatCartridge = int(m.group(2))
+        except Exception, e:
+            cmd.fail('text="failed to set dark and flat names: %s' % (e))
+            
+        cmd.finish('text="set dark, flat to %s,%s, cart=%d"' % (dark, flat, 
+                                                                self.flatCartridge))
+        
     def status(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
@@ -81,20 +96,18 @@ class CameraCmd(object):
         if doFinish:
             cmd.finish()
 
-    def findFileMatch(files, seqno):
+    def findFileMatch(self, files, seqno):
         """ Return the filename in the list whose sequence is closest below the given seqno. """
 
-        prefixLength = len(prefix)+1
-
-        names = [os.basename(f) for f in files]
+        names = [os.path.basename(f) for f in files]
         names = [n.split('-')[1] for n in names]
+        names = [int(n.split('.')[0]) for n in names]
         names.sort()
         names.reverse()
 
-        seqStr = str(seqno)
         match = None
         for i in range(len(names)):
-            if name[i] < seqno:
+            if names[i] < seqno:
                 match = i
                 break
 
@@ -102,12 +115,24 @@ class CameraCmd(object):
         
     def findDarkAndFlat(self, dirname, forSeqno):
         darkFiles = glob.glob(os.path.join(dirname, 'dark-*'))
-        darkIdx = findFileMatch(darkFiles, forSeqno)
+        darkIdx = self.findFileMatch(darkFiles, forSeqno)
         dark = darkFiles[darkIdx] if darkIdx != None else None
+        self.darkFile = dark
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
-        flatIdx = findFileMatch(flatFiles, forSeqno)
+        flatIdx = self.findFileMatch(flatFiles, forSeqno)
         flat = flatFiles[flatIdx] if flatIdx != None else None
+        self.flatFile = flat
+
+        if flat:
+            m = re.search('.*/flat-(\d+)-(\d+)\.dat$', flat)
+            if m:
+                flatCartridge = int(m.group(2))
+            else:
+                flatCartridge = -1
+        else:
+            flatCartridge = -1
+        self.flatCartridge = flatCartridge
         
         return dark, flat
 
@@ -191,6 +216,7 @@ class CameraCmd(object):
         if not os.path.isdir(dataDir):
             cmd.respond('text="creating new directory %s"' % (dataDir))
             os.mkdir(dataDir)
+        self.dataDir = dataDir
 
         imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits'))
         imgFiles.sort()
@@ -269,6 +295,10 @@ class CameraCmd(object):
             imDict['type'] = 'object' if (expType == 'expose') else expType
             imDict['filename'] = pathname
             imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
+            self.findDarkAndFlat(dirname, self.seqno)
+            cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile, 
+                                                               self.darkFile,
+                                                               self.flatCartridge))
             if expType == 'expose':
                 imDict['flatFile'] = self.flatFile
             if expType != "dark":
