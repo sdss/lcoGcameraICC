@@ -101,17 +101,19 @@ class CameraCmd(object):
     def findFileMatch(self, files, seqno):
         """ Return the filename in the list whose sequence is closest below the given seqno. """
 
+        files = files[:]
         names = [os.path.basename(f) for f in files]
         names = [n.split('-')[1] for n in names]
         names = [int(n.split('.')[0]) for n in names]
         names.sort()
-        if not names:
-            return None
+        files.sort()
+        names.reverse()
+        files.reverse()
 
         match = None
-        for i in range(len(names)-1,-1,-1):
+        for i in range(len(names)):
             if names[i] < seqno:
-                match = i
+                return files[i]
                 break
 
         return match
@@ -120,10 +122,9 @@ class CameraCmd(object):
         """ Find most recent dark and flats images in the given directory. Set .darkFile, .flatFile, .flatCartridge """
 
         darkFiles = glob.glob(os.path.join(dirname, 'dark-*'))
-        darkIdx = self.findFileMatch(darkFiles, forSeqno)
-        dark = darkFiles[darkIdx] if darkIdx != None else None
-        if dark:
-            m = re.search('.*/dark-(\d+)\.dat$', dark)
+        darkNote = self.findFileMatch(darkFiles, forSeqno)
+        if darkNote:
+            m = re.search('.*/dark-(\d+)\.dat$', darkNote)
             if m:
                 darkSeq = int(m.group(1))
             else:
@@ -133,10 +134,9 @@ class CameraCmd(object):
         self.darkFile = os.path.join(dirname, 'gimg-%04d.fits' % (darkSeq)) if darkSeq else None
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
-        flatIdx = self.findFileMatch(flatFiles, forSeqno)
-        flat = flatFiles[flatIdx] if flatIdx != None else None
-        if flat:
-            m = re.search('.*/flat-(\d+)-(\d+)\.dat$', flat)
+        flatNote = self.findFileMatch(flatFiles, forSeqno)
+        if flatNote:
+            m = re.search('.*/flat-(\d+)-(\d+)\.dat$', flatNote)
             if m:
                 flatSeq, flatCartridge = int(m.group(1)), int(m.group(2))
             else:
@@ -298,17 +298,26 @@ class CameraCmd(object):
                 cmd.warn('text="Simulating a %ds exposure"' % itime)
                 time.sleep(itime)
         else:
-            if expType == 'dark':
-                imDict = self.actor.cam.dark(itime, cmd=cmd)
-            else:
-                imDict = self.actor.cam.expose(itime, cmd=cmd)
-            imDict['type'] = 'object' if (expType == 'expose') else expType
-            imDict['filename'] = pathname
-            imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
             self.findDarkAndFlat(dirname, self.seqno)
             cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile, 
                                                                self.darkFile,
                                                                self.flatCartridge))
+            if expType == 'dark':
+                imDict = self.actor.cam.dark(itime, cmd=cmd)
+            else:
+                if not self.darkFile :
+                    cmd.fail('text="no available dark frame for this MJD."')
+                    return
+                
+                if expType != 'flat' and not self.flatFile:
+                    cmd.fail('text="no available flat frames for this MJD."')
+                    return
+
+                imDict = self.actor.cam.expose(itime, cmd=cmd)
+
+            imDict['type'] = 'object' if (expType == 'expose') else expType
+            imDict['filename'] = pathname
+            imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
             if expType == 'expose':
                 imDict['flatFile'] = self.flatFile
             if expType != "dark":
