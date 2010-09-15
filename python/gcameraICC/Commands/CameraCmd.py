@@ -37,6 +37,8 @@ class CameraCmd(object):
         self.simRoot = None
         self.simSeqno = 1
 
+        self.resync(actor.bcast, doFinish=False)
+
         self.keys = opsKeys.CmdKey.setKeys(
             opsKeys.KeysDictionary("gcamera_camera", (1, 1),
                                    opsKeys.Key("time", types.Float(), help="exposure time."),
@@ -64,20 +66,17 @@ class CameraCmd(object):
             ('resync', '', self.resync),
             ]
 
-    def resync(self, cmd):
+    def resync(self, cmd, doFinish=True):
         try:
-            dark, flat = self.findDarkAndFlat(self.dataRoot, self.seqno)
-            self.darkFile = dark
-            self.flatFile = flat
-            m = re.search('^flat-(\d+)-(\d+)\.dat$', flat)
-            if m:
-                self.flatCartridge = int(m.group(2))
+            dirname, filename = self.genNextRealPath(cmd)
+            self.findDarkAndFlat(dirname, self.seqno)
         except Exception, e:
-            cmd.fail('text="failed to set dark and flat names: %s' % (e))
+            cmd.fail('text="failed to set directory, or dark and flat names: %s' % (e))
             
-        cmd.finish('text="set dark, flat to %s,%s, cart=%d"' % (dark, flat, 
-                                                                self.flatCartridge))
-        
+        cmd.respond('text="set dark, flat to %s,%s, cart=%d"' % (self.darkFile, self.flatFile, 
+                                                                 self.flatCartridge))
+        self.status(cmd, doFinish=doFinish)
+    
     def status(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
@@ -87,6 +86,9 @@ class CameraCmd(object):
         if cam:
             cmd.respond('cameraConnected=%s' % (cam != None))
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
+            cmd.respond('dataDir=%s; nextSeqno=%d' % (self.dataDir, self.seqno))
+            cmd.respond('flatCartridge=%s; darkFile=%s; flatFile=%s' % \
+                            (self.flatCartridge, self.darkFile, self.flatFile))
             self.coolerStatus(cmd, doFinish=False)
         else:
             cmd.warn('cameraConnected=%s' % (cam != None))
@@ -103,10 +105,11 @@ class CameraCmd(object):
         names = [n.split('-')[1] for n in names]
         names = [int(n.split('.')[0]) for n in names]
         names.sort()
-        names.reverse()
+        if not names:
+            return None
 
         match = None
-        for i in range(len(names)):
+        for i in range(len(names)-1,-1,-1):
             if names[i] < seqno:
                 match = i
                 break
@@ -114,27 +117,34 @@ class CameraCmd(object):
         return match
         
     def findDarkAndFlat(self, dirname, forSeqno):
+        """ Find most recent dark and flats images in the given directory. Set .darkFile, .flatFile, .flatCartridge """
+
         darkFiles = glob.glob(os.path.join(dirname, 'dark-*'))
         darkIdx = self.findFileMatch(darkFiles, forSeqno)
         dark = darkFiles[darkIdx] if darkIdx != None else None
-        self.darkFile = dark
+        if dark:
+            m = re.search('.*/dark-(\d+)\.dat$', dark)
+            if m:
+                darkSeq = int(m.group(1))
+            else:
+                darkSeq = 0
+        else:
+            darkSeq = 0
+        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits' % (darkSeq)) if darkSeq else None
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
         flatIdx = self.findFileMatch(flatFiles, forSeqno)
         flat = flatFiles[flatIdx] if flatIdx != None else None
-        self.flatFile = flat
-
         if flat:
             m = re.search('.*/flat-(\d+)-(\d+)\.dat$', flat)
             if m:
-                flatCartridge = int(m.group(2))
+                flatSeq, flatCartridge = int(m.group(1)), int(m.group(2))
             else:
-                flatCartridge = -1
+                flatSeq, flatCartridge = 0, -1
         else:
-            flatCartridge = -1
+            flatSeq, flatCartridge = 0, -1
+        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits' % (flatSeq)) if flatSeq else None
         self.flatCartridge = flatCartridge
-        
-        return dark, flat
 
     def setBOSSFormat(self, cmd, doFinish=True):
         """ Configure ourselves. """
@@ -215,7 +225,7 @@ class CameraCmd(object):
         dataDir = os.path.join(self.dataRoot, fmjd)
         if not os.path.isdir(dataDir):
             cmd.respond('text="creating new directory %s"' % (dataDir))
-            os.mkdir(dataDir)
+            os.mkdir(dataDir,0755)
         self.dataDir = dataDir
 
         imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits'))

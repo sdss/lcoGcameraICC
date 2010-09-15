@@ -13,12 +13,11 @@ class GCamera(coreActor.Actor):
                  debugLevel=30):
         self.headURL = "$HeadURL$"
 
+        self.cam = None
         coreActor.Actor.__init__(self, name, productName=productName, 
                                  configFile=os.path.join('$GCAMERAICC_DIR/etc', configFile))
 
         self.logger.setLevel(debugLevel)
-
-        self.cam = None
 
         self.run()
 

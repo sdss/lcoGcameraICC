@@ -46,7 +46,13 @@ class AltaCam(alta.CApnCamera):
         
     def doOpen(self):
         """ (Re-)open a connection to the camera at self.hostname. """
-        raise RuntimeError("Cannot reconnect to an already open Alta.")
+
+        sys.stderr.write("trying to re-open a camera connection....\n")
+        try:
+            self.CloseDriver()
+        except Exception, e:
+            sys.stderr.write("failed to re-open a camera connection: %s\n" % (e))
+        self.doInit()
     
     def doInit(self):
         """ (Re-)initialize and already open connection. """
