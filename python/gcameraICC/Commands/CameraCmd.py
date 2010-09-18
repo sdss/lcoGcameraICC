@@ -225,7 +225,7 @@ class CameraCmd(object):
         dataDir = os.path.join(self.dataRoot, fmjd)
         if not os.path.isdir(dataDir):
             cmd.respond('text="creating new directory %s"' % (dataDir))
-            os.mkdir(dataDir,0755)
+            os.mkdir(dataDir,0775)
         self.dataDir = dataDir
 
         imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits'))
