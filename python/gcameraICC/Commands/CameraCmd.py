@@ -49,11 +49,13 @@ class CameraCmd(object):
                                    opsKeys.Key("filename", types.String(),
                                                help="the filename to write to"),
                                    opsKeys.Key("temp", types.Float(), help="camera temperature setpoint."),
+                                   opsKeys.Key("n", types.Int(), help="number of times to loop status queries."),
                                    )
             )
 
         self.vocab = [
             ('status', '', self.status),
+            ('deathStatus', '<n>', self.deathStatus),
             ('setBOSSFormat', '', self.setBOSSFormat),
             ('setFlatFormat', '', self.setFlatFormat),
             ('simulate', '(off)', self.simulateOff),
@@ -94,6 +96,24 @@ class CameraCmd(object):
             cmd.warn('cameraConnected=%s' % (cam != None))
 
         self.sendSimulatingKey(cmd.inform)
+
+        if doFinish:
+            cmd.finish()
+
+    def deathStatus(self, cmd, doFinish=True):
+        """ Generate all status keywords. """
+
+        cmdKeys = cmd.cmd.keywords
+        nloops = cmdKeys['n'].values[0]
+
+        self.actor.sendVersionKey(cmd)
+
+        cam = self.actor.cam
+        if cam and nloops > 0:
+            self.coolerStatus(cmd, doFinish=False)
+            self.actor.callCommand("deathStatus n=%d" % (nloops-1))
+        else:
+            cmd.warn('cameraConnected=%s' % (cam != None))
 
         if doFinish:
             cmd.finish()
