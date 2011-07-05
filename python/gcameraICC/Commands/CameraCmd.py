@@ -300,9 +300,6 @@ class CameraCmd(object):
             dirname, filename = self.getNextPath(cmd)
             pathname = os.path.join(dirname, filename)
 
-        readTimeEstimate = 2.0
-        cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime,itime))
-
         if expType == 'flat':
             self.setFlatFormat(cmd, doFinish=False)
         else:

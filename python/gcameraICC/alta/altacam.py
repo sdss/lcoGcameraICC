@@ -245,6 +245,8 @@ class AltaCam(alta.CApnCamera):
         # Block while we expose. But sleep if we have to wait a long time.
         # And what is the flush time of this device?
         start = time.time()
+        if cmd:
+            cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime+1))
         self.Expose(itime, openShutter)
         if itime > 0.25:
             time.sleep(itime - 0.2)
