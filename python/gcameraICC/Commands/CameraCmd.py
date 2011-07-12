@@ -323,11 +323,11 @@ class CameraCmd(object):
                 imDict = self.actor.cam.dark(itime, cmd=cmd)
             else:
                 if not self.darkFile :
-                    cmd.fail('text="no available dark frame for this MJD."')
+                    cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')
                     return
                 
                 if expType != 'flat' and not self.flatFile:
-                    cmd.fail('text="no available flat frames for this MJD."')
+                    cmd.fail('exposureState="failed",0.0,0.0; text="no available flat frames for this MJD."')
                     return
 
                 imDict = self.actor.cam.expose(itime, cmd=cmd)

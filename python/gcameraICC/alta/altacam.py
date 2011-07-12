@@ -246,7 +246,7 @@ class AltaCam(alta.CApnCamera):
         # And what is the flush time of this device?
         start = time.time()
         if cmd:
-            cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime+1))
+            cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime, itime))
         self.Expose(itime, openShutter)
         if itime > 0.25:
             time.sleep(itime - 0.2)
