@@ -54,6 +54,7 @@ class CameraCmd(object):
             )
 
         self.vocab = [
+            ('ping', '', self.pingCmd),
             ('status', '', self.status),
             ('deathStatus', '<n>', self.deathStatus),
             ('setBOSSFormat', '', self.setBOSSFormat),
@@ -67,6 +68,11 @@ class CameraCmd(object):
             ('reconnect', '', self.reconnect),
             ('resync', '', self.resync),
             ]
+
+    def pingCmd(self, cmd):
+        """ Top-level "ping" command handler. Query all the controllers for liveness/happiness. """
+        
+        cmd.finish('text="Pong."')
 
     def resync(self, cmd, doFinish=True):
         try:
