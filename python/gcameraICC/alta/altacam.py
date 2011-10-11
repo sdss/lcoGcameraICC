@@ -181,7 +181,6 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiStartX(1)
         self.write_RoiStartY(1)
         oc = self.read_OverscanColumns()
-        print  "overscan cols = %d" % (oc)
         self.write_DigitizeOverscan(1)
 
     def setFlatFormat(self):
@@ -202,7 +201,6 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiStartX(1)
         self.write_RoiStartY(1)
         oc = self.read_OverscanColumns()
-        print  "overscan cols = %d" % (oc)
         self.write_DigitizeOverscan(1)
 
     def expose(self, itime, filename=None, cmd=None):
@@ -238,7 +236,7 @@ class AltaCam(alta.CApnCamera):
             self.ResetSystem()
 
         if state != 4 or state < 0: 
-            raise RuntimeError("bad imaging state=%d" % (state))
+            raise RuntimeError("bad imaging state=%d; please try gcamera reconnect before restarting the ICC" % (state))
 
         d = {}
 
@@ -256,7 +254,7 @@ class AltaCam(alta.CApnCamera):
             now = time.time()
             state = self.read_ImagingStatus()
             if state < 0: 
-                raise RuntimeError("bad state=%d" % (state))
+                raise RuntimeError("bad state=%d; please try gcamera reconnect before restarting the ICC" % (state))
             if state == 3:
                 break
             # print "state=%d time=%0.2f waiting to read" % (state, now - (start + itime))
