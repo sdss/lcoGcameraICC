@@ -39,19 +39,17 @@ class CameraCmd(object):
 
         self.resync(actor.bcast, doFinish=False)
 
-        self.keys = opsKeys.CmdKey.setKeys(
-            opsKeys.KeysDictionary("gcamera_camera", (1, 1),
-                                   opsKeys.Key("time", types.Float(), help="exposure time."),
-                                   opsKeys.Key("mjd", types.String(), help="MJD for simulation sequence"),
-                                   opsKeys.Key("cartridge", types.Int(), help="cartridge number; used to bind flats to images."),
-                                   opsKeys.Key("seqno", types.Int(), 
-                                               help="image number for simulation sequence."),
-                                   opsKeys.Key("filename", types.String(),
-                                               help="the filename to write to"),
-                                   opsKeys.Key("temp", types.Float(), help="camera temperature setpoint."),
-                                   opsKeys.Key("n", types.Int(), help="number of times to loop status queries."),
-                                   )
-            )
+        self.keys = opsKeys.KeysDictionary("gcamera_camera", (1, 1),
+                                           opsKeys.Key("time", types.Float(), help="exposure time."),
+                                           opsKeys.Key("mjd", types.String(), help="MJD for simulation sequence"),
+                                           opsKeys.Key("cartridge", types.Int(), help="cartridge number; used to bind flats to images."),
+                                           opsKeys.Key("seqno", types.Int(), 
+                                                       help="image number for simulation sequence."),
+                                           opsKeys.Key("filename", types.String(),
+                                                       help="the filename to write to"),
+                                           opsKeys.Key("temp", types.Float(), help="camera temperature setpoint."),
+                                           opsKeys.Key("n", types.Int(), help="number of times to loop status queries."),
+                                           )
 
         self.vocab = [
             ('ping', '', self.pingCmd),
