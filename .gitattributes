@@ -8,7 +8,6 @@ python/gcameraICC/__init__.py -text
 python/gcameraICC/alta/__init__.py -text
 python/gcameraICC/alta/alta.i -text
 python/gcameraICC/alta/alta.py -text
-python/gcameraICC/alta/alta_wrap.cxx -text
 python/gcameraICC/alta/altacam.py -text
 python/gcameraICC/alta/makefile -text
 python/gcameraICC/ecameraICC_main.py -text
