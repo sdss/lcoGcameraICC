@@ -271,6 +271,8 @@ class AltaCam(alta.CApnCamera):
             cmd.respond('exposureState="reading",2.0,2.0')
         t0 = time.time()
         image = self.fetchImage(cmd=cmd)
+        if not image:
+            raise RuntimeError("failed to read image from camera; please try gcamera reconnect before restarting the ICC")
         t1 = time.time()
 
         state = self.read_ImagingStatus()
@@ -302,11 +304,12 @@ class AltaCam(alta.CApnCamera):
         print >> sys.stderr, "reading image (w,h) = (%d,%d)" % (w,h)
         image = np.zeros((h,w), dtype='uint16')
         ret = self.FillImageBuffer(image)
-        if ret:
+        if ret != 0:
             print >> sys.stderr, 'IMAGE READ FAILED: %s\n' % (ret)
             if cmd:
                 cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
-
+            return None
+        
         return image
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
