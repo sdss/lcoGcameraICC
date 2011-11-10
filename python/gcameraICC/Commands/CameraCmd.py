@@ -323,19 +323,24 @@ class CameraCmd(object):
             cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile, 
                                                                self.darkFile,
                                                                self.flatCartridge))
-            if expType == 'dark':
-                imDict = self.actor.cam.dark(itime, cmd=cmd)
-            else:
-                if not self.darkFile :
-                    cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')
-                    return
-                
-                if expType != 'flat' and not self.flatFile:
-                    cmd.fail('exposureState="failed",0.0,0.0; text="no available flat frames for this MJD."')
-                    return
+            try:
+                if expType == 'dark':
+                    imDict = self.actor.cam.dark(itime, cmd=cmd)
+                else:
+                    if not self.darkFile :
+                        cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')
+                        return
 
-                imDict = self.actor.cam.expose(itime, cmd=cmd)
+                    if expType != 'flat' and not self.flatFile:
+                        cmd.fail('exposureState="failed",0.0,0.0; text="no available flat frames for this MJD."')
+                        return
 
+                    imDict = self.actor.cam.expose(itime, cmd=cmd)
+            except Exception, e:
+                cmd.warn('exposureState="failed",0.0,0.0')
+                cmd.fail('text=%s' % (qstr("exposure failed: %s" % e)))
+                return
+            
             imDict['type'] = 'object' if (expType == 'expose') else expType
             imDict['filename'] = pathname
             imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
