@@ -16,7 +16,7 @@ import_array();
 
 // wrap an Apogee method with one which understands that it is getting a numpy array.
 %extend CApnCamera {  
-   long FillImageBuffer(unsigned short *INPLACE_ARRAY2, int DIM1, int DIM2) {
+   int FillImageBuffer(unsigned short *INPLACE_ARRAY2, int DIM1, int DIM2) {
    	long ret;
 	unsigned short w, h;
 	unsigned long count;

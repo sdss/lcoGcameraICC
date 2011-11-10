@@ -271,7 +271,7 @@ class AltaCam(alta.CApnCamera):
             cmd.respond('exposureState="reading",2.0,2.0')
         t0 = time.time()
         image = self.fetchImage(cmd=cmd)
-        if not image:
+        if image == None:
             raise RuntimeError("failed to read image from camera; please try gcamera reconnect before restarting the ICC")
         t1 = time.time()
 
