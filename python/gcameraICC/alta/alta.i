@@ -16,15 +16,19 @@ import_array();
 
 // wrap an Apogee method with one which understands that it is getting a numpy array.
 %extend CApnCamera {  
-   void FillImageBuffer(unsigned short *INPLACE_ARRAY2, int DIM1, int DIM2) {
+   long FillImageBuffer(unsigned short *INPLACE_ARRAY2, int DIM1, int DIM2) {
    	long ret;
 	unsigned short w, h;
 	unsigned long count;
 
 	ret = $self->GetImageData(INPLACE_ARRAY2, w, h, count);
+	if (ret != CAPNCAMERA_SUCCESS) {
+	  return(ret);
+	}
 	if (h != DIM1 || w != DIM2) {
 	   abort();
 	}	   
+	return(ret);
    }
 };
 

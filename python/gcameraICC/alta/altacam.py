@@ -270,7 +270,7 @@ class AltaCam(alta.CApnCamera):
         if cmd:
             cmd.respond('exposureState="reading",2.0,2.0')
         t0 = time.time()
-        image = self.fetchImage()
+        image = self.fetchImage(cmd=cmd)
         t1 = time.time()
 
         state = self.read_ImagingStatus()
@@ -292,7 +292,7 @@ class AltaCam(alta.CApnCamera):
 
         return d
 
-    def fetchImage(self):
+    def fetchImage(self, cmd=None):
         """ Return the current image. """
 
         # I _think_ this is the right way to get the window size...
@@ -300,8 +300,12 @@ class AltaCam(alta.CApnCamera):
         w = self.GetExposurePixelsH()
 
         print >> sys.stderr, "reading image (w,h) = (%d,%d)" % (w,h)
-        image = np.ndarray((h,w), dtype='uint16')
-        self.FillImageBuffer(image)
+        image = np.zeros((h,w), dtype='uint16')
+        ret = self.FillImageBuffer(image)
+        if ret:
+            print >> sys.stderr, 'IMAGE READ FAILED: %s\n' % (ret)
+            if cmd:
+                cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
 
         return image
 
