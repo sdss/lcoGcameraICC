@@ -47,6 +47,7 @@ class CameraCmd(object):
                                                        help="image number for simulation sequence."),
                                            opsKeys.Key("filename", types.String(),
                                                        help="the filename to write to"),
+                                           opsKeys.Key("stack", types.Int(), help="number of exposures to take and stack."),
                                            opsKeys.Key("temp", types.Float(), help="camera temperature setpoint."),
                                            opsKeys.Key("n", types.Int(), help="number of times to loop status queries."),
                                            )
@@ -60,7 +61,7 @@ class CameraCmd(object):
             ('simulate', '(off)', self.simulateOff),
             ('simulate', '<mjd> <seqno>', self.simulateFromSeq),
             ('setTemp', '<temp>', self.setTemp),
-            ('expose', '<time> [<cartridge>] [<filename>]', self.expose),
+            ('expose', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
             ('dark', '<time> [<filename>]', self.expose),
             ('flat', '<time> [<cartridge>] [<filename>]', self.expose),
             ('reconnect', '', self.reconnect),
@@ -292,6 +293,30 @@ class CameraCmd(object):
         else:
             return self.genNextRealPath(cmd)
 
+    def exposeStack(self, itime, stack, cmd):
+        """ Return a single exposure dict built from stack * itime integrations.
+
+        Note the unwarranted chumminess with the camera data, compounded by not wanting to push
+        non-u2 data up to the guider. So we pretend that we took a single itime exposure, and
+        scale the pixels back into a pretend itime.
+        """ 
+
+        imDict = self.actor.cam.expose(itime, cmd=cmd)
+        
+        if stack > 1:
+            imData = imDict['data'].astype('u4')
+            for i in range(2, stack+1):
+                cmd.inform('text="taking %dth stacked integration"' % (i))
+                imDict1 = self.actor.cam.expose(itime, cmd=cmd)
+                imData += imDict1['data']
+                
+            imData = (imData/stack).astype('u2')
+            imDict['data'] = imData
+            imDict['stack'] = stack
+            imDict['exptimen'] = itime*stack
+
+        return imDict
+    
     def expose(self, cmd, doFinish=True):
         """ expose time=SEC [filename=FILENAME] """
 
@@ -304,6 +329,14 @@ class CameraCmd(object):
             dirname, filename = self.getNextPath(cmd)
             pathname = os.path.join(dirname, filename)
 
+        if 'stack' in cmdKeys:
+            stack = cmdKeys['stack'].values[0]
+        else:
+            stack = 1
+
+        if stack > 1 and itime > 8:
+            cmd.warn('text="Do you really mean to stack %0.1fs exposures?"' % (itime))
+            
         if expType == 'flat':
             self.setFlatFormat(cmd, doFinish=False)
         else:
@@ -335,7 +368,7 @@ class CameraCmd(object):
                         cmd.fail('exposureState="failed",0.0,0.0; text="no available flat frames for this MJD."')
                         return
 
-                    imDict = self.actor.cam.expose(itime, cmd=cmd)
+                    imDict = self.exposeStack(itime, stack, cmd=cmd)
             except Exception, e:
                 cmd.warn('exposureState="failed",0.0,0.0')
                 cmd.fail('text=%s' % (qstr("exposure failed: %s" % e)))
@@ -436,7 +469,7 @@ class CameraCmd(object):
         hdu = pyfits.PrimaryHDU(d['data'])
         hdr = hdu.header
         hdr.update('IMAGETYP', d['type'])
-        hdr.update('EXPTIME',  d['iTime'])
+        hdr.update('EXPTIME',  d['iTime'], 'exposure time of single integration')
         hdr.update('TIMESYS', 'TAI')
         hdr.update('DATE-OBS', self.getTS(d['startTime']), 'start of integration')
         hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
@@ -448,6 +481,9 @@ class CameraCmd(object):
         if d['type'] == 'object' and flatFile:
             hdr.update('FLATFILE', flatFile)
 
+        if 'stack' in d:
+            hdr.update('STACK', d['stack'], 'number of stacked integrations')
+            hdr.update('EXPTIMEN', d['exptimen'], 'exposure time for all integrations')
             
 #        hdr.update('FULLX', self.m_ImagingCols)
 #        hdr.update('FULLY', self.m_ImagingRows)
