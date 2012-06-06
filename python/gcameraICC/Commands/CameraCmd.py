@@ -307,7 +307,7 @@ class CameraCmd(object):
         if stack > 1:
             imData = imDict['data'].astype('u4')
             for i in range(2, stack+1):
-                cmd.inform('text="taking %dth stacked integration"' % (i))
+                cmd.inform('text="taking stacked integration %d of %d"' % (i, stack))
                 imDict1 = self.actor.cam.expose(itime, cmd=cmd)
                 imData += imDict1['data']
                 
