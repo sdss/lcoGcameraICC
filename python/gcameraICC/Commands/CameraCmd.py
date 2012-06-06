@@ -90,6 +90,7 @@ class CameraCmd(object):
         self.actor.sendVersionKey(cmd)
 
         cam = self.actor.cam
+        cmd.respond("stack=1")
         if cam:
             cmd.respond('cameraConnected=%s' % (cam != None))
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
@@ -328,11 +329,8 @@ class CameraCmd(object):
         else:
             dirname, filename = self.getNextPath(cmd)
             pathname = os.path.join(dirname, filename)
-
-        if 'stack' in cmdKeys:
-            stack = cmdKeys['stack'].values[0]
-        else:
-            stack = 1
+            
+        stack = cmdKeys['stack'].values[0] if 'stack' in cmdKeys else 1
 
         if stack > 1 and itime > 8:
             cmd.warn('text="Do you really mean to stack %0.1fs exposures?"' % (itime))
@@ -356,6 +354,7 @@ class CameraCmd(object):
             cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile, 
                                                                self.darkFile,
                                                                self.flatCartridge))
+            cmd.respond("stack=%d" % (stack))
             try:
                 if expType == 'dark':
                     imDict = self.actor.cam.dark(itime, cmd=cmd)
