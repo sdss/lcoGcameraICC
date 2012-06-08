@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
-import logging
 import os
+
+import opscore.utility.sdss3logging as sdss3logging
+import logging
 
 from twisted.internet import reactor
 
