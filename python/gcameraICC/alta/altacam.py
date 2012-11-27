@@ -76,7 +76,7 @@ class AltaCam(alta.CApnCamera):
         return self.ok
     
     def coolerStatus(self):
-        """ Return a cooler status keywords. """
+        """ Return the cooler status keywords. """
 
         self.__checkSelf()
 

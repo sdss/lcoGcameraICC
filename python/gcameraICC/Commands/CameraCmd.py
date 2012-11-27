@@ -74,6 +74,7 @@ class CameraCmd(object):
         cmd.finish('text="Pong."')
 
     def resync(self, cmd, doFinish=True):
+        """ Resynchronize with the current guider frame numbers and find the correct dark and flat. """
         try:
             dirname, filename = self.genNextRealPath(cmd)
             self.findDarkAndFlat(dirname, self.seqno)
@@ -107,7 +108,7 @@ class CameraCmd(object):
             cmd.finish()
 
     def deathStatus(self, cmd, doFinish=True):
-        """ Generate all status keywords. """
+        """ Generate some status keywords, n times (default=1). Useful for continuously monitoring the state of the gcamera. """
 
         cmdKeys = cmd.cmd.keywords
         nloops = cmdKeys['n'].values[0]
@@ -173,7 +174,7 @@ class CameraCmd(object):
         self.flatCartridge = flatCartridge
 
     def setBOSSFormat(self, cmd, doFinish=True):
-        """ Configure ourselves. """
+        """ Configure the camera for guiding images. """
 
         self.actor.cam.setBOSSFormat()
         self.status(cmd, doFinish=False)
@@ -182,7 +183,7 @@ class CameraCmd(object):
             cmd.finish()
 
     def setFlatFormat(self, cmd, doFinish=True):
-        """ Configure ourselves for flats. """
+        """ Configure the camera for flat images. """
 
         self.actor.cam.setFlatFormat()
         self.status(cmd, doFinish=False)
@@ -191,7 +192,7 @@ class CameraCmd(object):
             cmd.finish()
 
     def reconnect(self, cmd, doFinish=True):
-        """ (re-)connect to the camera. """
+        """ (re-)connect to the camera, and print status. """
 
         self.actor.connectCamera()
         self.status(cmd, doFinish=False)
@@ -205,7 +206,7 @@ class CameraCmd(object):
         cmdFunc(resp)
     
     def simulateOff(self, cmd):
-        """ stop reading image files from disk. """
+        """ Turn off gcamera simulation: stop reading image files from disk. """
         
         self.sendSimulatingKey(cmd.finish)
         self.simRoot = None
@@ -319,7 +320,17 @@ class CameraCmd(object):
         return imDict
     
     def expose(self, cmd, doFinish=True):
-        """ expose time=SEC [filename=FILENAME] """
+        """ expose/dark/flat - take an exposure
+
+        dark: take a dark frame and set it as the currently active dark.
+        flat: take a flat frame and set it as the currently active flat.
+        
+        Args:
+            time=SEC            - number of seconds per exposure.
+            [filename=FILENAME] - write frame to this file (full path).
+            [cartridge=N]       - set/override active cartridge number.
+            [stack=N]           - stack this many exposures (total time: stack*time).
+        """
 
         expType = cmd.cmd.name
         cmdKeys = cmd.cmd.keywords
@@ -407,8 +418,7 @@ class CameraCmd(object):
         cmd.finish('exposureState="done",0.0,0.0; filename=%s' % (os.path.join(dirname, filename)))
 
     def coolerStatus(self, cmd, doFinish=True):
-        """ Generate status keywords. Does NOT finish the command.
-        """
+        """ Generate gcamera cooler status keywords. Does NOT finish the command. """
 
         if self.actor.cam:
             coolerStatus = self.actor.cam.coolerStatus()
@@ -421,7 +431,6 @@ class CameraCmd(object):
         """ Adjust the cooling loop.
 
         Args:
-           cmd  - the controlling command.
            temp - the new setpoint, or None if the loop should be turned off. """
 
         cmdKeys = cmd.cmd.keywords
@@ -461,6 +470,7 @@ class CameraCmd(object):
             header.update("CUNIT2%s" % wcsName, "PIXEL", "Row unit")
 
     def writeFITS(self, d):
+        """ Write the FITS frame for the current image. """
         filename = d['filename']
         darkFile = d.get('darkFile', "")
         flatFile = d.get('flatFile', "")
