@@ -19,6 +19,8 @@ import RO.Astro.Tm.MJDFromPyTuple as astroMJD
 
 from opscore.utility.qstr import qstr
 
+import actorcore.utility.fits as actorFits
+
 class CameraCmd(object):
     """ Wrap camera commands.  """
     
@@ -502,7 +504,14 @@ class CameraCmd(object):
         hdr.update('BINY', d.get('biny', 1))
 
         self.addPixelWcs(hdr)
-        
+	
+	# begin by EM:
+        tccCards = actorFits.tccCards(models, cmd=cmd)
+        actorFits.extendHeader(cmd, hdr, tccCards)
+        mcpCards = actorFits.mcpCards(models, cmd=cmd)
+        actorFits.extendHeader(cmd, hdr, mcpCards)
+        # end by EM        
+
         hdu.writeto(filename)
 
         del hdu
