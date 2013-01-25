@@ -11,6 +11,7 @@ import time
 
 import pyfits
 
+import opscore
 import opscore.protocols.validation as validation
 import opscore.protocols.keys as opsKeys
 import opscore.protocols.types as types
@@ -394,7 +395,7 @@ class CameraCmd(object):
             if expType != "dark":
                 imDict['darkFile'] = self.darkFile
 
-            self.writeFITS(imDict)
+            self.writeFITS(imDict,cmd)
         
         if expType == 'dark':
             self.darkFile = pathname
@@ -471,46 +472,50 @@ class CameraCmd(object):
             header.update("CUNIT1%s" % wcsName, "PIXEL", "Column unit")
             header.update("CUNIT2%s" % wcsName, "PIXEL", "Row unit")
 
-    def writeFITS(self, d):
+    def writeFITS(self, imDict, cmd):
         """ Write the FITS frame for the current image. """
-        filename = d['filename']
-        darkFile = d.get('darkFile', "")
-        flatFile = d.get('flatFile', "")
+        filename = imDict['filename']
+        darkFile = imDict.get('darkFile', "")
+        flatFile = imDict.get('flatFile', "")
         
-        hdu = pyfits.PrimaryHDU(d['data'])
+        hdu = pyfits.PrimaryHDU(imDict['data'])
         hdr = hdu.header
-        hdr.update('IMAGETYP', d['type'])
-        hdr.update('EXPTIME',  d['iTime'], 'exposure time of single integration')
+        hdr.update('IMAGETYP', imDict['type'])
+        hdr.update('EXPTIME',  imDict['iTime'], 'exposure time of single integration')
         hdr.update('TIMESYS', 'TAI')
-        hdr.update('DATE-OBS', self.getTS(d['startTime']), 'start of integration')
-        hdr.update('CCDTEMP', d.get('ccdTemp', 999.0), 'degrees C')
+        hdr.update('DATE-OBS', self.getTS(imDict['startTime']), 'start of integration')
+        hdr.update('CCDTEMP', imDict.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
-        if d['type'] != "dark" and darkFile:
+        if imDict['type'] != "dark" and darkFile:
             hdr.update('DARKFILE', darkFile)
             hdr.update('FLATCART', self.flatCartridge)
-        if d['type'] == 'object' and flatFile:
+        if imDict['type'] == 'object' and flatFile:
             hdr.update('FLATFILE', flatFile)
 
-        if 'stack' in d:
-            hdr.update('STACK', d['stack'], 'number of stacked integrations')
-            hdr.update('EXPTIMEN', d['exptimen'], 'exposure time for all integrations')
+        if 'stack' in imDict:
+            hdr.update('STACK', imDict['stack'], 'number of stacked integrations')
+            hdr.update('EXPTIMEN', imDict['exptimen'], 'exposure time for all integrations')
             
 #        hdr.update('FULLX', self.m_ImagingCols)
 #        hdr.update('FULLY', self.m_ImagingRows)
-        hdr.update('BEGX', d.get('begx', 0))
-        hdr.update('BEGY', d.get('begy', 0))
-        hdr.update('BINX', d.get('binx', 1))
-        hdr.update('BINY', d.get('biny', 1))
+        hdr.update('BEGX', imDict.get('begx', 0))
+        hdr.update('BEGY', imDict.get('begy', 0))
+        hdr.update('BINX', imDict.get('binx', 1))
+        hdr.update('BINY', imDict.get('biny', 1))
 
         self.addPixelWcs(hdr)
-	
-	# begin by EM:
-        tccCards = actorFits.tccCards(models, cmd=cmd)
-        actorFits.extendHeader(cmd, hdr, tccCards)
-        mcpCards = actorFits.mcpCards(models, cmd=cmd)
-        actorFits.extendHeader(cmd, hdr, mcpCards)
-        # end by EM        
+
+        # TODO: JKP: blocked out, because it doesn't work: NEEDSTEST
+        # add in TCC and MCP cards, so the guider images have position and
+        # lamp/FFS state recorded.
+        #models = {}
+        #for actor in ['mcp','tcc']:
+        #    models[actor] = opscore.actor.model.Model(actor)
+        #tccCards = actorFits.tccCards(models, cmd=cmd)
+        #actorFits.extendHeader(cmd, hdr, tccCards)
+        #mcpCards = actorFits.mcpCards(models, cmd=cmd)
+        #actorFits.extendHeader(cmd, hdr, mcpCards)
 
         hdu.writeto(filename)
 
