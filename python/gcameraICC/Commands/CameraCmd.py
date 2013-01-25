@@ -11,7 +11,6 @@ import time
 
 import pyfits
 
-import opscore
 import opscore.protocols.validation as validation
 import opscore.protocols.keys as opsKeys
 import opscore.protocols.types as types
@@ -509,13 +508,10 @@ class CameraCmd(object):
         # TODO: JKP: blocked out, because it doesn't work: NEEDSTEST
         # add in TCC and MCP cards, so the guider images have position and
         # lamp/FFS state recorded.
-        #models = {}
-        #for actor in ['mcp','tcc']:
-        #    models[actor] = opscore.actor.model.Model(actor)
-        #tccCards = actorFits.tccCards(models, cmd=cmd)
-        #actorFits.extendHeader(cmd, hdr, tccCards)
-        #mcpCards = actorFits.mcpCards(models, cmd=cmd)
-        #actorFits.extendHeader(cmd, hdr, mcpCards)
+        tccCards = actorFits.tccCards(self.actor.models, cmd=cmd)
+        actorFits.extendHeader(cmd, hdr, tccCards)
+        mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
+        actorFits.extendHeader(cmd, hdr, mcpCards)
 
         hdu.writeto(filename)
 

@@ -2,6 +2,7 @@
 
 import os
 
+import opscore
 import opscore.utility.sdss3logging as sdss3logging
 import logging
 
@@ -21,6 +22,12 @@ class GCamera(coreActor.Actor):
 
         self.logger.setLevel(debugLevel)
 
+        # generate the models for other actors, so we can access their information
+        # when generating more detailed fits cards.
+        self.models = {}
+        for actor in ['mcp','tcc']:
+            self.models[actor] = opscore.actor.model.Model(actor)
+        
         self.run()
 
     def connectCamera(self):
