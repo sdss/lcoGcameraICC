@@ -505,7 +505,6 @@ class CameraCmd(object):
 
         self.addPixelWcs(hdr)
 
-        # TODO: JKP: blocked out, because it doesn't work: NEEDSTEST
         # add in TCC and MCP cards, so the guider images have position and
         # lamp/FFS state recorded.
         tccCards = actorFits.tccCards(self.actor.models, cmd=cmd)
