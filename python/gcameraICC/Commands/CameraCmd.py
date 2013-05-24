@@ -10,6 +10,7 @@ import re
 import time
 
 import pyfits
+import numpy as np
 
 import opscore.protocols.validation as validation
 import opscore.protocols.keys as opsKeys
@@ -64,14 +65,14 @@ class CameraCmd(object):
             ('simulate', '<mjd> <seqno>', self.simulateFromSeq),
             ('setTemp', '<temp>', self.setTemp),
             ('expose', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
-            ('dark', '<time> [<filename>]', self.expose),
-            ('flat', '<time> [<cartridge>] [<filename>]', self.expose),
+            ('dark', '<time> [<filename>] [<stack>]', self.expose),
+            ('flat', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
             ('reconnect', '', self.reconnect),
             ('resync', '', self.resync),
             ]
 
     def pingCmd(self, cmd):
-        """ Top-level "ping" command handler. Query all the controllers for liveness/happiness. """
+        """ Top-level "ping" command handler, responds if the actor is alive."""
         
         cmd.finish('text="Pong."')
 
@@ -297,24 +298,31 @@ class CameraCmd(object):
         else:
             return self.genNextRealPath(cmd)
 
-    def exposeStack(self, itime, stack, cmd):
-        """ Return a single exposure dict built from stack * itime integrations.
+    def exposeStack(self, itime, stack, cmd, expType='expose'):
+        """ Return a single exposure dict median-combined from stack * itime integrations.
 
         Note the unwarranted chumminess with the camera data, compounded by not wanting to push
         non-u2 data up to the guider. So we pretend that we took a single itime exposure, and
         scale the pixels back into a pretend itime.
-        """ 
-
-        imDict = self.actor.cam.expose(itime, cmd=cmd)
+        
+        expType: 'dark' or 'expose'
+        """
+        if expType == 'expose':
+            exposeCmd = self.actor.cam.expose
+        elif expType == 'dark':
+            exposeCmd = self.actor.cam.dark
+        else:
+            raise ValueError('Invalid gcamera exposure type in exposeStack: %s'%expType)
+        
+        imDict = exposeCmd(itime, cmd=cmd)
         
         if stack > 1:
-            imData = imDict['data'].astype('u4')
+            imList = [imDict['data'],]
             for i in range(2, stack+1):
                 cmd.inform('text="taking stacked integration %d of %d"' % (i, stack))
-                imDict1 = self.actor.cam.expose(itime, cmd=cmd)
-                imData += imDict1['data']
-                
-            imData = (imData/stack).astype('u2')
+                imDict1 = exposeCmd(itime, cmd=cmd)
+                imList.append(imDict1['data'])
+            imData = np.median(imList,axis=0).astype('u2')
             imDict['data'] = imData
             imDict['stack'] = stack
             imDict['exptimen'] = itime*stack
@@ -370,7 +378,7 @@ class CameraCmd(object):
             cmd.respond("stack=%d" % (stack))
             try:
                 if expType == 'dark':
-                    imDict = self.actor.cam.dark(itime, cmd=cmd)
+                    imDict = self.exposeStack(itime, stack, cmd=cmd, expType='dark')
                 else:
                     if not self.darkFile :
                         cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')

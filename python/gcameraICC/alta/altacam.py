@@ -168,6 +168,8 @@ class AltaCam(alta.CApnCamera):
 
         w = 1024
         h = 1024
+        # defines the overscan regions in each dimension
+        # jkp TBD: does not seem to actually change the overscan read out!
         ow = 24
         oh = 0
         binx = 2
@@ -188,6 +190,8 @@ class AltaCam(alta.CApnCamera):
 
         w = 1024
         h = 1024
+        # defines the overscan regions in each dimension
+        # jkp TBD: does not seem to actually change the overscan read out!
         ow = 24
         oh = 0
         binx = 1
@@ -206,9 +210,9 @@ class AltaCam(alta.CApnCamera):
     def expose(self, itime, filename=None, cmd=None):
         return self._expose(itime, True, filename, cmd=cmd)
     def dark(self, itime, filename=None, cmd=None):
-        return self._expose(itime, False, filename, cmd=cmd)
+        return self._expose(itime, openShutter=False, filename, cmd=cmd)
     def bias(self, filename=None, cmd=None):
-        return self._expose(0.0, False, filename, cmd=cmd)
+        return self._expose(0.0, openShutter=False, filename, cmd=cmd)
         
     def _expose(self, itime, openShutter, filename, cmd=None):
         """ Take an exposure.
