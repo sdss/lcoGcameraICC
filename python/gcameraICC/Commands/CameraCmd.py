@@ -482,6 +482,7 @@ class CameraCmd(object):
     def writeFITS(self, imDict, cmd):
         """ Write the FITS frame for the current image. """
         filename = imDict['filename']
+        directory,basename = os.path.split(filename)
         darkFile = imDict.get('darkFile', "")
         flatFile = imDict.get('flatFile', "")
         
@@ -519,8 +520,8 @@ class CameraCmd(object):
         actorFits.extendHeader(cmd, hdr, tccCards)
         mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
         actorFits.extendHeader(cmd, hdr, mcpCards)
-
-        hdu.writeto(filename)
-
+        
+        actorFits.writeFits(cmd,hdu,directory,basename,doCompress=True)
+        
         del hdu
         del hdr
