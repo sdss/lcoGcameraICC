@@ -1,7 +1,5 @@
 __all__ = ['AltaCam']
 
-import pdb
-
 import alta
 import numpy as np
 import pyfits
@@ -164,6 +162,7 @@ class AltaCam(alta.CApnCamera):
         self.write_RoiStartY(y0 * self.bin_y)
         
     def setBOSSFormat(self):
+        """Set up for 2x2 binning."""
         self.__checkSelf()
 
         w = 1024
@@ -186,6 +185,7 @@ class AltaCam(alta.CApnCamera):
         self.write_DigitizeOverscan(1)
 
     def setFlatFormat(self):
+        """Set up for unbinned images."
         self.__checkSelf()
 
         w = 1024
@@ -327,17 +327,20 @@ class AltaCam(alta.CApnCamera):
             
         return time.strftime(format, time.gmtime(t)) \
                + ".%01d%s" % (10 * math.modf(t)[0], zone)
+    
+    def WriteFITS(self, dataDict):
+        """
+        Write dataDict['data'] to a fits file given by dataDict['filename'].
+        """
+        filename = dataDict['filename']
 
-    def WriteFITS(self, d):
-        filename = d['filename']
-
-        hdu = pyfits.PrimaryHDU(d['data'])
+        hdu = pyfits.PrimaryHDU(dataDict['data'])
         hdr = hdu.header
 
-        hdr.update('IMAGETYP', d['type'])
-        hdr.update('EXPTIME',  d['iTime'])
+        hdr.update('IMAGETYP', dataDict['type'])
+        hdr.update('EXPTIME',  dataDict['iTime'])
         hdr.update('TIMESYS', 'TAI')
-        hdr.update('DATE-OBS', self.getTS(d['startTime']), 'start of integration')
+        hdr.update('DATE-OBS', self.getTS(dataDict['startTime']), 'start of integration')
         hdr.update('CCDTEMP', self.read_TempCCD(), 'degrees C')
         hdr.update('FILENAME', filename)
 #        hdr.update('FULLX', self.m_ImagingCols)
