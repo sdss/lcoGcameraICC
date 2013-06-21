@@ -185,7 +185,7 @@ class AltaCam(alta.CApnCamera):
         self.write_DigitizeOverscan(1)
 
     def setFlatFormat(self):
-        """Set up for unbinned images."
+        """Set up for unbinned images."""
         self.__checkSelf()
 
         w = 1024

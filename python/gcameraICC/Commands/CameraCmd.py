@@ -149,7 +149,10 @@ class CameraCmd(object):
         return match
         
     def findDarkAndFlat(self, dirname, forSeqno):
-        """ Find most recent dark and flats images in the given directory. Set .darkFile, .flatFile, .flatCartridge """
+        """
+        Find most recent dark and flats images in the given directory.
+        Set .darkFile, .flatFile, .flatCartridge
+        """
 
         darkFiles = glob.glob(os.path.join(dirname, 'dark-*'))
         darkNote = self.findFileMatch(darkFiles, forSeqno)
@@ -161,7 +164,8 @@ class CameraCmd(object):
                 darkSeq = 0
         else:
             darkSeq = 0
-        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits' % (darkSeq)) if darkSeq else None
+        
+        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits.gz' % (darkSeq)) if darkSeq else None
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
         flatNote = self.findFileMatch(flatFiles, forSeqno)
@@ -173,7 +177,8 @@ class CameraCmd(object):
                 flatSeq, flatCartridge = 0, -1
         else:
             flatSeq, flatCartridge = 0, -1
-        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits' % (flatSeq)) if flatSeq else None
+        
+        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits.gz' % (flatSeq)) if flatSeq else None
         self.flatCartridge = flatCartridge
 
     def setBOSSFormat(self, cmd, doFinish=True):
@@ -247,7 +252,7 @@ class CameraCmd(object):
     def genNextRealPath(self, cmd):
         """ Return the next filename to use. Exposures are numbered from 1 for each night. """
 
-        gimgPattern = '^gimg-(\d{4})\.fits$'
+        gimgPattern = '^gimg-(\d{4})\.fits.*$'
 
         mjd = astroMJD.mjdFromPyTuple(time.gmtime())
         fmjd = str(int(mjd + 0.3))
@@ -258,7 +263,7 @@ class CameraCmd(object):
             os.mkdir(dataDir,0775)
         self.dataDir = dataDir
 
-        imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits'))
+        imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits.*'))
         imgFiles.sort()
         if len(imgFiles) == 0:
             seqno = 1
@@ -353,7 +358,7 @@ class CameraCmd(object):
             
         stack = cmdKeys['stack'].values[0] if 'stack' in cmdKeys else 1
 
-        if stack > 1 and itime > 8:
+        if stack > 1 and itime > 8 and expType != 'dark':
             cmd.warn('text="Do you really mean to stack %0.1fs exposures?"' % (itime))
             
         if expType == 'flat':
@@ -405,7 +410,7 @@ class CameraCmd(object):
             self.writeFITS(imDict,cmd)
         
         if expType == 'dark':
-            self.darkFile = pathname
+            self.darkFile = pathname+'.gz'
             self.darkTemp = self.actor.cam.read_TempCCD()
             if not self.simRoot:
                 darknote = open(os.path.join(dirname, 'dark-%04d.dat' % (self.seqno)), 'w+')
@@ -415,7 +420,7 @@ class CameraCmd(object):
                 cmd.respond('text="setting dark file for %0.1fC: %s"' % (self.darkTemp, self.darkFile))
             
         elif expType == 'flat':
-            self.flatFile = pathname
+            self.flatFile = pathname+'.gz'
             self.flatCartridge = cmdKeys['cartridge'].values[0] if ('cartridge' in cmdKeys) else 0
             self.setBOSSFormat(cmd, doFinish=False)
             if not self.simRoot:
@@ -425,7 +430,7 @@ class CameraCmd(object):
                 flatnote.close()
                 cmd.respond('text="setting flat file for cartridge %d: %s"' % (self.flatCartridge, self.flatFile))
 
-        cmd.finish('exposureState="done",0.0,0.0; filename=%s' % (os.path.join(dirname, filename)))
+        cmd.finish('exposureState="done",0.0,0.0; filename=%s.gz' % (os.path.join(dirname, filename)))
 
     def coolerStatus(self, cmd, doFinish=True):
         """ Generate gcamera cooler status keywords. Does NOT finish the command. """
