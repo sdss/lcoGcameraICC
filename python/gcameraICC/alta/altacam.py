@@ -168,7 +168,6 @@ class AltaCam(alta.CApnCamera):
         w = 1024
         h = 1024
         # defines the overscan regions in each dimension
-        # jkp TBD: does not seem to actually change the overscan read out!
         ow = 24
         oh = 0
         binx = 2
@@ -191,7 +190,6 @@ class AltaCam(alta.CApnCamera):
         w = 1024
         h = 1024
         # defines the overscan regions in each dimension
-        # jkp TBD: does not seem to actually change the overscan read out!
         ow = 24
         oh = 0
         binx = 1

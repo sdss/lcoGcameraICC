@@ -385,6 +385,7 @@ class CameraCmd(object):
                 if expType == 'dark':
                     imDict = self.exposeStack(itime, stack, cmd=cmd, expType='dark')
                 else:
+                    # We need to know about the dark to put it in the header.
                     if not self.darkFile :
                         cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')
                         return
