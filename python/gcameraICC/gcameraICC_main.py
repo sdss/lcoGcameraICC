@@ -39,7 +39,7 @@ class GCamera(coreActor.Actor):
             self.cam = None
 
         self.bcast.inform('text="trying to connect to camera at %s...."' % (altaHostname))
-        reactor.doSelect(1)
+        reactor.doIteration(1)
         
         try:
             self.cam = alta.AltaCam(altaHostname)
