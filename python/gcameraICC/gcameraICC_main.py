@@ -39,6 +39,9 @@ class GCamera(coreActor.Actor):
             self.cam = None
 
         self.bcast.inform('text="trying to connect to camera at %s...."' % (altaHostname))
+        # Previously doSelect(1), which doesn't exist in the EPoll reactor on Linux
+        # Craig said this is probably necessary because of how the altacam
+        # C++ framework works (or doesn't).
         reactor.doIteration(1)
         
         try:
