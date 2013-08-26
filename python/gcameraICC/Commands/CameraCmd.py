@@ -260,7 +260,7 @@ class CameraCmd(object):
     def genNextRealPath(self, cmd):
         """ Return the next filename to use. Exposures are numbered from 1 for each night. """
 
-        gimgPattern = '^gimg-(\d{4})\.fits.*$'
+        gimgPattern = '^gimg-(\d{4})\.fits*$'
 
         mjd = astroMJD.mjdFromPyTuple(time.gmtime())
         fmjd = str(int(mjd + 0.3))
@@ -271,7 +271,7 @@ class CameraCmd(object):
             os.mkdir(dataDir,0775)
         self.dataDir = dataDir
 
-        imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits.*'))
+        imgFiles = glob.glob(os.path.join(dataDir, 'gimg-*.fits*'))
         imgFiles.sort()
         if len(imgFiles) == 0:
             seqno = 1
