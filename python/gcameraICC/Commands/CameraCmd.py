@@ -27,6 +27,14 @@ class CameraCmd(object):
     
     def __init__(self, actor):
         self.actor = actor
+        
+        # ecamera files should not be gzipped, to make processing in IRAF easier.
+        if 'ecamera' in actor.name:
+            self.doCompress = False
+            self.ext = ''
+        else:
+            self.doCompress = True
+            self.ext = '.gz'
 
         self.dataRoot = self.actor.config.get(self.actor.name, 'dataRoot')
         self.filePrefix = self.actor.config.get(self.actor.name, 'filePrefix')
@@ -165,7 +173,7 @@ class CameraCmd(object):
         else:
             darkSeq = 0
         
-        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits.gz' % (darkSeq)) if darkSeq else None
+        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits%s' % (darkSeq,self.ext)) if darkSeq else None
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
         flatNote = self.findFileMatch(flatFiles, forSeqno)
@@ -178,7 +186,7 @@ class CameraCmd(object):
         else:
             flatSeq, flatCartridge = 0, -1
         
-        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits.gz' % (flatSeq)) if flatSeq else None
+        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits%s' % (flatSeq,self.ext)) if flatSeq else None
         self.flatCartridge = flatCartridge
 
     def setBOSSFormat(self, cmd, doFinish=True):
@@ -411,7 +419,7 @@ class CameraCmd(object):
             self.writeFITS(imDict,cmd)
         
         if expType == 'dark':
-            self.darkFile = pathname+'.gz'
+            self.darkFile = pathname + self.ext
             self.darkTemp = self.actor.cam.read_TempCCD()
             if not self.simRoot:
                 darknote = open(os.path.join(dirname, 'dark-%04d.dat' % (self.seqno)), 'w+')
@@ -421,7 +429,7 @@ class CameraCmd(object):
                 cmd.respond('text="setting dark file for %0.1fC: %s"' % (self.darkTemp, self.darkFile))
             
         elif expType == 'flat':
-            self.flatFile = pathname+'.gz'
+            self.flatFile = pathname + self.ext
             self.flatCartridge = cmdKeys['cartridge'].values[0] if ('cartridge' in cmdKeys) else 0
             self.setBOSSFormat(cmd, doFinish=False)
             if not self.simRoot:
@@ -431,7 +439,7 @@ class CameraCmd(object):
                 flatnote.close()
                 cmd.respond('text="setting flat file for cartridge %d: %s"' % (self.flatCartridge, self.flatFile))
 
-        cmd.finish('exposureState="done",0.0,0.0; filename=%s.gz' % (os.path.join(dirname, filename)))
+        cmd.finish('exposureState="done",0.0,0.0; filename=%s' % (os.path.join(dirname, filename+self.ext)))
 
     def coolerStatus(self, cmd, doFinish=True):
         """ Generate gcamera cooler status keywords. Does NOT finish the command. """
@@ -527,7 +535,7 @@ class CameraCmd(object):
         mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
         actorFits.extendHeader(cmd, hdr, mcpCards)
         
-        actorFits.writeFits(cmd,hdu,directory,basename,doCompress=True)
+        actorFits.writeFits(cmd,hdu,directory,basename,doCompress=self.doCompress)
         
         del hdu
         del hdr
