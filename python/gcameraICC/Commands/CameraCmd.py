@@ -244,7 +244,7 @@ class CameraCmd(object):
             cmd.fail('text="%s is not an existing directory"' % (simRoot))
             return
 
-        simPath = os.path.join(simRoot, self.genFilename(seqno))
+        simPath = os.path.join(simRoot, self.genFilename(seqno)+self.ext)
         if not os.path.isfile(simPath):
             cmd.fail('text="%s is not an existing file"' % (simPath))
             return
