@@ -300,7 +300,7 @@ class CameraCmd(object):
         self.simSeqno += 1
 
         pathname = os.path.join(self.simRoot, filename)
-        if os.path.isfile(pathname):
+        if glob.glob(pathname+'*'):#os.path.isfile(pathname):
             return self.simRoot, filename 
         else:
             return None, None
@@ -354,7 +354,6 @@ class CameraCmd(object):
             [cartridge=N]       - set/override active cartridge number.
             [stack=N]           - stack this many exposures (total time: stack*time).
         """
-
         expType = cmd.cmd.name
         cmdKeys = cmd.cmd.keywords
         itime = cmdKeys['time'].values[0]
@@ -368,12 +367,7 @@ class CameraCmd(object):
 
         if stack > 1 and itime > 8 and expType != 'dark':
             cmd.warn('text="Do you really mean to stack %0.1fs exposures?"' % (itime))
-            
-        if expType == 'flat':
-            self.setFlatFormat(cmd, doFinish=False)
-        else:
-            self.setBOSSFormat(cmd, doFinish=False)
-
+        
         if self.simRoot:
             if not filename:
                 self.sendSimulatingKey('Off', cmd.respond)
@@ -384,6 +378,11 @@ class CameraCmd(object):
                 cmd.warn('text="Simulating a %ds exposure"' % itime)
                 time.sleep(itime)
         else:
+            if expType == 'flat':
+                self.setFlatFormat(cmd, doFinish=False)
+            else:
+                self.setBOSSFormat(cmd, doFinish=False)
+            
             self.findDarkAndFlat(dirname, self.seqno)
             cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile, 
                                                                self.darkFile,
