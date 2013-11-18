@@ -212,13 +212,14 @@ class AltaCam(alta.CApnCamera):
     def bias(self, filename=None, cmd=None):
         return self._expose(0.0, False, filename, cmd=cmd)
         
-    def _expose(self, itime, openShutter, filename, cmd=None):
+    def _expose(self, itime, openShutter, filename, cmd=None, recursing=False):
         """ Take an exposure.
 
         Args:
             itime        - seconds
             openShutter  - True to open the shutter.
             filename     - a full pathname. If None, the image is returned
+            recursing    - have we called ourself? To prevent recursing more than once.
 
         Returns:
             dict         - type:     FITS IMAGETYP
@@ -274,6 +275,8 @@ class AltaCam(alta.CApnCamera):
         t0 = time.time()
         image = self.fetchImage(cmd=cmd)
         if image == None:
+            if not recursing:
+                return self._expose(itime, openShutter, filename, cmd=cmd, recursing=True)
             raise RuntimeError("failed to read image from camera; please try gcamera reconnect before restarting the ICC")
         t1 = time.time()
 
@@ -296,6 +299,17 @@ class AltaCam(alta.CApnCamera):
 
         return d
 
+    def _safe_fetchImage(self,cmd=None):
+        """Wrap the FillImageBuffer in case of bad reads."""
+        image = np.zeros((h,w), dtype='uint16')
+        ret = self.FillImageBuffer(image)
+        if ret != 0:
+            print >> sys.stderr, 'IMAGE READ FAILED: %s\n' % (ret)
+            if cmd:
+                cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
+            return None
+        return image
+    
     def fetchImage(self, cmd=None):
         """ Return the current image. """
 
@@ -304,14 +318,10 @@ class AltaCam(alta.CApnCamera):
         w = self.GetExposurePixelsH()
 
         print >> sys.stderr, "reading image (w,h) = (%d,%d)" % (w,h)
-        image = np.zeros((h,w), dtype='uint16')
-        ret = self.FillImageBuffer(image)
-        if ret != 0:
-            print >> sys.stderr, 'IMAGE READ FAILED: %s\n' % (ret)
-            if cmd:
-                cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
-            return None
-        
+        # Sometimes this fails, in a potentially recoverable way.
+        image = _safe_fetchImage(self,cmd=cmd)
+        if image is not None:
+            image = _safe_fetchImage(self,cmd=cmd)
         return image
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
