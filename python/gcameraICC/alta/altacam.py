@@ -299,8 +299,8 @@ class AltaCam(alta.CApnCamera):
 
         return d
 
-    def _safe_fetchImage(self,cmd=None):
-        """Wrap the FillImageBuffer in case of bad reads."""
+    def _safe_fetchImage(self,h,w,cmd=None):
+        """Wrap a call to FillImageBuffer in case of bad reads."""
         image = np.zeros((h,w), dtype='uint16')
         ret = self.FillImageBuffer(image)
         if ret != 0:
@@ -319,9 +319,9 @@ class AltaCam(alta.CApnCamera):
 
         print >> sys.stderr, "reading image (w,h) = (%d,%d)" % (w,h)
         # Sometimes this fails, in a potentially recoverable way.
-        image = _safe_fetchImage(self,cmd=cmd)
-        if image is not None:
-            image = _safe_fetchImage(self,cmd=cmd)
+        image = self._safe_fetchImage(h,w,cmd=cmd)
+        if image is None:
+            image = self._safe_fetchImage(h,w,cmd=cmd)
         return image
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
