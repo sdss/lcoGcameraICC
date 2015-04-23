@@ -21,13 +21,16 @@ import RO.Astro.Tm.MJDFromPyTuple as astroMJD
 from opscore.utility.qstr import qstr
 
 import actorcore.utility.fits as actorFits
+import actorcore.utility.svn
 
 class CameraCmd(object):
     """ Wrap camera commands.  """
     
     def __init__(self, actor):
         self.actor = actor
-        
+        self.cam = actor.name[:4]
+        self.version = actorcore.utility.svn.simpleVersionName(actor.headURL)
+
         # ecamera files should not be gzipped, to make processing in IRAF easier.
         if 'ecamera' in actor.name:
             self.doCompress = False
@@ -501,6 +504,7 @@ class CameraCmd(object):
         
         hdu = pyfits.PrimaryHDU(imDict['data'])
         hdr = hdu.header
+        hdr.update('V_'+self.cam.upper(), self.version)
         hdr.update('IMAGETYP', imDict['type'])
         hdr.update('EXPTIME',  imDict['iTime'], 'exposure time of single integration')
         hdr.update('TIMESYS', 'TAI')
