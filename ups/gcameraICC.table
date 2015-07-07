@@ -1,6 +1,9 @@
 setupRequired("actorcore")
-setupRequired("apogee")
 setupRequired("sdss3tools")
+
+# We need either "apogee" for APO, or "andor" for LCO.
+setupOptional("apogee_guider")
+setupOptional("andor_guider")
 
 pathPrepend(PATH, ${PRODUCT_DIR}/bin)
 pathPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
