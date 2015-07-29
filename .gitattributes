@@ -4,6 +4,7 @@ etc/gcamera.cfg -text
 python/__init__.py -text
 python/gcameraICC/Commands/CameraCmd.py -text
 python/gcameraICC/Commands/__init__.py -text
+python/gcameraICC/GcameraICC.py -text
 python/gcameraICC/__init__.py -text
 python/gcameraICC/alta/__init__.py -text
 python/gcameraICC/alta/alta.i -text
@@ -14,4 +15,7 @@ python/gcameraICC/ecameraICC_main.py -text
 python/gcameraICC/gcameraICC_main.py -text
 python/gcameraICC/keydict.py -text
 /setup.py -text
+test_gcameraICC/gcameraTester.py -text
+test_gcameraICC/test_CameraCmd.py -text
+test_gcameraICC/test_gcameraICC.py -text
 ups/gcameraICC.table -text
