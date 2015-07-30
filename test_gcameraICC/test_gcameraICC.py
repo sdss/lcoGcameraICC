@@ -3,7 +3,7 @@
 
 import unittest
 
-from actorcore import Actor
+from actorcore import Actor, ICC
 from opscore.actor import Model, KeyVarDispatcher
 
 from actorcore import TestHelper
@@ -20,6 +20,7 @@ class TestGcameraICC(unittest.TestCase,gcameraTester.GcameraTester):
         # can only configure the dispatcher once.
         Model.setDispatcher(KeyVarDispatcher())
         Actor.setupRootLogger = TestHelper.setupRootLogger
+        ICC.makeOpsFileLogger = TestHelper.fakeOpsFileLogger
 
     def setUp(self):
         # have to clear any actors that were registered previously.
