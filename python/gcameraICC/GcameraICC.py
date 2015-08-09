@@ -73,7 +73,7 @@ class GcameraICC(ICC.SDSS_ICC):
         if self.cam:
             # OK, try to set the cooler.
             try:
-                setPoint = float(self.config.get('alta', 'setTemp'))
+                setPoint = float(self.config.get('camera', 'setTemp'))
                 self.callCommand("setTemp temp=%g" % (setPoint))
             except Exception, e:
                 self.bcast.warn('text="could not get/parse alta.tempSetpoint config variable: %s"' % (e))
@@ -88,7 +88,7 @@ class GcameraICC(ICC.SDSS_ICC):
         self.callCommand("status")
 
         try:
-            statusPeriod = int(self.config.get('alta', 'statusPeriod'))
+            statusPeriod = int(self.config.get('camera', 'statusPeriod'))
         except:
             statusPeriod = 5*60
 
@@ -106,7 +106,7 @@ class GcameraAPO(GcameraICC):
         """Estabilish a connection with the camera's network port."""
         import gcameraICC.alta.altacam as alta
 
-        altaHostname = self.config.get('alta', 'hostname')
+        altaHostname = self.config.get('camera', 'hostname')
         self.prep_connectCamera()
 
         try:
