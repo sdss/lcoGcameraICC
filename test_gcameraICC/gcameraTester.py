@@ -5,6 +5,6 @@ from actorcore import TestHelper
 
 class GcameraTester(TestHelper.ActorTester):
     def setUp(self):
-        self.name = "boss"
+        self.name = "gcamera"
         self.verbose=2
         super(GcameraTester,self).setUp()

@@ -1,6 +1,7 @@
 * text=auto !eol
 etc/ecamera.cfg -text
 etc/gcamera.cfg -text
+etc/lco.cfg -text
 python/__init__.py -text
 python/gcameraICC/Commands/CameraCmd.py -text
 python/gcameraICC/Commands/__init__.py -text
