@@ -15,20 +15,20 @@ if version_info >= (2, 6, 0):
         import imp
         fp = None
         try:
-            fp, pathname, description = imp.find_module('_andor-guider', [dirname(__file__)])
+            fp, pathname, description = imp.find_module('_andor', [dirname(__file__)])
         except ImportError:
-            import _andor-guider
-            return _andor-guider
+            import _andor
+            return _andor
         if fp is not None:
             try:
-                _mod = imp.load_module('_andor-guider', fp, pathname, description)
+                _mod = imp.load_module('_andor', fp, pathname, description)
             finally:
                 fp.close()
             return _mod
-    _andor-guider = swig_import_helper()
+    _andor = swig_import_helper()
     del swig_import_helper
 else:
-    import _andor-guider
+    import _andor
 del version_info
 try:
     _swig_property = property
@@ -96,204 +96,204 @@ class SYSTEMTIME(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, SYSTEMTIME, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["wYear"] = _andor-guider.SYSTEMTIME_wYear_set
-    __swig_getmethods__["wYear"] = _andor-guider.SYSTEMTIME_wYear_get
+    __swig_setmethods__["wYear"] = _andor.SYSTEMTIME_wYear_set
+    __swig_getmethods__["wYear"] = _andor.SYSTEMTIME_wYear_get
     if _newclass:
-        wYear = _swig_property(_andor-guider.SYSTEMTIME_wYear_get, _andor-guider.SYSTEMTIME_wYear_set)
-    __swig_setmethods__["wMonth"] = _andor-guider.SYSTEMTIME_wMonth_set
-    __swig_getmethods__["wMonth"] = _andor-guider.SYSTEMTIME_wMonth_get
+        wYear = _swig_property(_andor.SYSTEMTIME_wYear_get, _andor.SYSTEMTIME_wYear_set)
+    __swig_setmethods__["wMonth"] = _andor.SYSTEMTIME_wMonth_set
+    __swig_getmethods__["wMonth"] = _andor.SYSTEMTIME_wMonth_get
     if _newclass:
-        wMonth = _swig_property(_andor-guider.SYSTEMTIME_wMonth_get, _andor-guider.SYSTEMTIME_wMonth_set)
-    __swig_setmethods__["wDayOfWeek"] = _andor-guider.SYSTEMTIME_wDayOfWeek_set
-    __swig_getmethods__["wDayOfWeek"] = _andor-guider.SYSTEMTIME_wDayOfWeek_get
+        wMonth = _swig_property(_andor.SYSTEMTIME_wMonth_get, _andor.SYSTEMTIME_wMonth_set)
+    __swig_setmethods__["wDayOfWeek"] = _andor.SYSTEMTIME_wDayOfWeek_set
+    __swig_getmethods__["wDayOfWeek"] = _andor.SYSTEMTIME_wDayOfWeek_get
     if _newclass:
-        wDayOfWeek = _swig_property(_andor-guider.SYSTEMTIME_wDayOfWeek_get, _andor-guider.SYSTEMTIME_wDayOfWeek_set)
-    __swig_setmethods__["wDay"] = _andor-guider.SYSTEMTIME_wDay_set
-    __swig_getmethods__["wDay"] = _andor-guider.SYSTEMTIME_wDay_get
+        wDayOfWeek = _swig_property(_andor.SYSTEMTIME_wDayOfWeek_get, _andor.SYSTEMTIME_wDayOfWeek_set)
+    __swig_setmethods__["wDay"] = _andor.SYSTEMTIME_wDay_set
+    __swig_getmethods__["wDay"] = _andor.SYSTEMTIME_wDay_get
     if _newclass:
-        wDay = _swig_property(_andor-guider.SYSTEMTIME_wDay_get, _andor-guider.SYSTEMTIME_wDay_set)
-    __swig_setmethods__["wHour"] = _andor-guider.SYSTEMTIME_wHour_set
-    __swig_getmethods__["wHour"] = _andor-guider.SYSTEMTIME_wHour_get
+        wDay = _swig_property(_andor.SYSTEMTIME_wDay_get, _andor.SYSTEMTIME_wDay_set)
+    __swig_setmethods__["wHour"] = _andor.SYSTEMTIME_wHour_set
+    __swig_getmethods__["wHour"] = _andor.SYSTEMTIME_wHour_get
     if _newclass:
-        wHour = _swig_property(_andor-guider.SYSTEMTIME_wHour_get, _andor-guider.SYSTEMTIME_wHour_set)
-    __swig_setmethods__["wMinute"] = _andor-guider.SYSTEMTIME_wMinute_set
-    __swig_getmethods__["wMinute"] = _andor-guider.SYSTEMTIME_wMinute_get
+        wHour = _swig_property(_andor.SYSTEMTIME_wHour_get, _andor.SYSTEMTIME_wHour_set)
+    __swig_setmethods__["wMinute"] = _andor.SYSTEMTIME_wMinute_set
+    __swig_getmethods__["wMinute"] = _andor.SYSTEMTIME_wMinute_get
     if _newclass:
-        wMinute = _swig_property(_andor-guider.SYSTEMTIME_wMinute_get, _andor-guider.SYSTEMTIME_wMinute_set)
-    __swig_setmethods__["wSecond"] = _andor-guider.SYSTEMTIME_wSecond_set
-    __swig_getmethods__["wSecond"] = _andor-guider.SYSTEMTIME_wSecond_get
+        wMinute = _swig_property(_andor.SYSTEMTIME_wMinute_get, _andor.SYSTEMTIME_wMinute_set)
+    __swig_setmethods__["wSecond"] = _andor.SYSTEMTIME_wSecond_set
+    __swig_getmethods__["wSecond"] = _andor.SYSTEMTIME_wSecond_get
     if _newclass:
-        wSecond = _swig_property(_andor-guider.SYSTEMTIME_wSecond_get, _andor-guider.SYSTEMTIME_wSecond_set)
-    __swig_setmethods__["wMilliseconds"] = _andor-guider.SYSTEMTIME_wMilliseconds_set
-    __swig_getmethods__["wMilliseconds"] = _andor-guider.SYSTEMTIME_wMilliseconds_get
+        wSecond = _swig_property(_andor.SYSTEMTIME_wSecond_get, _andor.SYSTEMTIME_wSecond_set)
+    __swig_setmethods__["wMilliseconds"] = _andor.SYSTEMTIME_wMilliseconds_set
+    __swig_getmethods__["wMilliseconds"] = _andor.SYSTEMTIME_wMilliseconds_get
     if _newclass:
-        wMilliseconds = _swig_property(_andor-guider.SYSTEMTIME_wMilliseconds_get, _andor-guider.SYSTEMTIME_wMilliseconds_set)
+        wMilliseconds = _swig_property(_andor.SYSTEMTIME_wMilliseconds_get, _andor.SYSTEMTIME_wMilliseconds_set)
 
     def __init__(self):
-        this = _andor-guider.new_SYSTEMTIME()
+        this = _andor.new_SYSTEMTIME()
         try:
             self.this.append(this)
         except:
             self.this = this
-    __swig_destroy__ = _andor-guider.delete_SYSTEMTIME
+    __swig_destroy__ = _andor.delete_SYSTEMTIME
     __del__ = lambda self: None
-SYSTEMTIME_swigregister = _andor-guider.SYSTEMTIME_swigregister
+SYSTEMTIME_swigregister = _andor.SYSTEMTIME_swigregister
 SYSTEMTIME_swigregister(SYSTEMTIME)
 
 
-_andor-guider.AT_SDKVersion_swigconstant(_andor-guider)
-AT_SDKVersion = _andor-guider.AT_SDKVersion
+_andor.AT_SDKVersion_swigconstant(_andor)
+AT_SDKVersion = _andor.AT_SDKVersion
 
-_andor-guider.AT_DeviceDriverVersion_swigconstant(_andor-guider)
-AT_DeviceDriverVersion = _andor-guider.AT_DeviceDriverVersion
+_andor.AT_DeviceDriverVersion_swigconstant(_andor)
+AT_DeviceDriverVersion = _andor.AT_DeviceDriverVersion
 
-_andor-guider.AT_NoOfVersionInfoIds_swigconstant(_andor-guider)
-AT_NoOfVersionInfoIds = _andor-guider.AT_NoOfVersionInfoIds
+_andor.AT_NoOfVersionInfoIds_swigconstant(_andor)
+AT_NoOfVersionInfoIds = _andor.AT_NoOfVersionInfoIds
 
-_andor-guider.AT_VERSION_INFO_LEN_swigconstant(_andor-guider)
-AT_VERSION_INFO_LEN = _andor-guider.AT_VERSION_INFO_LEN
+_andor.AT_VERSION_INFO_LEN_swigconstant(_andor)
+AT_VERSION_INFO_LEN = _andor.AT_VERSION_INFO_LEN
 
-_andor-guider.AT_CONTROLLER_CARD_MODEL_LEN_swigconstant(_andor-guider)
-AT_CONTROLLER_CARD_MODEL_LEN = _andor-guider.AT_CONTROLLER_CARD_MODEL_LEN
+_andor.AT_CONTROLLER_CARD_MODEL_LEN_swigconstant(_andor)
+AT_CONTROLLER_CARD_MODEL_LEN = _andor.AT_CONTROLLER_CARD_MODEL_LEN
 
-_andor-guider.AT_DDGLite_ChannelA_swigconstant(_andor-guider)
-AT_DDGLite_ChannelA = _andor-guider.AT_DDGLite_ChannelA
+_andor.AT_DDGLite_ChannelA_swigconstant(_andor)
+AT_DDGLite_ChannelA = _andor.AT_DDGLite_ChannelA
 
-_andor-guider.AT_DDGLite_ChannelB_swigconstant(_andor-guider)
-AT_DDGLite_ChannelB = _andor-guider.AT_DDGLite_ChannelB
+_andor.AT_DDGLite_ChannelB_swigconstant(_andor)
+AT_DDGLite_ChannelB = _andor.AT_DDGLite_ChannelB
 
-_andor-guider.AT_DDGLite_ChannelC_swigconstant(_andor-guider)
-AT_DDGLite_ChannelC = _andor-guider.AT_DDGLite_ChannelC
+_andor.AT_DDGLite_ChannelC_swigconstant(_andor)
+AT_DDGLite_ChannelC = _andor.AT_DDGLite_ChannelC
 
-_andor-guider.AT_DDGLite_ControlBit_GlobalEnable_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_GlobalEnable = _andor-guider.AT_DDGLite_ControlBit_GlobalEnable
+_andor.AT_DDGLite_ControlBit_GlobalEnable_swigconstant(_andor)
+AT_DDGLite_ControlBit_GlobalEnable = _andor.AT_DDGLite_ControlBit_GlobalEnable
 
-_andor-guider.AT_DDGLite_ControlBit_ChannelEnable_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_ChannelEnable = _andor-guider.AT_DDGLite_ControlBit_ChannelEnable
+_andor.AT_DDGLite_ControlBit_ChannelEnable_swigconstant(_andor)
+AT_DDGLite_ControlBit_ChannelEnable = _andor.AT_DDGLite_ControlBit_ChannelEnable
 
-_andor-guider.AT_DDGLite_ControlBit_FreeRun_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_FreeRun = _andor-guider.AT_DDGLite_ControlBit_FreeRun
+_andor.AT_DDGLite_ControlBit_FreeRun_swigconstant(_andor)
+AT_DDGLite_ControlBit_FreeRun = _andor.AT_DDGLite_ControlBit_FreeRun
 
-_andor-guider.AT_DDGLite_ControlBit_DisableOnFrame_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_DisableOnFrame = _andor-guider.AT_DDGLite_ControlBit_DisableOnFrame
+_andor.AT_DDGLite_ControlBit_DisableOnFrame_swigconstant(_andor)
+AT_DDGLite_ControlBit_DisableOnFrame = _andor.AT_DDGLite_ControlBit_DisableOnFrame
 
-_andor-guider.AT_DDGLite_ControlBit_RestartOnFire_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_RestartOnFire = _andor-guider.AT_DDGLite_ControlBit_RestartOnFire
+_andor.AT_DDGLite_ControlBit_RestartOnFire_swigconstant(_andor)
+AT_DDGLite_ControlBit_RestartOnFire = _andor.AT_DDGLite_ControlBit_RestartOnFire
 
-_andor-guider.AT_DDGLite_ControlBit_Invert_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_Invert = _andor-guider.AT_DDGLite_ControlBit_Invert
+_andor.AT_DDGLite_ControlBit_Invert_swigconstant(_andor)
+AT_DDGLite_ControlBit_Invert = _andor.AT_DDGLite_ControlBit_Invert
 
-_andor-guider.AT_DDGLite_ControlBit_EnableOnFire_swigconstant(_andor-guider)
-AT_DDGLite_ControlBit_EnableOnFire = _andor-guider.AT_DDGLite_ControlBit_EnableOnFire
+_andor.AT_DDGLite_ControlBit_EnableOnFire_swigconstant(_andor)
+AT_DDGLite_ControlBit_EnableOnFire = _andor.AT_DDGLite_ControlBit_EnableOnFire
 
-_andor-guider.AT_DDG_POLARITY_POSITIVE_swigconstant(_andor-guider)
-AT_DDG_POLARITY_POSITIVE = _andor-guider.AT_DDG_POLARITY_POSITIVE
+_andor.AT_DDG_POLARITY_POSITIVE_swigconstant(_andor)
+AT_DDG_POLARITY_POSITIVE = _andor.AT_DDG_POLARITY_POSITIVE
 
-_andor-guider.AT_DDG_POLARITY_NEGATIVE_swigconstant(_andor-guider)
-AT_DDG_POLARITY_NEGATIVE = _andor-guider.AT_DDG_POLARITY_NEGATIVE
+_andor.AT_DDG_POLARITY_NEGATIVE_swigconstant(_andor)
+AT_DDG_POLARITY_NEGATIVE = _andor.AT_DDG_POLARITY_NEGATIVE
 
-_andor-guider.AT_DDG_TERMINATION_50OHMS_swigconstant(_andor-guider)
-AT_DDG_TERMINATION_50OHMS = _andor-guider.AT_DDG_TERMINATION_50OHMS
+_andor.AT_DDG_TERMINATION_50OHMS_swigconstant(_andor)
+AT_DDG_TERMINATION_50OHMS = _andor.AT_DDG_TERMINATION_50OHMS
 
-_andor-guider.AT_DDG_TERMINATION_HIGHZ_swigconstant(_andor-guider)
-AT_DDG_TERMINATION_HIGHZ = _andor-guider.AT_DDG_TERMINATION_HIGHZ
+_andor.AT_DDG_TERMINATION_HIGHZ_swigconstant(_andor)
+AT_DDG_TERMINATION_HIGHZ = _andor.AT_DDG_TERMINATION_HIGHZ
 
-_andor-guider.AT_STEPMODE_CONSTANT_swigconstant(_andor-guider)
-AT_STEPMODE_CONSTANT = _andor-guider.AT_STEPMODE_CONSTANT
+_andor.AT_STEPMODE_CONSTANT_swigconstant(_andor)
+AT_STEPMODE_CONSTANT = _andor.AT_STEPMODE_CONSTANT
 
-_andor-guider.AT_STEPMODE_EXPONENTIAL_swigconstant(_andor-guider)
-AT_STEPMODE_EXPONENTIAL = _andor-guider.AT_STEPMODE_EXPONENTIAL
+_andor.AT_STEPMODE_EXPONENTIAL_swigconstant(_andor)
+AT_STEPMODE_EXPONENTIAL = _andor.AT_STEPMODE_EXPONENTIAL
 
-_andor-guider.AT_STEPMODE_LOGARITHMIC_swigconstant(_andor-guider)
-AT_STEPMODE_LOGARITHMIC = _andor-guider.AT_STEPMODE_LOGARITHMIC
+_andor.AT_STEPMODE_LOGARITHMIC_swigconstant(_andor)
+AT_STEPMODE_LOGARITHMIC = _andor.AT_STEPMODE_LOGARITHMIC
 
-_andor-guider.AT_STEPMODE_LINEAR_swigconstant(_andor-guider)
-AT_STEPMODE_LINEAR = _andor-guider.AT_STEPMODE_LINEAR
+_andor.AT_STEPMODE_LINEAR_swigconstant(_andor)
+AT_STEPMODE_LINEAR = _andor.AT_STEPMODE_LINEAR
 
-_andor-guider.AT_STEPMODE_OFF_swigconstant(_andor-guider)
-AT_STEPMODE_OFF = _andor-guider.AT_STEPMODE_OFF
+_andor.AT_STEPMODE_OFF_swigconstant(_andor)
+AT_STEPMODE_OFF = _andor.AT_STEPMODE_OFF
 
-_andor-guider.AT_GATEMODE_FIRE_AND_GATE_swigconstant(_andor-guider)
-AT_GATEMODE_FIRE_AND_GATE = _andor-guider.AT_GATEMODE_FIRE_AND_GATE
+_andor.AT_GATEMODE_FIRE_AND_GATE_swigconstant(_andor)
+AT_GATEMODE_FIRE_AND_GATE = _andor.AT_GATEMODE_FIRE_AND_GATE
 
-_andor-guider.AT_GATEMODE_FIRE_ONLY_swigconstant(_andor-guider)
-AT_GATEMODE_FIRE_ONLY = _andor-guider.AT_GATEMODE_FIRE_ONLY
+_andor.AT_GATEMODE_FIRE_ONLY_swigconstant(_andor)
+AT_GATEMODE_FIRE_ONLY = _andor.AT_GATEMODE_FIRE_ONLY
 
-_andor-guider.AT_GATEMODE_GATE_ONLY_swigconstant(_andor-guider)
-AT_GATEMODE_GATE_ONLY = _andor-guider.AT_GATEMODE_GATE_ONLY
+_andor.AT_GATEMODE_GATE_ONLY_swigconstant(_andor)
+AT_GATEMODE_GATE_ONLY = _andor.AT_GATEMODE_GATE_ONLY
 
-_andor-guider.AT_GATEMODE_CW_ON_swigconstant(_andor-guider)
-AT_GATEMODE_CW_ON = _andor-guider.AT_GATEMODE_CW_ON
+_andor.AT_GATEMODE_CW_ON_swigconstant(_andor)
+AT_GATEMODE_CW_ON = _andor.AT_GATEMODE_CW_ON
 
-_andor-guider.AT_GATEMODE_CW_OFF_swigconstant(_andor-guider)
-AT_GATEMODE_CW_OFF = _andor-guider.AT_GATEMODE_CW_OFF
+_andor.AT_GATEMODE_CW_OFF_swigconstant(_andor)
+AT_GATEMODE_CW_OFF = _andor.AT_GATEMODE_CW_OFF
 
-_andor-guider.AT_GATEMODE_DDG_swigconstant(_andor-guider)
-AT_GATEMODE_DDG = _andor-guider.AT_GATEMODE_DDG
+_andor.AT_GATEMODE_DDG_swigconstant(_andor)
+AT_GATEMODE_DDG = _andor.AT_GATEMODE_DDG
 class AndorCapabilities(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, AndorCapabilities, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, AndorCapabilities, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["ulSize"] = _andor-guider.AndorCapabilities_ulSize_set
-    __swig_getmethods__["ulSize"] = _andor-guider.AndorCapabilities_ulSize_get
+    __swig_setmethods__["ulSize"] = _andor.AndorCapabilities_ulSize_set
+    __swig_getmethods__["ulSize"] = _andor.AndorCapabilities_ulSize_get
     if _newclass:
-        ulSize = _swig_property(_andor-guider.AndorCapabilities_ulSize_get, _andor-guider.AndorCapabilities_ulSize_set)
-    __swig_setmethods__["ulAcqModes"] = _andor-guider.AndorCapabilities_ulAcqModes_set
-    __swig_getmethods__["ulAcqModes"] = _andor-guider.AndorCapabilities_ulAcqModes_get
+        ulSize = _swig_property(_andor.AndorCapabilities_ulSize_get, _andor.AndorCapabilities_ulSize_set)
+    __swig_setmethods__["ulAcqModes"] = _andor.AndorCapabilities_ulAcqModes_set
+    __swig_getmethods__["ulAcqModes"] = _andor.AndorCapabilities_ulAcqModes_get
     if _newclass:
-        ulAcqModes = _swig_property(_andor-guider.AndorCapabilities_ulAcqModes_get, _andor-guider.AndorCapabilities_ulAcqModes_set)
-    __swig_setmethods__["ulReadModes"] = _andor-guider.AndorCapabilities_ulReadModes_set
-    __swig_getmethods__["ulReadModes"] = _andor-guider.AndorCapabilities_ulReadModes_get
+        ulAcqModes = _swig_property(_andor.AndorCapabilities_ulAcqModes_get, _andor.AndorCapabilities_ulAcqModes_set)
+    __swig_setmethods__["ulReadModes"] = _andor.AndorCapabilities_ulReadModes_set
+    __swig_getmethods__["ulReadModes"] = _andor.AndorCapabilities_ulReadModes_get
     if _newclass:
-        ulReadModes = _swig_property(_andor-guider.AndorCapabilities_ulReadModes_get, _andor-guider.AndorCapabilities_ulReadModes_set)
-    __swig_setmethods__["ulTriggerModes"] = _andor-guider.AndorCapabilities_ulTriggerModes_set
-    __swig_getmethods__["ulTriggerModes"] = _andor-guider.AndorCapabilities_ulTriggerModes_get
+        ulReadModes = _swig_property(_andor.AndorCapabilities_ulReadModes_get, _andor.AndorCapabilities_ulReadModes_set)
+    __swig_setmethods__["ulTriggerModes"] = _andor.AndorCapabilities_ulTriggerModes_set
+    __swig_getmethods__["ulTriggerModes"] = _andor.AndorCapabilities_ulTriggerModes_get
     if _newclass:
-        ulTriggerModes = _swig_property(_andor-guider.AndorCapabilities_ulTriggerModes_get, _andor-guider.AndorCapabilities_ulTriggerModes_set)
-    __swig_setmethods__["ulCameraType"] = _andor-guider.AndorCapabilities_ulCameraType_set
-    __swig_getmethods__["ulCameraType"] = _andor-guider.AndorCapabilities_ulCameraType_get
+        ulTriggerModes = _swig_property(_andor.AndorCapabilities_ulTriggerModes_get, _andor.AndorCapabilities_ulTriggerModes_set)
+    __swig_setmethods__["ulCameraType"] = _andor.AndorCapabilities_ulCameraType_set
+    __swig_getmethods__["ulCameraType"] = _andor.AndorCapabilities_ulCameraType_get
     if _newclass:
-        ulCameraType = _swig_property(_andor-guider.AndorCapabilities_ulCameraType_get, _andor-guider.AndorCapabilities_ulCameraType_set)
-    __swig_setmethods__["ulPixelMode"] = _andor-guider.AndorCapabilities_ulPixelMode_set
-    __swig_getmethods__["ulPixelMode"] = _andor-guider.AndorCapabilities_ulPixelMode_get
+        ulCameraType = _swig_property(_andor.AndorCapabilities_ulCameraType_get, _andor.AndorCapabilities_ulCameraType_set)
+    __swig_setmethods__["ulPixelMode"] = _andor.AndorCapabilities_ulPixelMode_set
+    __swig_getmethods__["ulPixelMode"] = _andor.AndorCapabilities_ulPixelMode_get
     if _newclass:
-        ulPixelMode = _swig_property(_andor-guider.AndorCapabilities_ulPixelMode_get, _andor-guider.AndorCapabilities_ulPixelMode_set)
-    __swig_setmethods__["ulSetFunctions"] = _andor-guider.AndorCapabilities_ulSetFunctions_set
-    __swig_getmethods__["ulSetFunctions"] = _andor-guider.AndorCapabilities_ulSetFunctions_get
+        ulPixelMode = _swig_property(_andor.AndorCapabilities_ulPixelMode_get, _andor.AndorCapabilities_ulPixelMode_set)
+    __swig_setmethods__["ulSetFunctions"] = _andor.AndorCapabilities_ulSetFunctions_set
+    __swig_getmethods__["ulSetFunctions"] = _andor.AndorCapabilities_ulSetFunctions_get
     if _newclass:
-        ulSetFunctions = _swig_property(_andor-guider.AndorCapabilities_ulSetFunctions_get, _andor-guider.AndorCapabilities_ulSetFunctions_set)
-    __swig_setmethods__["ulGetFunctions"] = _andor-guider.AndorCapabilities_ulGetFunctions_set
-    __swig_getmethods__["ulGetFunctions"] = _andor-guider.AndorCapabilities_ulGetFunctions_get
+        ulSetFunctions = _swig_property(_andor.AndorCapabilities_ulSetFunctions_get, _andor.AndorCapabilities_ulSetFunctions_set)
+    __swig_setmethods__["ulGetFunctions"] = _andor.AndorCapabilities_ulGetFunctions_set
+    __swig_getmethods__["ulGetFunctions"] = _andor.AndorCapabilities_ulGetFunctions_get
     if _newclass:
-        ulGetFunctions = _swig_property(_andor-guider.AndorCapabilities_ulGetFunctions_get, _andor-guider.AndorCapabilities_ulGetFunctions_set)
-    __swig_setmethods__["ulFeatures"] = _andor-guider.AndorCapabilities_ulFeatures_set
-    __swig_getmethods__["ulFeatures"] = _andor-guider.AndorCapabilities_ulFeatures_get
+        ulGetFunctions = _swig_property(_andor.AndorCapabilities_ulGetFunctions_get, _andor.AndorCapabilities_ulGetFunctions_set)
+    __swig_setmethods__["ulFeatures"] = _andor.AndorCapabilities_ulFeatures_set
+    __swig_getmethods__["ulFeatures"] = _andor.AndorCapabilities_ulFeatures_get
     if _newclass:
-        ulFeatures = _swig_property(_andor-guider.AndorCapabilities_ulFeatures_get, _andor-guider.AndorCapabilities_ulFeatures_set)
-    __swig_setmethods__["ulPCICard"] = _andor-guider.AndorCapabilities_ulPCICard_set
-    __swig_getmethods__["ulPCICard"] = _andor-guider.AndorCapabilities_ulPCICard_get
+        ulFeatures = _swig_property(_andor.AndorCapabilities_ulFeatures_get, _andor.AndorCapabilities_ulFeatures_set)
+    __swig_setmethods__["ulPCICard"] = _andor.AndorCapabilities_ulPCICard_set
+    __swig_getmethods__["ulPCICard"] = _andor.AndorCapabilities_ulPCICard_get
     if _newclass:
-        ulPCICard = _swig_property(_andor-guider.AndorCapabilities_ulPCICard_get, _andor-guider.AndorCapabilities_ulPCICard_set)
-    __swig_setmethods__["ulEMGainCapability"] = _andor-guider.AndorCapabilities_ulEMGainCapability_set
-    __swig_getmethods__["ulEMGainCapability"] = _andor-guider.AndorCapabilities_ulEMGainCapability_get
+        ulPCICard = _swig_property(_andor.AndorCapabilities_ulPCICard_get, _andor.AndorCapabilities_ulPCICard_set)
+    __swig_setmethods__["ulEMGainCapability"] = _andor.AndorCapabilities_ulEMGainCapability_set
+    __swig_getmethods__["ulEMGainCapability"] = _andor.AndorCapabilities_ulEMGainCapability_get
     if _newclass:
-        ulEMGainCapability = _swig_property(_andor-guider.AndorCapabilities_ulEMGainCapability_get, _andor-guider.AndorCapabilities_ulEMGainCapability_set)
-    __swig_setmethods__["ulFTReadModes"] = _andor-guider.AndorCapabilities_ulFTReadModes_set
-    __swig_getmethods__["ulFTReadModes"] = _andor-guider.AndorCapabilities_ulFTReadModes_get
+        ulEMGainCapability = _swig_property(_andor.AndorCapabilities_ulEMGainCapability_get, _andor.AndorCapabilities_ulEMGainCapability_set)
+    __swig_setmethods__["ulFTReadModes"] = _andor.AndorCapabilities_ulFTReadModes_set
+    __swig_getmethods__["ulFTReadModes"] = _andor.AndorCapabilities_ulFTReadModes_get
     if _newclass:
-        ulFTReadModes = _swig_property(_andor-guider.AndorCapabilities_ulFTReadModes_get, _andor-guider.AndorCapabilities_ulFTReadModes_set)
+        ulFTReadModes = _swig_property(_andor.AndorCapabilities_ulFTReadModes_get, _andor.AndorCapabilities_ulFTReadModes_set)
 
     def __init__(self):
-        this = _andor-guider.new_AndorCapabilities()
+        this = _andor.new_AndorCapabilities()
         try:
             self.this.append(this)
         except:
             self.this = this
-    __swig_destroy__ = _andor-guider.delete_AndorCapabilities
+    __swig_destroy__ = _andor.delete_AndorCapabilities
     __del__ = lambda self: None
-AndorCapabilities_swigregister = _andor-guider.AndorCapabilities_swigregister
+AndorCapabilities_swigregister = _andor.AndorCapabilities_swigregister
 AndorCapabilities_swigregister(AndorCapabilities)
 
 class ColorDemosaicInfo(_object):
@@ -302,40 +302,40 @@ class ColorDemosaicInfo(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, ColorDemosaicInfo, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["iX"] = _andor-guider.ColorDemosaicInfo_iX_set
-    __swig_getmethods__["iX"] = _andor-guider.ColorDemosaicInfo_iX_get
+    __swig_setmethods__["iX"] = _andor.ColorDemosaicInfo_iX_set
+    __swig_getmethods__["iX"] = _andor.ColorDemosaicInfo_iX_get
     if _newclass:
-        iX = _swig_property(_andor-guider.ColorDemosaicInfo_iX_get, _andor-guider.ColorDemosaicInfo_iX_set)
-    __swig_setmethods__["iY"] = _andor-guider.ColorDemosaicInfo_iY_set
-    __swig_getmethods__["iY"] = _andor-guider.ColorDemosaicInfo_iY_get
+        iX = _swig_property(_andor.ColorDemosaicInfo_iX_get, _andor.ColorDemosaicInfo_iX_set)
+    __swig_setmethods__["iY"] = _andor.ColorDemosaicInfo_iY_set
+    __swig_getmethods__["iY"] = _andor.ColorDemosaicInfo_iY_get
     if _newclass:
-        iY = _swig_property(_andor-guider.ColorDemosaicInfo_iY_get, _andor-guider.ColorDemosaicInfo_iY_set)
-    __swig_setmethods__["iAlgorithm"] = _andor-guider.ColorDemosaicInfo_iAlgorithm_set
-    __swig_getmethods__["iAlgorithm"] = _andor-guider.ColorDemosaicInfo_iAlgorithm_get
+        iY = _swig_property(_andor.ColorDemosaicInfo_iY_get, _andor.ColorDemosaicInfo_iY_set)
+    __swig_setmethods__["iAlgorithm"] = _andor.ColorDemosaicInfo_iAlgorithm_set
+    __swig_getmethods__["iAlgorithm"] = _andor.ColorDemosaicInfo_iAlgorithm_get
     if _newclass:
-        iAlgorithm = _swig_property(_andor-guider.ColorDemosaicInfo_iAlgorithm_get, _andor-guider.ColorDemosaicInfo_iAlgorithm_set)
-    __swig_setmethods__["iXPhase"] = _andor-guider.ColorDemosaicInfo_iXPhase_set
-    __swig_getmethods__["iXPhase"] = _andor-guider.ColorDemosaicInfo_iXPhase_get
+        iAlgorithm = _swig_property(_andor.ColorDemosaicInfo_iAlgorithm_get, _andor.ColorDemosaicInfo_iAlgorithm_set)
+    __swig_setmethods__["iXPhase"] = _andor.ColorDemosaicInfo_iXPhase_set
+    __swig_getmethods__["iXPhase"] = _andor.ColorDemosaicInfo_iXPhase_get
     if _newclass:
-        iXPhase = _swig_property(_andor-guider.ColorDemosaicInfo_iXPhase_get, _andor-guider.ColorDemosaicInfo_iXPhase_set)
-    __swig_setmethods__["iYPhase"] = _andor-guider.ColorDemosaicInfo_iYPhase_set
-    __swig_getmethods__["iYPhase"] = _andor-guider.ColorDemosaicInfo_iYPhase_get
+        iXPhase = _swig_property(_andor.ColorDemosaicInfo_iXPhase_get, _andor.ColorDemosaicInfo_iXPhase_set)
+    __swig_setmethods__["iYPhase"] = _andor.ColorDemosaicInfo_iYPhase_set
+    __swig_getmethods__["iYPhase"] = _andor.ColorDemosaicInfo_iYPhase_get
     if _newclass:
-        iYPhase = _swig_property(_andor-guider.ColorDemosaicInfo_iYPhase_get, _andor-guider.ColorDemosaicInfo_iYPhase_set)
-    __swig_setmethods__["iBackground"] = _andor-guider.ColorDemosaicInfo_iBackground_set
-    __swig_getmethods__["iBackground"] = _andor-guider.ColorDemosaicInfo_iBackground_get
+        iYPhase = _swig_property(_andor.ColorDemosaicInfo_iYPhase_get, _andor.ColorDemosaicInfo_iYPhase_set)
+    __swig_setmethods__["iBackground"] = _andor.ColorDemosaicInfo_iBackground_set
+    __swig_getmethods__["iBackground"] = _andor.ColorDemosaicInfo_iBackground_get
     if _newclass:
-        iBackground = _swig_property(_andor-guider.ColorDemosaicInfo_iBackground_get, _andor-guider.ColorDemosaicInfo_iBackground_set)
+        iBackground = _swig_property(_andor.ColorDemosaicInfo_iBackground_get, _andor.ColorDemosaicInfo_iBackground_set)
 
     def __init__(self):
-        this = _andor-guider.new_ColorDemosaicInfo()
+        this = _andor.new_ColorDemosaicInfo()
         try:
             self.this.append(this)
         except:
             self.this = this
-    __swig_destroy__ = _andor-guider.delete_ColorDemosaicInfo
+    __swig_destroy__ = _andor.delete_ColorDemosaicInfo
     __del__ = lambda self: None
-ColorDemosaicInfo_swigregister = _andor-guider.ColorDemosaicInfo_swigregister
+ColorDemosaicInfo_swigregister = _andor.ColorDemosaicInfo_swigregister
 ColorDemosaicInfo_swigregister(ColorDemosaicInfo)
 
 class WhiteBalanceInfo(_object):
@@ -344,2366 +344,2366 @@ class WhiteBalanceInfo(_object):
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, WhiteBalanceInfo, name)
     __repr__ = _swig_repr
-    __swig_setmethods__["iSize"] = _andor-guider.WhiteBalanceInfo_iSize_set
-    __swig_getmethods__["iSize"] = _andor-guider.WhiteBalanceInfo_iSize_get
+    __swig_setmethods__["iSize"] = _andor.WhiteBalanceInfo_iSize_set
+    __swig_getmethods__["iSize"] = _andor.WhiteBalanceInfo_iSize_get
     if _newclass:
-        iSize = _swig_property(_andor-guider.WhiteBalanceInfo_iSize_get, _andor-guider.WhiteBalanceInfo_iSize_set)
-    __swig_setmethods__["iX"] = _andor-guider.WhiteBalanceInfo_iX_set
-    __swig_getmethods__["iX"] = _andor-guider.WhiteBalanceInfo_iX_get
+        iSize = _swig_property(_andor.WhiteBalanceInfo_iSize_get, _andor.WhiteBalanceInfo_iSize_set)
+    __swig_setmethods__["iX"] = _andor.WhiteBalanceInfo_iX_set
+    __swig_getmethods__["iX"] = _andor.WhiteBalanceInfo_iX_get
     if _newclass:
-        iX = _swig_property(_andor-guider.WhiteBalanceInfo_iX_get, _andor-guider.WhiteBalanceInfo_iX_set)
-    __swig_setmethods__["iY"] = _andor-guider.WhiteBalanceInfo_iY_set
-    __swig_getmethods__["iY"] = _andor-guider.WhiteBalanceInfo_iY_get
+        iX = _swig_property(_andor.WhiteBalanceInfo_iX_get, _andor.WhiteBalanceInfo_iX_set)
+    __swig_setmethods__["iY"] = _andor.WhiteBalanceInfo_iY_set
+    __swig_getmethods__["iY"] = _andor.WhiteBalanceInfo_iY_get
     if _newclass:
-        iY = _swig_property(_andor-guider.WhiteBalanceInfo_iY_get, _andor-guider.WhiteBalanceInfo_iY_set)
-    __swig_setmethods__["iAlgorithm"] = _andor-guider.WhiteBalanceInfo_iAlgorithm_set
-    __swig_getmethods__["iAlgorithm"] = _andor-guider.WhiteBalanceInfo_iAlgorithm_get
+        iY = _swig_property(_andor.WhiteBalanceInfo_iY_get, _andor.WhiteBalanceInfo_iY_set)
+    __swig_setmethods__["iAlgorithm"] = _andor.WhiteBalanceInfo_iAlgorithm_set
+    __swig_getmethods__["iAlgorithm"] = _andor.WhiteBalanceInfo_iAlgorithm_get
     if _newclass:
-        iAlgorithm = _swig_property(_andor-guider.WhiteBalanceInfo_iAlgorithm_get, _andor-guider.WhiteBalanceInfo_iAlgorithm_set)
-    __swig_setmethods__["iROI_left"] = _andor-guider.WhiteBalanceInfo_iROI_left_set
-    __swig_getmethods__["iROI_left"] = _andor-guider.WhiteBalanceInfo_iROI_left_get
+        iAlgorithm = _swig_property(_andor.WhiteBalanceInfo_iAlgorithm_get, _andor.WhiteBalanceInfo_iAlgorithm_set)
+    __swig_setmethods__["iROI_left"] = _andor.WhiteBalanceInfo_iROI_left_set
+    __swig_getmethods__["iROI_left"] = _andor.WhiteBalanceInfo_iROI_left_get
     if _newclass:
-        iROI_left = _swig_property(_andor-guider.WhiteBalanceInfo_iROI_left_get, _andor-guider.WhiteBalanceInfo_iROI_left_set)
-    __swig_setmethods__["iROI_right"] = _andor-guider.WhiteBalanceInfo_iROI_right_set
-    __swig_getmethods__["iROI_right"] = _andor-guider.WhiteBalanceInfo_iROI_right_get
+        iROI_left = _swig_property(_andor.WhiteBalanceInfo_iROI_left_get, _andor.WhiteBalanceInfo_iROI_left_set)
+    __swig_setmethods__["iROI_right"] = _andor.WhiteBalanceInfo_iROI_right_set
+    __swig_getmethods__["iROI_right"] = _andor.WhiteBalanceInfo_iROI_right_get
     if _newclass:
-        iROI_right = _swig_property(_andor-guider.WhiteBalanceInfo_iROI_right_get, _andor-guider.WhiteBalanceInfo_iROI_right_set)
-    __swig_setmethods__["iROI_top"] = _andor-guider.WhiteBalanceInfo_iROI_top_set
-    __swig_getmethods__["iROI_top"] = _andor-guider.WhiteBalanceInfo_iROI_top_get
+        iROI_right = _swig_property(_andor.WhiteBalanceInfo_iROI_right_get, _andor.WhiteBalanceInfo_iROI_right_set)
+    __swig_setmethods__["iROI_top"] = _andor.WhiteBalanceInfo_iROI_top_set
+    __swig_getmethods__["iROI_top"] = _andor.WhiteBalanceInfo_iROI_top_get
     if _newclass:
-        iROI_top = _swig_property(_andor-guider.WhiteBalanceInfo_iROI_top_get, _andor-guider.WhiteBalanceInfo_iROI_top_set)
-    __swig_setmethods__["iROI_bottom"] = _andor-guider.WhiteBalanceInfo_iROI_bottom_set
-    __swig_getmethods__["iROI_bottom"] = _andor-guider.WhiteBalanceInfo_iROI_bottom_get
+        iROI_top = _swig_property(_andor.WhiteBalanceInfo_iROI_top_get, _andor.WhiteBalanceInfo_iROI_top_set)
+    __swig_setmethods__["iROI_bottom"] = _andor.WhiteBalanceInfo_iROI_bottom_set
+    __swig_getmethods__["iROI_bottom"] = _andor.WhiteBalanceInfo_iROI_bottom_get
     if _newclass:
-        iROI_bottom = _swig_property(_andor-guider.WhiteBalanceInfo_iROI_bottom_get, _andor-guider.WhiteBalanceInfo_iROI_bottom_set)
-    __swig_setmethods__["iOperation"] = _andor-guider.WhiteBalanceInfo_iOperation_set
-    __swig_getmethods__["iOperation"] = _andor-guider.WhiteBalanceInfo_iOperation_get
+        iROI_bottom = _swig_property(_andor.WhiteBalanceInfo_iROI_bottom_get, _andor.WhiteBalanceInfo_iROI_bottom_set)
+    __swig_setmethods__["iOperation"] = _andor.WhiteBalanceInfo_iOperation_set
+    __swig_getmethods__["iOperation"] = _andor.WhiteBalanceInfo_iOperation_get
     if _newclass:
-        iOperation = _swig_property(_andor-guider.WhiteBalanceInfo_iOperation_get, _andor-guider.WhiteBalanceInfo_iOperation_set)
+        iOperation = _swig_property(_andor.WhiteBalanceInfo_iOperation_get, _andor.WhiteBalanceInfo_iOperation_set)
 
     def __init__(self):
-        this = _andor-guider.new_WhiteBalanceInfo()
+        this = _andor.new_WhiteBalanceInfo()
         try:
             self.this.append(this)
         except:
             self.this = this
-    __swig_destroy__ = _andor-guider.delete_WhiteBalanceInfo
+    __swig_destroy__ = _andor.delete_WhiteBalanceInfo
     __del__ = lambda self: None
-WhiteBalanceInfo_swigregister = _andor-guider.WhiteBalanceInfo_swigregister
+WhiteBalanceInfo_swigregister = _andor.WhiteBalanceInfo_swigregister
 WhiteBalanceInfo_swigregister(WhiteBalanceInfo)
 
 
 def AbortAcquisition():
-    return _andor-guider.AbortAcquisition()
-AbortAcquisition = _andor-guider.AbortAcquisition
+    return _andor.AbortAcquisition()
+AbortAcquisition = _andor.AbortAcquisition
 
 def CancelWait():
-    return _andor-guider.CancelWait()
-CancelWait = _andor-guider.CancelWait
+    return _andor.CancelWait()
+CancelWait = _andor.CancelWait
 
 def CoolerOFF():
-    return _andor-guider.CoolerOFF()
-CoolerOFF = _andor-guider.CoolerOFF
+    return _andor.CoolerOFF()
+CoolerOFF = _andor.CoolerOFF
 
 def CoolerON():
-    return _andor-guider.CoolerON()
-CoolerON = _andor-guider.CoolerON
+    return _andor.CoolerON()
+CoolerON = _andor.CoolerON
 
 def DemosaicImage(grey, red, green, blue, info):
-    return _andor-guider.DemosaicImage(grey, red, green, blue, info)
-DemosaicImage = _andor-guider.DemosaicImage
+    return _andor.DemosaicImage(grey, red, green, blue, info)
+DemosaicImage = _andor.DemosaicImage
 
 def EnableKeepCleans(iMode):
-    return _andor-guider.EnableKeepCleans(iMode)
-EnableKeepCleans = _andor-guider.EnableKeepCleans
+    return _andor.EnableKeepCleans(iMode)
+EnableKeepCleans = _andor.EnableKeepCleans
 
 def EnableSensorCompensation(iMode):
-    return _andor-guider.EnableSensorCompensation(iMode)
-EnableSensorCompensation = _andor-guider.EnableSensorCompensation
+    return _andor.EnableSensorCompensation(iMode)
+EnableSensorCompensation = _andor.EnableSensorCompensation
 
 def SetIRIGModulation(mode):
-    return _andor-guider.SetIRIGModulation(mode)
-SetIRIGModulation = _andor-guider.SetIRIGModulation
+    return _andor.SetIRIGModulation(mode)
+SetIRIGModulation = _andor.SetIRIGModulation
 
 def FreeInternalMemory():
-    return _andor-guider.FreeInternalMemory()
-FreeInternalMemory = _andor-guider.FreeInternalMemory
+    return _andor.FreeInternalMemory()
+FreeInternalMemory = _andor.FreeInternalMemory
 
 def GetAcquiredData(arr, size):
-    return _andor-guider.GetAcquiredData(arr, size)
-GetAcquiredData = _andor-guider.GetAcquiredData
+    return _andor.GetAcquiredData(arr, size)
+GetAcquiredData = _andor.GetAcquiredData
 
 def GetAcquiredData16(arr, size):
-    return _andor-guider.GetAcquiredData16(arr, size)
-GetAcquiredData16 = _andor-guider.GetAcquiredData16
+    return _andor.GetAcquiredData16(arr, size)
+GetAcquiredData16 = _andor.GetAcquiredData16
 
 def GetAcquiredFloatData(arr, size):
-    return _andor-guider.GetAcquiredFloatData(arr, size)
-GetAcquiredFloatData = _andor-guider.GetAcquiredFloatData
+    return _andor.GetAcquiredFloatData(arr, size)
+GetAcquiredFloatData = _andor.GetAcquiredFloatData
 
 def GetAcquisitionProgress(acc, series):
-    return _andor-guider.GetAcquisitionProgress(acc, series)
-GetAcquisitionProgress = _andor-guider.GetAcquisitionProgress
+    return _andor.GetAcquisitionProgress(acc, series)
+GetAcquisitionProgress = _andor.GetAcquisitionProgress
 
 def GetAcquisitionTimings(exposure, accumulate, kinetic):
-    return _andor-guider.GetAcquisitionTimings(exposure, accumulate, kinetic)
-GetAcquisitionTimings = _andor-guider.GetAcquisitionTimings
+    return _andor.GetAcquisitionTimings(exposure, accumulate, kinetic)
+GetAcquisitionTimings = _andor.GetAcquisitionTimings
 
 def GetAdjustedRingExposureTimes(inumTimes, fptimes):
-    return _andor-guider.GetAdjustedRingExposureTimes(inumTimes, fptimes)
-GetAdjustedRingExposureTimes = _andor-guider.GetAdjustedRingExposureTimes
+    return _andor.GetAdjustedRingExposureTimes(inumTimes, fptimes)
+GetAdjustedRingExposureTimes = _andor.GetAdjustedRingExposureTimes
 
 def GetAllDMAData(arr, size):
-    return _andor-guider.GetAllDMAData(arr, size)
-GetAllDMAData = _andor-guider.GetAllDMAData
+    return _andor.GetAllDMAData(arr, size)
+GetAllDMAData = _andor.GetAllDMAData
 
 def GetAmpDesc(index, name, length):
-    return _andor-guider.GetAmpDesc(index, name, length)
-GetAmpDesc = _andor-guider.GetAmpDesc
+    return _andor.GetAmpDesc(index, name, length)
+GetAmpDesc = _andor.GetAmpDesc
 
 def GetAmpMaxSpeed(index, speed):
-    return _andor-guider.GetAmpMaxSpeed(index, speed)
-GetAmpMaxSpeed = _andor-guider.GetAmpMaxSpeed
+    return _andor.GetAmpMaxSpeed(index, speed)
+GetAmpMaxSpeed = _andor.GetAmpMaxSpeed
 
 def GetAvailableCameras(totalCameras):
-    return _andor-guider.GetAvailableCameras(totalCameras)
-GetAvailableCameras = _andor-guider.GetAvailableCameras
+    return _andor.GetAvailableCameras(totalCameras)
+GetAvailableCameras = _andor.GetAvailableCameras
 
 def GetBackground(arr, size):
-    return _andor-guider.GetBackground(arr, size)
-GetBackground = _andor-guider.GetBackground
+    return _andor.GetBackground(arr, size)
+GetBackground = _andor.GetBackground
 
 def GetBaselineClamp(state):
-    return _andor-guider.GetBaselineClamp(state)
-GetBaselineClamp = _andor-guider.GetBaselineClamp
+    return _andor.GetBaselineClamp(state)
+GetBaselineClamp = _andor.GetBaselineClamp
 
 def GetBitDepth(channel, depth):
-    return _andor-guider.GetBitDepth(channel, depth)
-GetBitDepth = _andor-guider.GetBitDepth
+    return _andor.GetBitDepth(channel, depth)
+GetBitDepth = _andor.GetBitDepth
 
 def GetCameraEventStatus(camStatus):
-    return _andor-guider.GetCameraEventStatus(camStatus)
-GetCameraEventStatus = _andor-guider.GetCameraEventStatus
+    return _andor.GetCameraEventStatus(camStatus)
+GetCameraEventStatus = _andor.GetCameraEventStatus
 
 def GetCameraHandle(cameraIndex, cameraHandle):
-    return _andor-guider.GetCameraHandle(cameraIndex, cameraHandle)
-GetCameraHandle = _andor-guider.GetCameraHandle
+    return _andor.GetCameraHandle(cameraIndex, cameraHandle)
+GetCameraHandle = _andor.GetCameraHandle
 
 def GetCameraInformation(index, information):
-    return _andor-guider.GetCameraInformation(index, information)
-GetCameraInformation = _andor-guider.GetCameraInformation
+    return _andor.GetCameraInformation(index, information)
+GetCameraInformation = _andor.GetCameraInformation
 
 def GetCameraSerialNumber(number):
-    return _andor-guider.GetCameraSerialNumber(number)
-GetCameraSerialNumber = _andor-guider.GetCameraSerialNumber
+    return _andor.GetCameraSerialNumber(number)
+GetCameraSerialNumber = _andor.GetCameraSerialNumber
 
 def GetCapabilities(caps):
-    return _andor-guider.GetCapabilities(caps)
-GetCapabilities = _andor-guider.GetCapabilities
+    return _andor.GetCapabilities(caps)
+GetCapabilities = _andor.GetCapabilities
 
 def GetControllerCardModel(controllerCardModel):
-    return _andor-guider.GetControllerCardModel(controllerCardModel)
-GetControllerCardModel = _andor-guider.GetControllerCardModel
+    return _andor.GetControllerCardModel(controllerCardModel)
+GetControllerCardModel = _andor.GetControllerCardModel
 
 def GetCountConvertWavelengthRange(minval, maxval):
-    return _andor-guider.GetCountConvertWavelengthRange(minval, maxval)
-GetCountConvertWavelengthRange = _andor-guider.GetCountConvertWavelengthRange
+    return _andor.GetCountConvertWavelengthRange(minval, maxval)
+GetCountConvertWavelengthRange = _andor.GetCountConvertWavelengthRange
 
 def GetCurrentCamera(cameraHandle):
-    return _andor-guider.GetCurrentCamera(cameraHandle)
-GetCurrentCamera = _andor-guider.GetCurrentCamera
+    return _andor.GetCurrentCamera(cameraHandle)
+GetCurrentCamera = _andor.GetCurrentCamera
 
 def GetCYMGShift(iXshift, iYShift):
-    return _andor-guider.GetCYMGShift(iXshift, iYShift)
-GetCYMGShift = _andor-guider.GetCYMGShift
+    return _andor.GetCYMGShift(iXshift, iYShift)
+GetCYMGShift = _andor.GetCYMGShift
 
 def GetDDGExternalOutputEnabled(uiIndex, puiEnabled):
-    return _andor-guider.GetDDGExternalOutputEnabled(uiIndex, puiEnabled)
-GetDDGExternalOutputEnabled = _andor-guider.GetDDGExternalOutputEnabled
+    return _andor.GetDDGExternalOutputEnabled(uiIndex, puiEnabled)
+GetDDGExternalOutputEnabled = _andor.GetDDGExternalOutputEnabled
 
 def GetDDGExternalOutputPolarity(uiIndex, puiPolarity):
-    return _andor-guider.GetDDGExternalOutputPolarity(uiIndex, puiPolarity)
-GetDDGExternalOutputPolarity = _andor-guider.GetDDGExternalOutputPolarity
+    return _andor.GetDDGExternalOutputPolarity(uiIndex, puiPolarity)
+GetDDGExternalOutputPolarity = _andor.GetDDGExternalOutputPolarity
 
 def GetDDGExternalOutputStepEnabled(uiIndex, puiEnabled):
-    return _andor-guider.GetDDGExternalOutputStepEnabled(uiIndex, puiEnabled)
-GetDDGExternalOutputStepEnabled = _andor-guider.GetDDGExternalOutputStepEnabled
+    return _andor.GetDDGExternalOutputStepEnabled(uiIndex, puiEnabled)
+GetDDGExternalOutputStepEnabled = _andor.GetDDGExternalOutputStepEnabled
 
 def GetDDGExternalOutputTime(uiIndex, puiDelay, puiWidth):
-    return _andor-guider.GetDDGExternalOutputTime(uiIndex, puiDelay, puiWidth)
-GetDDGExternalOutputTime = _andor-guider.GetDDGExternalOutputTime
+    return _andor.GetDDGExternalOutputTime(uiIndex, puiDelay, puiWidth)
+GetDDGExternalOutputTime = _andor.GetDDGExternalOutputTime
 
 def GetDDGTTLGateWidth(opticalWidth, ttlWidth):
-    return _andor-guider.GetDDGTTLGateWidth(opticalWidth, ttlWidth)
-GetDDGTTLGateWidth = _andor-guider.GetDDGTTLGateWidth
+    return _andor.GetDDGTTLGateWidth(opticalWidth, ttlWidth)
+GetDDGTTLGateWidth = _andor.GetDDGTTLGateWidth
 
 def GetDDGGateTime(puiDelay, puiWidth):
-    return _andor-guider.GetDDGGateTime(puiDelay, puiWidth)
-GetDDGGateTime = _andor-guider.GetDDGGateTime
+    return _andor.GetDDGGateTime(puiDelay, puiWidth)
+GetDDGGateTime = _andor.GetDDGGateTime
 
 def GetDDGInsertionDelay(piState):
-    return _andor-guider.GetDDGInsertionDelay(piState)
-GetDDGInsertionDelay = _andor-guider.GetDDGInsertionDelay
+    return _andor.GetDDGInsertionDelay(piState)
+GetDDGInsertionDelay = _andor.GetDDGInsertionDelay
 
 def GetDDGIntelligate(piState):
-    return _andor-guider.GetDDGIntelligate(piState)
-GetDDGIntelligate = _andor-guider.GetDDGIntelligate
+    return _andor.GetDDGIntelligate(piState)
+GetDDGIntelligate = _andor.GetDDGIntelligate
 
 def GetDDGIOC(state):
-    return _andor-guider.GetDDGIOC(state)
-GetDDGIOC = _andor-guider.GetDDGIOC
+    return _andor.GetDDGIOC(state)
+GetDDGIOC = _andor.GetDDGIOC
 
 def GetDDGIOCFrequency(frequency):
-    return _andor-guider.GetDDGIOCFrequency(frequency)
-GetDDGIOCFrequency = _andor-guider.GetDDGIOCFrequency
+    return _andor.GetDDGIOCFrequency(frequency)
+GetDDGIOCFrequency = _andor.GetDDGIOCFrequency
 
 def GetDDGIOCNumber(numberPulses):
-    return _andor-guider.GetDDGIOCNumber(numberPulses)
-GetDDGIOCNumber = _andor-guider.GetDDGIOCNumber
+    return _andor.GetDDGIOCNumber(numberPulses)
+GetDDGIOCNumber = _andor.GetDDGIOCNumber
 
 def GetDDGIOCNumberRequested(pulses):
-    return _andor-guider.GetDDGIOCNumberRequested(pulses)
-GetDDGIOCNumberRequested = _andor-guider.GetDDGIOCNumberRequested
+    return _andor.GetDDGIOCNumberRequested(pulses)
+GetDDGIOCNumberRequested = _andor.GetDDGIOCNumberRequested
 
 def GetDDGIOCPeriod(period):
-    return _andor-guider.GetDDGIOCPeriod(period)
-GetDDGIOCPeriod = _andor-guider.GetDDGIOCPeriod
+    return _andor.GetDDGIOCPeriod(period)
+GetDDGIOCPeriod = _andor.GetDDGIOCPeriod
 
 def GetDDGIOCPulses(pulses):
-    return _andor-guider.GetDDGIOCPulses(pulses)
-GetDDGIOCPulses = _andor-guider.GetDDGIOCPulses
+    return _andor.GetDDGIOCPulses(pulses)
+GetDDGIOCPulses = _andor.GetDDGIOCPulses
 
 def GetDDGIOCTrigger(trigger):
-    return _andor-guider.GetDDGIOCTrigger(trigger)
-GetDDGIOCTrigger = _andor-guider.GetDDGIOCTrigger
+    return _andor.GetDDGIOCTrigger(trigger)
+GetDDGIOCTrigger = _andor.GetDDGIOCTrigger
 
 def GetDDGOpticalWidthEnabled(puiEnabled):
-    return _andor-guider.GetDDGOpticalWidthEnabled(puiEnabled)
-GetDDGOpticalWidthEnabled = _andor-guider.GetDDGOpticalWidthEnabled
+    return _andor.GetDDGOpticalWidthEnabled(puiEnabled)
+GetDDGOpticalWidthEnabled = _andor.GetDDGOpticalWidthEnabled
 
 def GetDDGLiteGlobalControlByte(control):
-    return _andor-guider.GetDDGLiteGlobalControlByte(control)
-GetDDGLiteGlobalControlByte = _andor-guider.GetDDGLiteGlobalControlByte
+    return _andor.GetDDGLiteGlobalControlByte(control)
+GetDDGLiteGlobalControlByte = _andor.GetDDGLiteGlobalControlByte
 
 def GetDDGLiteControlByte(channel, control):
-    return _andor-guider.GetDDGLiteControlByte(channel, control)
-GetDDGLiteControlByte = _andor-guider.GetDDGLiteControlByte
+    return _andor.GetDDGLiteControlByte(channel, control)
+GetDDGLiteControlByte = _andor.GetDDGLiteControlByte
 
 def GetDDGLiteInitialDelay(channel, fDelay):
-    return _andor-guider.GetDDGLiteInitialDelay(channel, fDelay)
-GetDDGLiteInitialDelay = _andor-guider.GetDDGLiteInitialDelay
+    return _andor.GetDDGLiteInitialDelay(channel, fDelay)
+GetDDGLiteInitialDelay = _andor.GetDDGLiteInitialDelay
 
 def GetDDGLitePulseWidth(channel, fWidth):
-    return _andor-guider.GetDDGLitePulseWidth(channel, fWidth)
-GetDDGLitePulseWidth = _andor-guider.GetDDGLitePulseWidth
+    return _andor.GetDDGLitePulseWidth(channel, fWidth)
+GetDDGLitePulseWidth = _andor.GetDDGLitePulseWidth
 
 def GetDDGLiteInterPulseDelay(channel, fDelay):
-    return _andor-guider.GetDDGLiteInterPulseDelay(channel, fDelay)
-GetDDGLiteInterPulseDelay = _andor-guider.GetDDGLiteInterPulseDelay
+    return _andor.GetDDGLiteInterPulseDelay(channel, fDelay)
+GetDDGLiteInterPulseDelay = _andor.GetDDGLiteInterPulseDelay
 
 def GetDDGLitePulsesPerExposure(channel, ui32Pulses):
-    return _andor-guider.GetDDGLitePulsesPerExposure(channel, ui32Pulses)
-GetDDGLitePulsesPerExposure = _andor-guider.GetDDGLitePulsesPerExposure
+    return _andor.GetDDGLitePulsesPerExposure(channel, ui32Pulses)
+GetDDGLitePulsesPerExposure = _andor.GetDDGLitePulsesPerExposure
 
 def GetDDGPulse(wid, resolution, Delay, Width):
-    return _andor-guider.GetDDGPulse(wid, resolution, Delay, Width)
-GetDDGPulse = _andor-guider.GetDDGPulse
+    return _andor.GetDDGPulse(wid, resolution, Delay, Width)
+GetDDGPulse = _andor.GetDDGPulse
 
 def GetDDGStepCoefficients(mode, p1, p2):
-    return _andor-guider.GetDDGStepCoefficients(mode, p1, p2)
-GetDDGStepCoefficients = _andor-guider.GetDDGStepCoefficients
+    return _andor.GetDDGStepCoefficients(mode, p1, p2)
+GetDDGStepCoefficients = _andor.GetDDGStepCoefficients
 
 def GetDDGWidthStepCoefficients(mode, p1, p2):
-    return _andor-guider.GetDDGWidthStepCoefficients(mode, p1, p2)
-GetDDGWidthStepCoefficients = _andor-guider.GetDDGWidthStepCoefficients
+    return _andor.GetDDGWidthStepCoefficients(mode, p1, p2)
+GetDDGWidthStepCoefficients = _andor.GetDDGWidthStepCoefficients
 
 def GetDDGStepMode(mode):
-    return _andor-guider.GetDDGStepMode(mode)
-GetDDGStepMode = _andor-guider.GetDDGStepMode
+    return _andor.GetDDGStepMode(mode)
+GetDDGStepMode = _andor.GetDDGStepMode
 
 def GetDDGWidthStepMode(mode):
-    return _andor-guider.GetDDGWidthStepMode(mode)
-GetDDGWidthStepMode = _andor-guider.GetDDGWidthStepMode
+    return _andor.GetDDGWidthStepMode(mode)
+GetDDGWidthStepMode = _andor.GetDDGWidthStepMode
 
 def GetDetector(xpixels, ypixels):
-    return _andor-guider.GetDetector(xpixels, ypixels)
-GetDetector = _andor-guider.GetDetector
+    return _andor.GetDetector(xpixels, ypixels)
+GetDetector = _andor.GetDetector
 
 def GetDICameraInfo(info):
-    return _andor-guider.GetDICameraInfo(info)
-GetDICameraInfo = _andor-guider.GetDICameraInfo
+    return _andor.GetDICameraInfo(info)
+GetDICameraInfo = _andor.GetDICameraInfo
 
 def GetEMAdvanced(state):
-    return _andor-guider.GetEMAdvanced(state)
-GetEMAdvanced = _andor-guider.GetEMAdvanced
+    return _andor.GetEMAdvanced(state)
+GetEMAdvanced = _andor.GetEMAdvanced
 
 def GetEMCCDGain(gain):
-    return _andor-guider.GetEMCCDGain(gain)
-GetEMCCDGain = _andor-guider.GetEMCCDGain
+    return _andor.GetEMCCDGain(gain)
+GetEMCCDGain = _andor.GetEMCCDGain
 
 def GetEMGainRange(low, high):
-    return _andor-guider.GetEMGainRange(low, high)
-GetEMGainRange = _andor-guider.GetEMGainRange
+    return _andor.GetEMGainRange(low, high)
+GetEMGainRange = _andor.GetEMGainRange
 
 def GetExternalTriggerTermination(puiTermination):
-    return _andor-guider.GetExternalTriggerTermination(puiTermination)
-GetExternalTriggerTermination = _andor-guider.GetExternalTriggerTermination
+    return _andor.GetExternalTriggerTermination(puiTermination)
+GetExternalTriggerTermination = _andor.GetExternalTriggerTermination
 
 def GetFastestRecommendedVSSpeed(index, speed):
-    return _andor-guider.GetFastestRecommendedVSSpeed(index, speed)
-GetFastestRecommendedVSSpeed = _andor-guider.GetFastestRecommendedVSSpeed
+    return _andor.GetFastestRecommendedVSSpeed(index, speed)
+GetFastestRecommendedVSSpeed = _andor.GetFastestRecommendedVSSpeed
 
 def GetFIFOUsage(FIFOusage):
-    return _andor-guider.GetFIFOUsage(FIFOusage)
-GetFIFOUsage = _andor-guider.GetFIFOUsage
+    return _andor.GetFIFOUsage(FIFOusage)
+GetFIFOUsage = _andor.GetFIFOUsage
 
 def GetFilterMode(mode):
-    return _andor-guider.GetFilterMode(mode)
-GetFilterMode = _andor-guider.GetFilterMode
+    return _andor.GetFilterMode(mode)
+GetFilterMode = _andor.GetFilterMode
 
 def GetFKExposureTime(time):
-    return _andor-guider.GetFKExposureTime(time)
-GetFKExposureTime = _andor-guider.GetFKExposureTime
+    return _andor.GetFKExposureTime(time)
+GetFKExposureTime = _andor.GetFKExposureTime
 
 def GetFKVShiftSpeed(index, speed):
-    return _andor-guider.GetFKVShiftSpeed(index, speed)
-GetFKVShiftSpeed = _andor-guider.GetFKVShiftSpeed
+    return _andor.GetFKVShiftSpeed(index, speed)
+GetFKVShiftSpeed = _andor.GetFKVShiftSpeed
 
 def GetFKVShiftSpeedF(index, speed):
-    return _andor-guider.GetFKVShiftSpeedF(index, speed)
-GetFKVShiftSpeedF = _andor-guider.GetFKVShiftSpeedF
+    return _andor.GetFKVShiftSpeedF(index, speed)
+GetFKVShiftSpeedF = _andor.GetFKVShiftSpeedF
 
 def GetFrontEndStatus(piFlag):
-    return _andor-guider.GetFrontEndStatus(piFlag)
-GetFrontEndStatus = _andor-guider.GetFrontEndStatus
+    return _andor.GetFrontEndStatus(piFlag)
+GetFrontEndStatus = _andor.GetFrontEndStatus
 
 def GetGateMode(piGatemode):
-    return _andor-guider.GetGateMode(piGatemode)
-GetGateMode = _andor-guider.GetGateMode
+    return _andor.GetGateMode(piGatemode)
+GetGateMode = _andor.GetGateMode
 
 def GetHardwareVersion(PCB, Decode, dummy1, dummy2, CameraFirmwareVersion, CameraFirmwareBuild):
-    return _andor-guider.GetHardwareVersion(PCB, Decode, dummy1, dummy2, CameraFirmwareVersion, CameraFirmwareBuild)
-GetHardwareVersion = _andor-guider.GetHardwareVersion
+    return _andor.GetHardwareVersion(PCB, Decode, dummy1, dummy2, CameraFirmwareVersion, CameraFirmwareBuild)
+GetHardwareVersion = _andor.GetHardwareVersion
 
 def GetHeadModel(name):
-    return _andor-guider.GetHeadModel(name)
-GetHeadModel = _andor-guider.GetHeadModel
+    return _andor.GetHeadModel(name)
+GetHeadModel = _andor.GetHeadModel
 
 def GetHorizontalSpeed(index, speed):
-    return _andor-guider.GetHorizontalSpeed(index, speed)
-GetHorizontalSpeed = _andor-guider.GetHorizontalSpeed
+    return _andor.GetHorizontalSpeed(index, speed)
+GetHorizontalSpeed = _andor.GetHorizontalSpeed
 
 def GetHSSpeed(channel, typ, index, speed):
-    return _andor-guider.GetHSSpeed(channel, typ, index, speed)
-GetHSSpeed = _andor-guider.GetHSSpeed
+    return _andor.GetHSSpeed(channel, typ, index, speed)
+GetHSSpeed = _andor.GetHSSpeed
 
 def GetHVflag(bFlag):
-    return _andor-guider.GetHVflag(bFlag)
-GetHVflag = _andor-guider.GetHVflag
+    return _andor.GetHVflag(bFlag)
+GetHVflag = _andor.GetHVflag
 
 def GetID(devNum, id):
-    return _andor-guider.GetID(devNum, id)
-GetID = _andor-guider.GetID
+    return _andor.GetID(devNum, id)
+GetID = _andor.GetID
 
 def GetImageFlip(iHFlip, iVFlip):
-    return _andor-guider.GetImageFlip(iHFlip, iVFlip)
-GetImageFlip = _andor-guider.GetImageFlip
+    return _andor.GetImageFlip(iHFlip, iVFlip)
+GetImageFlip = _andor.GetImageFlip
 
 def GetImageRotate(iRotate):
-    return _andor-guider.GetImageRotate(iRotate)
-GetImageRotate = _andor-guider.GetImageRotate
+    return _andor.GetImageRotate(iRotate)
+GetImageRotate = _andor.GetImageRotate
 
 def GetImages(first, last, arr, size, validfirst, validlast):
-    return _andor-guider.GetImages(first, last, arr, size, validfirst, validlast)
-GetImages = _andor-guider.GetImages
+    return _andor.GetImages(first, last, arr, size, validfirst, validlast)
+GetImages = _andor.GetImages
 
 def GetImages16(first, last, arr, size, validfirst, validlast):
-    return _andor-guider.GetImages16(first, last, arr, size, validfirst, validlast)
-GetImages16 = _andor-guider.GetImages16
+    return _andor.GetImages16(first, last, arr, size, validfirst, validlast)
+GetImages16 = _andor.GetImages16
 
 def GetImagesPerDMA(images):
-    return _andor-guider.GetImagesPerDMA(images)
-GetImagesPerDMA = _andor-guider.GetImagesPerDMA
+    return _andor.GetImagesPerDMA(images)
+GetImagesPerDMA = _andor.GetImagesPerDMA
 
 def GetIRQ(IRQ):
-    return _andor-guider.GetIRQ(IRQ)
-GetIRQ = _andor-guider.GetIRQ
+    return _andor.GetIRQ(IRQ)
+GetIRQ = _andor.GetIRQ
 
 def GetKeepCleanTime(KeepCleanTime):
-    return _andor-guider.GetKeepCleanTime(KeepCleanTime)
-GetKeepCleanTime = _andor-guider.GetKeepCleanTime
+    return _andor.GetKeepCleanTime(KeepCleanTime)
+GetKeepCleanTime = _andor.GetKeepCleanTime
 
 def GetMaximumBinning(ReadMode, HorzVert, MaxBinning):
-    return _andor-guider.GetMaximumBinning(ReadMode, HorzVert, MaxBinning)
-GetMaximumBinning = _andor-guider.GetMaximumBinning
+    return _andor.GetMaximumBinning(ReadMode, HorzVert, MaxBinning)
+GetMaximumBinning = _andor.GetMaximumBinning
 
 def GetMaximumExposure(MaxExp):
-    return _andor-guider.GetMaximumExposure(MaxExp)
-GetMaximumExposure = _andor-guider.GetMaximumExposure
+    return _andor.GetMaximumExposure(MaxExp)
+GetMaximumExposure = _andor.GetMaximumExposure
 
 def GetMaximumNumberRingExposureTimes(number):
-    return _andor-guider.GetMaximumNumberRingExposureTimes(number)
-GetMaximumNumberRingExposureTimes = _andor-guider.GetMaximumNumberRingExposureTimes
+    return _andor.GetMaximumNumberRingExposureTimes(number)
+GetMaximumNumberRingExposureTimes = _andor.GetMaximumNumberRingExposureTimes
 
 def GetMCPGain(piGain):
-    return _andor-guider.GetMCPGain(piGain)
-GetMCPGain = _andor-guider.GetMCPGain
+    return _andor.GetMCPGain(piGain)
+GetMCPGain = _andor.GetMCPGain
 
 def GetMCPGainRange(iLow, iHigh):
-    return _andor-guider.GetMCPGainRange(iLow, iHigh)
-GetMCPGainRange = _andor-guider.GetMCPGainRange
+    return _andor.GetMCPGainRange(iLow, iHigh)
+GetMCPGainRange = _andor.GetMCPGainRange
 
 def GetMCPGainTable(iNum, piGain, pfPhotoepc):
-    return _andor-guider.GetMCPGainTable(iNum, piGain, pfPhotoepc)
-GetMCPGainTable = _andor-guider.GetMCPGainTable
+    return _andor.GetMCPGainTable(iNum, piGain, pfPhotoepc)
+GetMCPGainTable = _andor.GetMCPGainTable
 
 def GetMCPVoltage(iVoltage):
-    return _andor-guider.GetMCPVoltage(iVoltage)
-GetMCPVoltage = _andor-guider.GetMCPVoltage
+    return _andor.GetMCPVoltage(iVoltage)
+GetMCPVoltage = _andor.GetMCPVoltage
 
 def GetMinimumImageLength(MinImageLength):
-    return _andor-guider.GetMinimumImageLength(MinImageLength)
-GetMinimumImageLength = _andor-guider.GetMinimumImageLength
+    return _andor.GetMinimumImageLength(MinImageLength)
+GetMinimumImageLength = _andor.GetMinimumImageLength
 
 def GetMinimumNumberInSeries(number):
-    return _andor-guider.GetMinimumNumberInSeries(number)
-GetMinimumNumberInSeries = _andor-guider.GetMinimumNumberInSeries
+    return _andor.GetMinimumNumberInSeries(number)
+GetMinimumNumberInSeries = _andor.GetMinimumNumberInSeries
 
 def GetMostRecentColorImage16(size, algorithm, red, green, blue):
-    return _andor-guider.GetMostRecentColorImage16(size, algorithm, red, green, blue)
-GetMostRecentColorImage16 = _andor-guider.GetMostRecentColorImage16
+    return _andor.GetMostRecentColorImage16(size, algorithm, red, green, blue)
+GetMostRecentColorImage16 = _andor.GetMostRecentColorImage16
 
 def GetMostRecentImage(arr, size):
-    return _andor-guider.GetMostRecentImage(arr, size)
-GetMostRecentImage = _andor-guider.GetMostRecentImage
+    return _andor.GetMostRecentImage(arr, size)
+GetMostRecentImage = _andor.GetMostRecentImage
 
 def GetMostRecentImage16(arr, size):
-    return _andor-guider.GetMostRecentImage16(arr, size)
-GetMostRecentImage16 = _andor-guider.GetMostRecentImage16
+    return _andor.GetMostRecentImage16(arr, size)
+GetMostRecentImage16 = _andor.GetMostRecentImage16
 
 def GetMetaDataInfo(TimeOfStart, pfTimeFromStart, index):
-    return _andor-guider.GetMetaDataInfo(TimeOfStart, pfTimeFromStart, index)
-GetMetaDataInfo = _andor-guider.GetMetaDataInfo
+    return _andor.GetMetaDataInfo(TimeOfStart, pfTimeFromStart, index)
+GetMetaDataInfo = _andor.GetMetaDataInfo
 
 def GetMSTimingsEnabled():
-    return _andor-guider.GetMSTimingsEnabled()
-GetMSTimingsEnabled = _andor-guider.GetMSTimingsEnabled
+    return _andor.GetMSTimingsEnabled()
+GetMSTimingsEnabled = _andor.GetMSTimingsEnabled
 
 def GetNewData(arr, size):
-    return _andor-guider.GetNewData(arr, size)
-GetNewData = _andor-guider.GetNewData
+    return _andor.GetNewData(arr, size)
+GetNewData = _andor.GetNewData
 
 def GetNewData16(arr, size):
-    return _andor-guider.GetNewData16(arr, size)
-GetNewData16 = _andor-guider.GetNewData16
+    return _andor.GetNewData16(arr, size)
+GetNewData16 = _andor.GetNewData16
 
 def GetNewData8(arr, size):
-    return _andor-guider.GetNewData8(arr, size)
-GetNewData8 = _andor-guider.GetNewData8
+    return _andor.GetNewData8(arr, size)
+GetNewData8 = _andor.GetNewData8
 
 def GetNewFloatData(arr, size):
-    return _andor-guider.GetNewFloatData(arr, size)
-GetNewFloatData = _andor-guider.GetNewFloatData
+    return _andor.GetNewFloatData(arr, size)
+GetNewFloatData = _andor.GetNewFloatData
 
 def GetNumberADChannels(channels):
-    return _andor-guider.GetNumberADChannels(channels)
-GetNumberADChannels = _andor-guider.GetNumberADChannels
+    return _andor.GetNumberADChannels(channels)
+GetNumberADChannels = _andor.GetNumberADChannels
 
 def GetNumberAmp(amp):
-    return _andor-guider.GetNumberAmp(amp)
-GetNumberAmp = _andor-guider.GetNumberAmp
+    return _andor.GetNumberAmp(amp)
+GetNumberAmp = _andor.GetNumberAmp
 
 def GetNumberAvailableImages(first, last):
-    return _andor-guider.GetNumberAvailableImages(first, last)
-GetNumberAvailableImages = _andor-guider.GetNumberAvailableImages
+    return _andor.GetNumberAvailableImages(first, last)
+GetNumberAvailableImages = _andor.GetNumberAvailableImages
 
 def GetNumberDDGExternalOutputs(puiCount):
-    return _andor-guider.GetNumberDDGExternalOutputs(puiCount)
-GetNumberDDGExternalOutputs = _andor-guider.GetNumberDDGExternalOutputs
+    return _andor.GetNumberDDGExternalOutputs(puiCount)
+GetNumberDDGExternalOutputs = _andor.GetNumberDDGExternalOutputs
 
 def GetNumberDevices(numDevs):
-    return _andor-guider.GetNumberDevices(numDevs)
-GetNumberDevices = _andor-guider.GetNumberDevices
+    return _andor.GetNumberDevices(numDevs)
+GetNumberDevices = _andor.GetNumberDevices
 
 def GetNumberFKVShiftSpeeds(number):
-    return _andor-guider.GetNumberFKVShiftSpeeds(number)
-GetNumberFKVShiftSpeeds = _andor-guider.GetNumberFKVShiftSpeeds
+    return _andor.GetNumberFKVShiftSpeeds(number)
+GetNumberFKVShiftSpeeds = _andor.GetNumberFKVShiftSpeeds
 
 def GetNumberHorizontalSpeeds(number):
-    return _andor-guider.GetNumberHorizontalSpeeds(number)
-GetNumberHorizontalSpeeds = _andor-guider.GetNumberHorizontalSpeeds
+    return _andor.GetNumberHorizontalSpeeds(number)
+GetNumberHorizontalSpeeds = _andor.GetNumberHorizontalSpeeds
 
 def GetNumberHSSpeeds(channel, typ, speeds):
-    return _andor-guider.GetNumberHSSpeeds(channel, typ, speeds)
-GetNumberHSSpeeds = _andor-guider.GetNumberHSSpeeds
+    return _andor.GetNumberHSSpeeds(channel, typ, speeds)
+GetNumberHSSpeeds = _andor.GetNumberHSSpeeds
 
 def GetNumberMissedExternalTriggers(first, last, arr, size):
-    return _andor-guider.GetNumberMissedExternalTriggers(first, last, arr, size)
-GetNumberMissedExternalTriggers = _andor-guider.GetNumberMissedExternalTriggers
+    return _andor.GetNumberMissedExternalTriggers(first, last, arr, size)
+GetNumberMissedExternalTriggers = _andor.GetNumberMissedExternalTriggers
 
 def GetIRIGData(_uc_irigData, _ui_index):
-    return _andor-guider.GetIRIGData(_uc_irigData, _ui_index)
-GetIRIGData = _andor-guider.GetIRIGData
+    return _andor.GetIRIGData(_uc_irigData, _ui_index)
+GetIRIGData = _andor.GetIRIGData
 
 def GetNumberNewImages(first, last):
-    return _andor-guider.GetNumberNewImages(first, last)
-GetNumberNewImages = _andor-guider.GetNumberNewImages
+    return _andor.GetNumberNewImages(first, last)
+GetNumberNewImages = _andor.GetNumberNewImages
 
 def GetNumberPhotonCountingDivisions(noOfDivisions):
-    return _andor-guider.GetNumberPhotonCountingDivisions(noOfDivisions)
-GetNumberPhotonCountingDivisions = _andor-guider.GetNumberPhotonCountingDivisions
+    return _andor.GetNumberPhotonCountingDivisions(noOfDivisions)
+GetNumberPhotonCountingDivisions = _andor.GetNumberPhotonCountingDivisions
 
 def GetNumberPreAmpGains(noGains):
-    return _andor-guider.GetNumberPreAmpGains(noGains)
-GetNumberPreAmpGains = _andor-guider.GetNumberPreAmpGains
+    return _andor.GetNumberPreAmpGains(noGains)
+GetNumberPreAmpGains = _andor.GetNumberPreAmpGains
 
 def GetNumberRingExposureTimes(ipnumTimes):
-    return _andor-guider.GetNumberRingExposureTimes(ipnumTimes)
-GetNumberRingExposureTimes = _andor-guider.GetNumberRingExposureTimes
+    return _andor.GetNumberRingExposureTimes(ipnumTimes)
+GetNumberRingExposureTimes = _andor.GetNumberRingExposureTimes
 
 def GetNumberIO(iNumber):
-    return _andor-guider.GetNumberIO(iNumber)
-GetNumberIO = _andor-guider.GetNumberIO
+    return _andor.GetNumberIO(iNumber)
+GetNumberIO = _andor.GetNumberIO
 
 def GetNumberVerticalSpeeds(number):
-    return _andor-guider.GetNumberVerticalSpeeds(number)
-GetNumberVerticalSpeeds = _andor-guider.GetNumberVerticalSpeeds
+    return _andor.GetNumberVerticalSpeeds(number)
+GetNumberVerticalSpeeds = _andor.GetNumberVerticalSpeeds
 
 def GetNumberVSAmplitudes(number):
-    return _andor-guider.GetNumberVSAmplitudes(number)
-GetNumberVSAmplitudes = _andor-guider.GetNumberVSAmplitudes
+    return _andor.GetNumberVSAmplitudes(number)
+GetNumberVSAmplitudes = _andor.GetNumberVSAmplitudes
 
 def GetNumberVSSpeeds(speeds):
-    return _andor-guider.GetNumberVSSpeeds(speeds)
-GetNumberVSSpeeds = _andor-guider.GetNumberVSSpeeds
+    return _andor.GetNumberVSSpeeds(speeds)
+GetNumberVSSpeeds = _andor.GetNumberVSSpeeds
 
 def GetOldestImage(arr, size):
-    return _andor-guider.GetOldestImage(arr, size)
-GetOldestImage = _andor-guider.GetOldestImage
+    return _andor.GetOldestImage(arr, size)
+GetOldestImage = _andor.GetOldestImage
 
 def GetOldestImage16(arr, size):
-    return _andor-guider.GetOldestImage16(arr, size)
-GetOldestImage16 = _andor-guider.GetOldestImage16
+    return _andor.GetOldestImage16(arr, size)
+GetOldestImage16 = _andor.GetOldestImage16
 
 def GetPhosphorStatus(piFlag):
-    return _andor-guider.GetPhosphorStatus(piFlag)
-GetPhosphorStatus = _andor-guider.GetPhosphorStatus
+    return _andor.GetPhosphorStatus(piFlag)
+GetPhosphorStatus = _andor.GetPhosphorStatus
 
 def GetPhysicalDMAAddress(Address1, Address2):
-    return _andor-guider.GetPhysicalDMAAddress(Address1, Address2)
-GetPhysicalDMAAddress = _andor-guider.GetPhysicalDMAAddress
+    return _andor.GetPhysicalDMAAddress(Address1, Address2)
+GetPhysicalDMAAddress = _andor.GetPhysicalDMAAddress
 
 def GetPixelSize(xSize, ySize):
-    return _andor-guider.GetPixelSize(xSize, ySize)
-GetPixelSize = _andor-guider.GetPixelSize
+    return _andor.GetPixelSize(xSize, ySize)
+GetPixelSize = _andor.GetPixelSize
 
 def GetPreAmpGain(index, gain):
-    return _andor-guider.GetPreAmpGain(index, gain)
-GetPreAmpGain = _andor-guider.GetPreAmpGain
+    return _andor.GetPreAmpGain(index, gain)
+GetPreAmpGain = _andor.GetPreAmpGain
 
 def GetPreAmpGainText(index, name, length):
-    return _andor-guider.GetPreAmpGainText(index, name, length)
-GetPreAmpGainText = _andor-guider.GetPreAmpGainText
+    return _andor.GetPreAmpGainText(index, name, length)
+GetPreAmpGainText = _andor.GetPreAmpGainText
 
 def GetDualExposureTimes(exposure1, exposure2):
-    return _andor-guider.GetDualExposureTimes(exposure1, exposure2)
-GetDualExposureTimes = _andor-guider.GetDualExposureTimes
+    return _andor.GetDualExposureTimes(exposure1, exposure2)
+GetDualExposureTimes = _andor.GetDualExposureTimes
 
 def GetQE(sensor, wavelength, mode, QE):
-    return _andor-guider.GetQE(sensor, wavelength, mode, QE)
-GetQE = _andor-guider.GetQE
+    return _andor.GetQE(sensor, wavelength, mode, QE)
+GetQE = _andor.GetQE
 
 def GetReadOutTime(ReadOutTime):
-    return _andor-guider.GetReadOutTime(ReadOutTime)
-GetReadOutTime = _andor-guider.GetReadOutTime
+    return _andor.GetReadOutTime(ReadOutTime)
+GetReadOutTime = _andor.GetReadOutTime
 
 def GetRegisterDump(mode):
-    return _andor-guider.GetRegisterDump(mode)
-GetRegisterDump = _andor-guider.GetRegisterDump
+    return _andor.GetRegisterDump(mode)
+GetRegisterDump = _andor.GetRegisterDump
 
 def GetRelativeImageTimes(first, last, arr, size):
-    return _andor-guider.GetRelativeImageTimes(first, last, arr, size)
-GetRelativeImageTimes = _andor-guider.GetRelativeImageTimes
+    return _andor.GetRelativeImageTimes(first, last, arr, size)
+GetRelativeImageTimes = _andor.GetRelativeImageTimes
 
 def GetRingExposureRange(fpMin, fpMax):
-    return _andor-guider.GetRingExposureRange(fpMin, fpMax)
-GetRingExposureRange = _andor-guider.GetRingExposureRange
+    return _andor.GetRingExposureRange(fpMin, fpMax)
+GetRingExposureRange = _andor.GetRingExposureRange
 
 def GetSDK3Handle(Handle):
-    return _andor-guider.GetSDK3Handle(Handle)
-GetSDK3Handle = _andor-guider.GetSDK3Handle
+    return _andor.GetSDK3Handle(Handle)
+GetSDK3Handle = _andor.GetSDK3Handle
 
 def GetSensitivity(channel, horzShift, amplifier, pa, sensitivity):
-    return _andor-guider.GetSensitivity(channel, horzShift, amplifier, pa, sensitivity)
-GetSensitivity = _andor-guider.GetSensitivity
+    return _andor.GetSensitivity(channel, horzShift, amplifier, pa, sensitivity)
+GetSensitivity = _andor.GetSensitivity
 
 def GetShutterMinTimes(minclosingtime, minopeningtime):
-    return _andor-guider.GetShutterMinTimes(minclosingtime, minopeningtime)
-GetShutterMinTimes = _andor-guider.GetShutterMinTimes
+    return _andor.GetShutterMinTimes(minclosingtime, minopeningtime)
+GetShutterMinTimes = _andor.GetShutterMinTimes
 
 def GetSizeOfCircularBuffer(index):
-    return _andor-guider.GetSizeOfCircularBuffer(index)
-GetSizeOfCircularBuffer = _andor-guider.GetSizeOfCircularBuffer
+    return _andor.GetSizeOfCircularBuffer(index)
+GetSizeOfCircularBuffer = _andor.GetSizeOfCircularBuffer
 
 def GetSlotBusDeviceFunction(dwslot, dwBus, dwDevice, dwFunction):
-    return _andor-guider.GetSlotBusDeviceFunction(dwslot, dwBus, dwDevice, dwFunction)
-GetSlotBusDeviceFunction = _andor-guider.GetSlotBusDeviceFunction
+    return _andor.GetSlotBusDeviceFunction(dwslot, dwBus, dwDevice, dwFunction)
+GetSlotBusDeviceFunction = _andor.GetSlotBusDeviceFunction
 
 def GetSoftwareVersion(eprom, coffile, vxdrev, vxdver, dllrev, dllver):
-    return _andor-guider.GetSoftwareVersion(eprom, coffile, vxdrev, vxdver, dllrev, dllver)
-GetSoftwareVersion = _andor-guider.GetSoftwareVersion
+    return _andor.GetSoftwareVersion(eprom, coffile, vxdrev, vxdver, dllrev, dllver)
+GetSoftwareVersion = _andor.GetSoftwareVersion
 
 def GetSpoolProgress(index):
-    return _andor-guider.GetSpoolProgress(index)
-GetSpoolProgress = _andor-guider.GetSpoolProgress
+    return _andor.GetSpoolProgress(index)
+GetSpoolProgress = _andor.GetSpoolProgress
 
 def GetStartUpTime(time):
-    return _andor-guider.GetStartUpTime(time)
-GetStartUpTime = _andor-guider.GetStartUpTime
+    return _andor.GetStartUpTime(time)
+GetStartUpTime = _andor.GetStartUpTime
 
 def GetStatus(status):
-    return _andor-guider.GetStatus(status)
-GetStatus = _andor-guider.GetStatus
+    return _andor.GetStatus(status)
+GetStatus = _andor.GetStatus
 
 def GetTECStatus(piFlag):
-    return _andor-guider.GetTECStatus(piFlag)
-GetTECStatus = _andor-guider.GetTECStatus
+    return _andor.GetTECStatus(piFlag)
+GetTECStatus = _andor.GetTECStatus
 
 def GetTemperature(temperature):
-    return _andor-guider.GetTemperature(temperature)
-GetTemperature = _andor-guider.GetTemperature
+    return _andor.GetTemperature(temperature)
+GetTemperature = _andor.GetTemperature
 
 def GetTemperatureF(temperature):
-    return _andor-guider.GetTemperatureF(temperature)
-GetTemperatureF = _andor-guider.GetTemperatureF
+    return _andor.GetTemperatureF(temperature)
+GetTemperatureF = _andor.GetTemperatureF
 
 def GetTemperatureRange(mintemp, maxtemp):
-    return _andor-guider.GetTemperatureRange(mintemp, maxtemp)
-GetTemperatureRange = _andor-guider.GetTemperatureRange
+    return _andor.GetTemperatureRange(mintemp, maxtemp)
+GetTemperatureRange = _andor.GetTemperatureRange
 
 def GetTemperaturePrecision(precision):
-    return _andor-guider.GetTemperaturePrecision(precision)
-GetTemperaturePrecision = _andor-guider.GetTemperaturePrecision
+    return _andor.GetTemperaturePrecision(precision)
+GetTemperaturePrecision = _andor.GetTemperaturePrecision
 
 def GetTemperatureStatus(SensorTemp, TargetTemp, AmbientTemp, CoolerVolts):
-    return _andor-guider.GetTemperatureStatus(SensorTemp, TargetTemp, AmbientTemp, CoolerVolts)
-GetTemperatureStatus = _andor-guider.GetTemperatureStatus
+    return _andor.GetTemperatureStatus(SensorTemp, TargetTemp, AmbientTemp, CoolerVolts)
+GetTemperatureStatus = _andor.GetTemperatureStatus
 
 def GetTotalNumberImagesAcquired(index):
-    return _andor-guider.GetTotalNumberImagesAcquired(index)
-GetTotalNumberImagesAcquired = _andor-guider.GetTotalNumberImagesAcquired
+    return _andor.GetTotalNumberImagesAcquired(index)
+GetTotalNumberImagesAcquired = _andor.GetTotalNumberImagesAcquired
 
 def GetIODirection(index, iDirection):
-    return _andor-guider.GetIODirection(index, iDirection)
-GetIODirection = _andor-guider.GetIODirection
+    return _andor.GetIODirection(index, iDirection)
+GetIODirection = _andor.GetIODirection
 
 def GetIOLevel(index, iLevel):
-    return _andor-guider.GetIOLevel(index, iLevel)
-GetIOLevel = _andor-guider.GetIOLevel
+    return _andor.GetIOLevel(index, iLevel)
+GetIOLevel = _andor.GetIOLevel
 
 def GetUSBDeviceDetails(VendorID, ProductID, FirmwareVersion, SpecificationNumber):
-    return _andor-guider.GetUSBDeviceDetails(VendorID, ProductID, FirmwareVersion, SpecificationNumber)
-GetUSBDeviceDetails = _andor-guider.GetUSBDeviceDetails
+    return _andor.GetUSBDeviceDetails(VendorID, ProductID, FirmwareVersion, SpecificationNumber)
+GetUSBDeviceDetails = _andor.GetUSBDeviceDetails
 
 def GetVersionInfo(arr, szVersionInfo, ui32BufferLen):
-    return _andor-guider.GetVersionInfo(arr, szVersionInfo, ui32BufferLen)
-GetVersionInfo = _andor-guider.GetVersionInfo
+    return _andor.GetVersionInfo(arr, szVersionInfo, ui32BufferLen)
+GetVersionInfo = _andor.GetVersionInfo
 
 def GetVerticalSpeed(index, speed):
-    return _andor-guider.GetVerticalSpeed(index, speed)
-GetVerticalSpeed = _andor-guider.GetVerticalSpeed
+    return _andor.GetVerticalSpeed(index, speed)
+GetVerticalSpeed = _andor.GetVerticalSpeed
 
 def GetVirtualDMAAddress(Address1, Address2):
-    return _andor-guider.GetVirtualDMAAddress(Address1, Address2)
-GetVirtualDMAAddress = _andor-guider.GetVirtualDMAAddress
+    return _andor.GetVirtualDMAAddress(Address1, Address2)
+GetVirtualDMAAddress = _andor.GetVirtualDMAAddress
 
 def GetVSAmplitudeString(index, text):
-    return _andor-guider.GetVSAmplitudeString(index, text)
-GetVSAmplitudeString = _andor-guider.GetVSAmplitudeString
+    return _andor.GetVSAmplitudeString(index, text)
+GetVSAmplitudeString = _andor.GetVSAmplitudeString
 
 def GetVSAmplitudeFromString(text, index):
-    return _andor-guider.GetVSAmplitudeFromString(text, index)
-GetVSAmplitudeFromString = _andor-guider.GetVSAmplitudeFromString
+    return _andor.GetVSAmplitudeFromString(text, index)
+GetVSAmplitudeFromString = _andor.GetVSAmplitudeFromString
 
 def GetVSAmplitudeValue(index, value):
-    return _andor-guider.GetVSAmplitudeValue(index, value)
-GetVSAmplitudeValue = _andor-guider.GetVSAmplitudeValue
+    return _andor.GetVSAmplitudeValue(index, value)
+GetVSAmplitudeValue = _andor.GetVSAmplitudeValue
 
 def GetVSSpeed(index, speed):
-    return _andor-guider.GetVSSpeed(index, speed)
-GetVSSpeed = _andor-guider.GetVSSpeed
+    return _andor.GetVSSpeed(index, speed)
+GetVSSpeed = _andor.GetVSSpeed
 
 def GPIBReceive(id, address, text, size):
-    return _andor-guider.GPIBReceive(id, address, text, size)
-GPIBReceive = _andor-guider.GPIBReceive
+    return _andor.GPIBReceive(id, address, text, size)
+GPIBReceive = _andor.GPIBReceive
 
 def GPIBSend(id, address, text):
-    return _andor-guider.GPIBSend(id, address, text)
-GPIBSend = _andor-guider.GPIBSend
+    return _andor.GPIBSend(id, address, text)
+GPIBSend = _andor.GPIBSend
 
 def I2CBurstRead(i2cAddress, nBytes, data):
-    return _andor-guider.I2CBurstRead(i2cAddress, nBytes, data)
-I2CBurstRead = _andor-guider.I2CBurstRead
+    return _andor.I2CBurstRead(i2cAddress, nBytes, data)
+I2CBurstRead = _andor.I2CBurstRead
 
 def I2CBurstWrite(i2cAddress, nBytes, data):
-    return _andor-guider.I2CBurstWrite(i2cAddress, nBytes, data)
-I2CBurstWrite = _andor-guider.I2CBurstWrite
+    return _andor.I2CBurstWrite(i2cAddress, nBytes, data)
+I2CBurstWrite = _andor.I2CBurstWrite
 
 def I2CRead(deviceID, intAddress, pdata):
-    return _andor-guider.I2CRead(deviceID, intAddress, pdata)
-I2CRead = _andor-guider.I2CRead
+    return _andor.I2CRead(deviceID, intAddress, pdata)
+I2CRead = _andor.I2CRead
 
 def I2CReset():
-    return _andor-guider.I2CReset()
-I2CReset = _andor-guider.I2CReset
+    return _andor.I2CReset()
+I2CReset = _andor.I2CReset
 
 def I2CWrite(deviceID, intAddress, data):
-    return _andor-guider.I2CWrite(deviceID, intAddress, data)
-I2CWrite = _andor-guider.I2CWrite
+    return _andor.I2CWrite(deviceID, intAddress, data)
+I2CWrite = _andor.I2CWrite
 
 def IdAndorDll():
-    return _andor-guider.IdAndorDll()
-IdAndorDll = _andor-guider.IdAndorDll
+    return _andor.IdAndorDll()
+IdAndorDll = _andor.IdAndorDll
 
 def InAuxPort(port, state):
-    return _andor-guider.InAuxPort(port, state)
-InAuxPort = _andor-guider.InAuxPort
+    return _andor.InAuxPort(port, state)
+InAuxPort = _andor.InAuxPort
 
 def Initialize(dir):
-    return _andor-guider.Initialize(dir)
-Initialize = _andor-guider.Initialize
+    return _andor.Initialize(dir)
+Initialize = _andor.Initialize
 
 def InitializeDevice(dir):
-    return _andor-guider.InitializeDevice(dir)
-InitializeDevice = _andor-guider.InitializeDevice
+    return _andor.InitializeDevice(dir)
+InitializeDevice = _andor.InitializeDevice
 
 def IsAmplifierAvailable(iamp):
-    return _andor-guider.IsAmplifierAvailable(iamp)
-IsAmplifierAvailable = _andor-guider.IsAmplifierAvailable
+    return _andor.IsAmplifierAvailable(iamp)
+IsAmplifierAvailable = _andor.IsAmplifierAvailable
 
 def IsCoolerOn(iCoolerStatus):
-    return _andor-guider.IsCoolerOn(iCoolerStatus)
-IsCoolerOn = _andor-guider.IsCoolerOn
+    return _andor.IsCoolerOn(iCoolerStatus)
+IsCoolerOn = _andor.IsCoolerOn
 
 def IsCountConvertModeAvailable(mode):
-    return _andor-guider.IsCountConvertModeAvailable(mode)
-IsCountConvertModeAvailable = _andor-guider.IsCountConvertModeAvailable
+    return _andor.IsCountConvertModeAvailable(mode)
+IsCountConvertModeAvailable = _andor.IsCountConvertModeAvailable
 
 def IsInternalMechanicalShutter(InternalShutter):
-    return _andor-guider.IsInternalMechanicalShutter(InternalShutter)
-IsInternalMechanicalShutter = _andor-guider.IsInternalMechanicalShutter
+    return _andor.IsInternalMechanicalShutter(InternalShutter)
+IsInternalMechanicalShutter = _andor.IsInternalMechanicalShutter
 
 def IsPreAmpGainAvailable(channel, amplifier, index, pa, status):
-    return _andor-guider.IsPreAmpGainAvailable(channel, amplifier, index, pa, status)
-IsPreAmpGainAvailable = _andor-guider.IsPreAmpGainAvailable
+    return _andor.IsPreAmpGainAvailable(channel, amplifier, index, pa, status)
+IsPreAmpGainAvailable = _andor.IsPreAmpGainAvailable
 
 def IsReadoutFlippedByAmplifier(iAmplifier, iFlipped):
-    return _andor-guider.IsReadoutFlippedByAmplifier(iAmplifier, iFlipped)
-IsReadoutFlippedByAmplifier = _andor-guider.IsReadoutFlippedByAmplifier
+    return _andor.IsReadoutFlippedByAmplifier(iAmplifier, iFlipped)
+IsReadoutFlippedByAmplifier = _andor.IsReadoutFlippedByAmplifier
 
 def IsTriggerModeAvailable(iTriggerMode):
-    return _andor-guider.IsTriggerModeAvailable(iTriggerMode)
-IsTriggerModeAvailable = _andor-guider.IsTriggerModeAvailable
+    return _andor.IsTriggerModeAvailable(iTriggerMode)
+IsTriggerModeAvailable = _andor.IsTriggerModeAvailable
 
 def Merge(arr, nOrder, nPoint, nPixel, coeff, fit, hbin, output, start, step_Renamed):
-    return _andor-guider.Merge(arr, nOrder, nPoint, nPixel, coeff, fit, hbin, output, start, step_Renamed)
-Merge = _andor-guider.Merge
+    return _andor.Merge(arr, nOrder, nPoint, nPixel, coeff, fit, hbin, output, start, step_Renamed)
+Merge = _andor.Merge
 
 def OutAuxPort(port, state):
-    return _andor-guider.OutAuxPort(port, state)
-OutAuxPort = _andor-guider.OutAuxPort
+    return _andor.OutAuxPort(port, state)
+OutAuxPort = _andor.OutAuxPort
 
 def PrepareAcquisition():
-    return _andor-guider.PrepareAcquisition()
-PrepareAcquisition = _andor-guider.PrepareAcquisition
+    return _andor.PrepareAcquisition()
+PrepareAcquisition = _andor.PrepareAcquisition
 
 def SaveAsBmp(path, palette, ymin, ymax):
-    return _andor-guider.SaveAsBmp(path, palette, ymin, ymax)
-SaveAsBmp = _andor-guider.SaveAsBmp
+    return _andor.SaveAsBmp(path, palette, ymin, ymax)
+SaveAsBmp = _andor.SaveAsBmp
 
 def SaveAsCommentedSif(path, comment):
-    return _andor-guider.SaveAsCommentedSif(path, comment)
-SaveAsCommentedSif = _andor-guider.SaveAsCommentedSif
+    return _andor.SaveAsCommentedSif(path, comment)
+SaveAsCommentedSif = _andor.SaveAsCommentedSif
 
 def SaveAsEDF(szPath, iMode):
-    return _andor-guider.SaveAsEDF(szPath, iMode)
-SaveAsEDF = _andor-guider.SaveAsEDF
+    return _andor.SaveAsEDF(szPath, iMode)
+SaveAsEDF = _andor.SaveAsEDF
 
 def SaveAsFITS(szFileTitle, typ):
-    return _andor-guider.SaveAsFITS(szFileTitle, typ)
-SaveAsFITS = _andor-guider.SaveAsFITS
+    return _andor.SaveAsFITS(szFileTitle, typ)
+SaveAsFITS = _andor.SaveAsFITS
 
 def SaveAsRaw(szFileTitle, typ):
-    return _andor-guider.SaveAsRaw(szFileTitle, typ)
-SaveAsRaw = _andor-guider.SaveAsRaw
+    return _andor.SaveAsRaw(szFileTitle, typ)
+SaveAsRaw = _andor.SaveAsRaw
 
 def SaveAsSif(path):
-    return _andor-guider.SaveAsSif(path)
-SaveAsSif = _andor-guider.SaveAsSif
+    return _andor.SaveAsSif(path)
+SaveAsSif = _andor.SaveAsSif
 
 def SaveAsTiff(path, palette, position, typ):
-    return _andor-guider.SaveAsTiff(path, palette, position, typ)
-SaveAsTiff = _andor-guider.SaveAsTiff
+    return _andor.SaveAsTiff(path, palette, position, typ)
+SaveAsTiff = _andor.SaveAsTiff
 
 def SaveAsTiffEx(path, palette, position, typ, mode):
-    return _andor-guider.SaveAsTiffEx(path, palette, position, typ, mode)
-SaveAsTiffEx = _andor-guider.SaveAsTiffEx
+    return _andor.SaveAsTiffEx(path, palette, position, typ, mode)
+SaveAsTiffEx = _andor.SaveAsTiffEx
 
 def SaveEEPROMToFile(cFileName):
-    return _andor-guider.SaveEEPROMToFile(cFileName)
-SaveEEPROMToFile = _andor-guider.SaveEEPROMToFile
+    return _andor.SaveEEPROMToFile(cFileName)
+SaveEEPROMToFile = _andor.SaveEEPROMToFile
 
 def SaveToClipBoard(palette):
-    return _andor-guider.SaveToClipBoard(palette)
-SaveToClipBoard = _andor-guider.SaveToClipBoard
+    return _andor.SaveToClipBoard(palette)
+SaveToClipBoard = _andor.SaveToClipBoard
 
 def SelectDevice(devNum):
-    return _andor-guider.SelectDevice(devNum)
-SelectDevice = _andor-guider.SelectDevice
+    return _andor.SelectDevice(devNum)
+SelectDevice = _andor.SelectDevice
 
 def SendSoftwareTrigger():
-    return _andor-guider.SendSoftwareTrigger()
-SendSoftwareTrigger = _andor-guider.SendSoftwareTrigger
+    return _andor.SendSoftwareTrigger()
+SendSoftwareTrigger = _andor.SendSoftwareTrigger
 
 def SetAccumulationCycleTime(time):
-    return _andor-guider.SetAccumulationCycleTime(time)
-SetAccumulationCycleTime = _andor-guider.SetAccumulationCycleTime
+    return _andor.SetAccumulationCycleTime(time)
+SetAccumulationCycleTime = _andor.SetAccumulationCycleTime
 
 def SetAcquisitionMode(mode):
-    return _andor-guider.SetAcquisitionMode(mode)
-SetAcquisitionMode = _andor-guider.SetAcquisitionMode
+    return _andor.SetAcquisitionMode(mode)
+SetAcquisitionMode = _andor.SetAcquisitionMode
 
 def SetSensorPortMode(mode):
-    return _andor-guider.SetSensorPortMode(mode)
-SetSensorPortMode = _andor-guider.SetSensorPortMode
+    return _andor.SetSensorPortMode(mode)
+SetSensorPortMode = _andor.SetSensorPortMode
 
 def SelectSensorPort(port):
-    return _andor-guider.SelectSensorPort(port)
-SelectSensorPort = _andor-guider.SelectSensorPort
+    return _andor.SelectSensorPort(port)
+SelectSensorPort = _andor.SelectSensorPort
 
 def SetAcquisitionType(typ):
-    return _andor-guider.SetAcquisitionType(typ)
-SetAcquisitionType = _andor-guider.SetAcquisitionType
+    return _andor.SetAcquisitionType(typ)
+SetAcquisitionType = _andor.SetAcquisitionType
 
 def SetADChannel(channel):
-    return _andor-guider.SetADChannel(channel)
-SetADChannel = _andor-guider.SetADChannel
+    return _andor.SetADChannel(channel)
+SetADChannel = _andor.SetADChannel
 
 def SetAdvancedTriggerModeState(iState):
-    return _andor-guider.SetAdvancedTriggerModeState(iState)
-SetAdvancedTriggerModeState = _andor-guider.SetAdvancedTriggerModeState
+    return _andor.SetAdvancedTriggerModeState(iState)
+SetAdvancedTriggerModeState = _andor.SetAdvancedTriggerModeState
 
 def SetBackground(arr, size):
-    return _andor-guider.SetBackground(arr, size)
-SetBackground = _andor-guider.SetBackground
+    return _andor.SetBackground(arr, size)
+SetBackground = _andor.SetBackground
 
 def SetBaselineClamp(state):
-    return _andor-guider.SetBaselineClamp(state)
-SetBaselineClamp = _andor-guider.SetBaselineClamp
+    return _andor.SetBaselineClamp(state)
+SetBaselineClamp = _andor.SetBaselineClamp
 
 def SetBaselineOffset(offset):
-    return _andor-guider.SetBaselineOffset(offset)
-SetBaselineOffset = _andor-guider.SetBaselineOffset
+    return _andor.SetBaselineOffset(offset)
+SetBaselineOffset = _andor.SetBaselineOffset
 
 def SetCameraLinkMode(mode):
-    return _andor-guider.SetCameraLinkMode(mode)
-SetCameraLinkMode = _andor-guider.SetCameraLinkMode
+    return _andor.SetCameraLinkMode(mode)
+SetCameraLinkMode = _andor.SetCameraLinkMode
 
 def SetCameraStatusEnable(Enable):
-    return _andor-guider.SetCameraStatusEnable(Enable)
-SetCameraStatusEnable = _andor-guider.SetCameraStatusEnable
+    return _andor.SetCameraStatusEnable(Enable)
+SetCameraStatusEnable = _andor.SetCameraStatusEnable
 
 def SetChargeShifting(NumberRows, NumberRepeats):
-    return _andor-guider.SetChargeShifting(NumberRows, NumberRepeats)
-SetChargeShifting = _andor-guider.SetChargeShifting
+    return _andor.SetChargeShifting(NumberRows, NumberRepeats)
+SetChargeShifting = _andor.SetChargeShifting
 
 def SetComplexImage(numAreas, areas):
-    return _andor-guider.SetComplexImage(numAreas, areas)
-SetComplexImage = _andor-guider.SetComplexImage
+    return _andor.SetComplexImage(numAreas, areas)
+SetComplexImage = _andor.SetComplexImage
 
 def SetCoolerMode(mode):
-    return _andor-guider.SetCoolerMode(mode)
-SetCoolerMode = _andor-guider.SetCoolerMode
+    return _andor.SetCoolerMode(mode)
+SetCoolerMode = _andor.SetCoolerMode
 
 def SetCountConvertMode(Mode):
-    return _andor-guider.SetCountConvertMode(Mode)
-SetCountConvertMode = _andor-guider.SetCountConvertMode
+    return _andor.SetCountConvertMode(Mode)
+SetCountConvertMode = _andor.SetCountConvertMode
 
 def SetCountConvertWavelength(wavelength):
-    return _andor-guider.SetCountConvertWavelength(wavelength)
-SetCountConvertWavelength = _andor-guider.SetCountConvertWavelength
+    return _andor.SetCountConvertWavelength(wavelength)
+SetCountConvertWavelength = _andor.SetCountConvertWavelength
 
 def SetCropMode(active, cropHeight, reserved):
-    return _andor-guider.SetCropMode(active, cropHeight, reserved)
-SetCropMode = _andor-guider.SetCropMode
+    return _andor.SetCropMode(active, cropHeight, reserved)
+SetCropMode = _andor.SetCropMode
 
 def SetCurrentCamera(cameraHandle):
-    return _andor-guider.SetCurrentCamera(cameraHandle)
-SetCurrentCamera = _andor-guider.SetCurrentCamera
+    return _andor.SetCurrentCamera(cameraHandle)
+SetCurrentCamera = _andor.SetCurrentCamera
 
 def SetCustomTrackHBin(bin):
-    return _andor-guider.SetCustomTrackHBin(bin)
-SetCustomTrackHBin = _andor-guider.SetCustomTrackHBin
+    return _andor.SetCustomTrackHBin(bin)
+SetCustomTrackHBin = _andor.SetCustomTrackHBin
 
 def SetDataType(typ):
-    return _andor-guider.SetDataType(typ)
-SetDataType = _andor-guider.SetDataType
+    return _andor.SetDataType(typ)
+SetDataType = _andor.SetDataType
 
 def SetDACOutput(iOption, iResolution, iValue):
-    return _andor-guider.SetDACOutput(iOption, iResolution, iValue)
-SetDACOutput = _andor-guider.SetDACOutput
+    return _andor.SetDACOutput(iOption, iResolution, iValue)
+SetDACOutput = _andor.SetDACOutput
 
 def SetDACOutputScale(iScale):
-    return _andor-guider.SetDACOutputScale(iScale)
-SetDACOutputScale = _andor-guider.SetDACOutputScale
+    return _andor.SetDACOutputScale(iScale)
+SetDACOutputScale = _andor.SetDACOutputScale
 
 def SetDDGAddress(t0, t1, t2, t3, address):
-    return _andor-guider.SetDDGAddress(t0, t1, t2, t3, address)
-SetDDGAddress = _andor-guider.SetDDGAddress
+    return _andor.SetDDGAddress(t0, t1, t2, t3, address)
+SetDDGAddress = _andor.SetDDGAddress
 
 def SetDDGExternalOutputEnabled(uiIndex, uiEnabled):
-    return _andor-guider.SetDDGExternalOutputEnabled(uiIndex, uiEnabled)
-SetDDGExternalOutputEnabled = _andor-guider.SetDDGExternalOutputEnabled
+    return _andor.SetDDGExternalOutputEnabled(uiIndex, uiEnabled)
+SetDDGExternalOutputEnabled = _andor.SetDDGExternalOutputEnabled
 
 def SetDDGExternalOutputPolarity(uiIndex, uiPolarity):
-    return _andor-guider.SetDDGExternalOutputPolarity(uiIndex, uiPolarity)
-SetDDGExternalOutputPolarity = _andor-guider.SetDDGExternalOutputPolarity
+    return _andor.SetDDGExternalOutputPolarity(uiIndex, uiPolarity)
+SetDDGExternalOutputPolarity = _andor.SetDDGExternalOutputPolarity
 
 def SetDDGExternalOutputStepEnabled(uiIndex, uiEnabled):
-    return _andor-guider.SetDDGExternalOutputStepEnabled(uiIndex, uiEnabled)
-SetDDGExternalOutputStepEnabled = _andor-guider.SetDDGExternalOutputStepEnabled
+    return _andor.SetDDGExternalOutputStepEnabled(uiIndex, uiEnabled)
+SetDDGExternalOutputStepEnabled = _andor.SetDDGExternalOutputStepEnabled
 
 def SetDDGExternalOutputTime(uiIndex, uiDelay, uiWidth):
-    return _andor-guider.SetDDGExternalOutputTime(uiIndex, uiDelay, uiWidth)
-SetDDGExternalOutputTime = _andor-guider.SetDDGExternalOutputTime
+    return _andor.SetDDGExternalOutputTime(uiIndex, uiDelay, uiWidth)
+SetDDGExternalOutputTime = _andor.SetDDGExternalOutputTime
 
 def SetDDGGain(gain):
-    return _andor-guider.SetDDGGain(gain)
-SetDDGGain = _andor-guider.SetDDGGain
+    return _andor.SetDDGGain(gain)
+SetDDGGain = _andor.SetDDGGain
 
 def SetDDGGateStep(step_Renamed):
-    return _andor-guider.SetDDGGateStep(step_Renamed)
-SetDDGGateStep = _andor-guider.SetDDGGateStep
+    return _andor.SetDDGGateStep(step_Renamed)
+SetDDGGateStep = _andor.SetDDGGateStep
 
 def SetDDGGateTime(uiDelay, uiWidth):
-    return _andor-guider.SetDDGGateTime(uiDelay, uiWidth)
-SetDDGGateTime = _andor-guider.SetDDGGateTime
+    return _andor.SetDDGGateTime(uiDelay, uiWidth)
+SetDDGGateTime = _andor.SetDDGGateTime
 
 def SetDDGInsertionDelay(state):
-    return _andor-guider.SetDDGInsertionDelay(state)
-SetDDGInsertionDelay = _andor-guider.SetDDGInsertionDelay
+    return _andor.SetDDGInsertionDelay(state)
+SetDDGInsertionDelay = _andor.SetDDGInsertionDelay
 
 def SetDDGIntelligate(state):
-    return _andor-guider.SetDDGIntelligate(state)
-SetDDGIntelligate = _andor-guider.SetDDGIntelligate
+    return _andor.SetDDGIntelligate(state)
+SetDDGIntelligate = _andor.SetDDGIntelligate
 
 def SetDDGIOC(state):
-    return _andor-guider.SetDDGIOC(state)
-SetDDGIOC = _andor-guider.SetDDGIOC
+    return _andor.SetDDGIOC(state)
+SetDDGIOC = _andor.SetDDGIOC
 
 def SetDDGIOCFrequency(frequency):
-    return _andor-guider.SetDDGIOCFrequency(frequency)
-SetDDGIOCFrequency = _andor-guider.SetDDGIOCFrequency
+    return _andor.SetDDGIOCFrequency(frequency)
+SetDDGIOCFrequency = _andor.SetDDGIOCFrequency
 
 def SetDDGIOCNumber(numberPulses):
-    return _andor-guider.SetDDGIOCNumber(numberPulses)
-SetDDGIOCNumber = _andor-guider.SetDDGIOCNumber
+    return _andor.SetDDGIOCNumber(numberPulses)
+SetDDGIOCNumber = _andor.SetDDGIOCNumber
 
 def SetDDGIOCPeriod(period):
-    return _andor-guider.SetDDGIOCPeriod(period)
-SetDDGIOCPeriod = _andor-guider.SetDDGIOCPeriod
+    return _andor.SetDDGIOCPeriod(period)
+SetDDGIOCPeriod = _andor.SetDDGIOCPeriod
 
 def SetDDGIOCTrigger(trigger):
-    return _andor-guider.SetDDGIOCTrigger(trigger)
-SetDDGIOCTrigger = _andor-guider.SetDDGIOCTrigger
+    return _andor.SetDDGIOCTrigger(trigger)
+SetDDGIOCTrigger = _andor.SetDDGIOCTrigger
 
 def SetDDGOpticalWidthEnabled(uiEnabled):
-    return _andor-guider.SetDDGOpticalWidthEnabled(uiEnabled)
-SetDDGOpticalWidthEnabled = _andor-guider.SetDDGOpticalWidthEnabled
+    return _andor.SetDDGOpticalWidthEnabled(uiEnabled)
+SetDDGOpticalWidthEnabled = _andor.SetDDGOpticalWidthEnabled
 
 def SetDDGLiteGlobalControlByte(control):
-    return _andor-guider.SetDDGLiteGlobalControlByte(control)
-SetDDGLiteGlobalControlByte = _andor-guider.SetDDGLiteGlobalControlByte
+    return _andor.SetDDGLiteGlobalControlByte(control)
+SetDDGLiteGlobalControlByte = _andor.SetDDGLiteGlobalControlByte
 
 def SetDDGLiteControlByte(channel, control):
-    return _andor-guider.SetDDGLiteControlByte(channel, control)
-SetDDGLiteControlByte = _andor-guider.SetDDGLiteControlByte
+    return _andor.SetDDGLiteControlByte(channel, control)
+SetDDGLiteControlByte = _andor.SetDDGLiteControlByte
 
 def SetDDGLiteInitialDelay(channel, fDelay):
-    return _andor-guider.SetDDGLiteInitialDelay(channel, fDelay)
-SetDDGLiteInitialDelay = _andor-guider.SetDDGLiteInitialDelay
+    return _andor.SetDDGLiteInitialDelay(channel, fDelay)
+SetDDGLiteInitialDelay = _andor.SetDDGLiteInitialDelay
 
 def SetDDGLitePulseWidth(channel, fWidth):
-    return _andor-guider.SetDDGLitePulseWidth(channel, fWidth)
-SetDDGLitePulseWidth = _andor-guider.SetDDGLitePulseWidth
+    return _andor.SetDDGLitePulseWidth(channel, fWidth)
+SetDDGLitePulseWidth = _andor.SetDDGLitePulseWidth
 
 def SetDDGLiteInterPulseDelay(channel, fDelay):
-    return _andor-guider.SetDDGLiteInterPulseDelay(channel, fDelay)
-SetDDGLiteInterPulseDelay = _andor-guider.SetDDGLiteInterPulseDelay
+    return _andor.SetDDGLiteInterPulseDelay(channel, fDelay)
+SetDDGLiteInterPulseDelay = _andor.SetDDGLiteInterPulseDelay
 
 def SetDDGLitePulsesPerExposure(channel, ui32Pulses):
-    return _andor-guider.SetDDGLitePulsesPerExposure(channel, ui32Pulses)
-SetDDGLitePulsesPerExposure = _andor-guider.SetDDGLitePulsesPerExposure
+    return _andor.SetDDGLitePulsesPerExposure(channel, ui32Pulses)
+SetDDGLitePulsesPerExposure = _andor.SetDDGLitePulsesPerExposure
 
 def SetDDGStepCoefficients(mode, p1, p2):
-    return _andor-guider.SetDDGStepCoefficients(mode, p1, p2)
-SetDDGStepCoefficients = _andor-guider.SetDDGStepCoefficients
+    return _andor.SetDDGStepCoefficients(mode, p1, p2)
+SetDDGStepCoefficients = _andor.SetDDGStepCoefficients
 
 def SetDDGWidthStepCoefficients(mode, p1, p2):
-    return _andor-guider.SetDDGWidthStepCoefficients(mode, p1, p2)
-SetDDGWidthStepCoefficients = _andor-guider.SetDDGWidthStepCoefficients
+    return _andor.SetDDGWidthStepCoefficients(mode, p1, p2)
+SetDDGWidthStepCoefficients = _andor.SetDDGWidthStepCoefficients
 
 def SetDDGStepMode(mode):
-    return _andor-guider.SetDDGStepMode(mode)
-SetDDGStepMode = _andor-guider.SetDDGStepMode
+    return _andor.SetDDGStepMode(mode)
+SetDDGStepMode = _andor.SetDDGStepMode
 
 def SetDDGWidthStepMode(mode):
-    return _andor-guider.SetDDGWidthStepMode(mode)
-SetDDGWidthStepMode = _andor-guider.SetDDGWidthStepMode
+    return _andor.SetDDGWidthStepMode(mode)
+SetDDGWidthStepMode = _andor.SetDDGWidthStepMode
 
 def SetDDGTimes(t0, t1, t2):
-    return _andor-guider.SetDDGTimes(t0, t1, t2)
-SetDDGTimes = _andor-guider.SetDDGTimes
+    return _andor.SetDDGTimes(t0, t1, t2)
+SetDDGTimes = _andor.SetDDGTimes
 
 def SetDDGTriggerMode(mode):
-    return _andor-guider.SetDDGTriggerMode(mode)
-SetDDGTriggerMode = _andor-guider.SetDDGTriggerMode
+    return _andor.SetDDGTriggerMode(mode)
+SetDDGTriggerMode = _andor.SetDDGTriggerMode
 
 def SetDDGVariableGateStep(mode, p1, p2):
-    return _andor-guider.SetDDGVariableGateStep(mode, p1, p2)
-SetDDGVariableGateStep = _andor-guider.SetDDGVariableGateStep
+    return _andor.SetDDGVariableGateStep(mode, p1, p2)
+SetDDGVariableGateStep = _andor.SetDDGVariableGateStep
 
 def SetDelayGenerator(board, address, typ):
-    return _andor-guider.SetDelayGenerator(board, address, typ)
-SetDelayGenerator = _andor-guider.SetDelayGenerator
+    return _andor.SetDelayGenerator(board, address, typ)
+SetDelayGenerator = _andor.SetDelayGenerator
 
 def SetDMAParameters(MaxImagesPerDMA, SecondsPerDMA):
-    return _andor-guider.SetDMAParameters(MaxImagesPerDMA, SecondsPerDMA)
-SetDMAParameters = _andor-guider.SetDMAParameters
+    return _andor.SetDMAParameters(MaxImagesPerDMA, SecondsPerDMA)
+SetDMAParameters = _andor.SetDMAParameters
 
 def SetEMAdvanced(state):
-    return _andor-guider.SetEMAdvanced(state)
-SetEMAdvanced = _andor-guider.SetEMAdvanced
+    return _andor.SetEMAdvanced(state)
+SetEMAdvanced = _andor.SetEMAdvanced
 
 def SetEMCCDGain(gain):
-    return _andor-guider.SetEMCCDGain(gain)
-SetEMCCDGain = _andor-guider.SetEMCCDGain
+    return _andor.SetEMCCDGain(gain)
+SetEMCCDGain = _andor.SetEMCCDGain
 
 def SetEMClockCompensation(EMClockCompensationFlag):
-    return _andor-guider.SetEMClockCompensation(EMClockCompensationFlag)
-SetEMClockCompensation = _andor-guider.SetEMClockCompensation
+    return _andor.SetEMClockCompensation(EMClockCompensationFlag)
+SetEMClockCompensation = _andor.SetEMClockCompensation
 
 def SetEMGainMode(mode):
-    return _andor-guider.SetEMGainMode(mode)
-SetEMGainMode = _andor-guider.SetEMGainMode
+    return _andor.SetEMGainMode(mode)
+SetEMGainMode = _andor.SetEMGainMode
 
 def SetExposureTime(time):
-    return _andor-guider.SetExposureTime(time)
-SetExposureTime = _andor-guider.SetExposureTime
+    return _andor.SetExposureTime(time)
+SetExposureTime = _andor.SetExposureTime
 
 def SetExternalTriggerTermination(uiTermination):
-    return _andor-guider.SetExternalTriggerTermination(uiTermination)
-SetExternalTriggerTermination = _andor-guider.SetExternalTriggerTermination
+    return _andor.SetExternalTriggerTermination(uiTermination)
+SetExternalTriggerTermination = _andor.SetExternalTriggerTermination
 
 def SetFanMode(mode):
-    return _andor-guider.SetFanMode(mode)
-SetFanMode = _andor-guider.SetFanMode
+    return _andor.SetFanMode(mode)
+SetFanMode = _andor.SetFanMode
 
 def SetFastExtTrigger(mode):
-    return _andor-guider.SetFastExtTrigger(mode)
-SetFastExtTrigger = _andor-guider.SetFastExtTrigger
+    return _andor.SetFastExtTrigger(mode)
+SetFastExtTrigger = _andor.SetFastExtTrigger
 
 def SetFastKinetics(exposedRows, seriesLength, time, mode, hbin, vbin):
-    return _andor-guider.SetFastKinetics(exposedRows, seriesLength, time, mode, hbin, vbin)
-SetFastKinetics = _andor-guider.SetFastKinetics
+    return _andor.SetFastKinetics(exposedRows, seriesLength, time, mode, hbin, vbin)
+SetFastKinetics = _andor.SetFastKinetics
 
 def SetFastKineticsEx(exposedRows, seriesLength, time, mode, hbin, vbin, offset):
-    return _andor-guider.SetFastKineticsEx(exposedRows, seriesLength, time, mode, hbin, vbin, offset)
-SetFastKineticsEx = _andor-guider.SetFastKineticsEx
+    return _andor.SetFastKineticsEx(exposedRows, seriesLength, time, mode, hbin, vbin, offset)
+SetFastKineticsEx = _andor.SetFastKineticsEx
 
 def SetSuperKinetics(exposedRows, seriesLength, time, mode, hbin, vbin, offset):
-    return _andor-guider.SetSuperKinetics(exposedRows, seriesLength, time, mode, hbin, vbin, offset)
-SetSuperKinetics = _andor-guider.SetSuperKinetics
+    return _andor.SetSuperKinetics(exposedRows, seriesLength, time, mode, hbin, vbin, offset)
+SetSuperKinetics = _andor.SetSuperKinetics
 
 def SetTimeScan(rows, tracks, mode):
-    return _andor-guider.SetTimeScan(rows, tracks, mode)
-SetTimeScan = _andor-guider.SetTimeScan
+    return _andor.SetTimeScan(rows, tracks, mode)
+SetTimeScan = _andor.SetTimeScan
 
 def SetFilterMode(mode):
-    return _andor-guider.SetFilterMode(mode)
-SetFilterMode = _andor-guider.SetFilterMode
+    return _andor.SetFilterMode(mode)
+SetFilterMode = _andor.SetFilterMode
 
 def SetFilterParameters(width, sensitivity, range, accept, smooth, noise):
-    return _andor-guider.SetFilterParameters(width, sensitivity, range, accept, smooth, noise)
-SetFilterParameters = _andor-guider.SetFilterParameters
+    return _andor.SetFilterParameters(width, sensitivity, range, accept, smooth, noise)
+SetFilterParameters = _andor.SetFilterParameters
 
 def SetFKVShiftSpeed(index):
-    return _andor-guider.SetFKVShiftSpeed(index)
-SetFKVShiftSpeed = _andor-guider.SetFKVShiftSpeed
+    return _andor.SetFKVShiftSpeed(index)
+SetFKVShiftSpeed = _andor.SetFKVShiftSpeed
 
 def SetFPDP(state):
-    return _andor-guider.SetFPDP(state)
-SetFPDP = _andor-guider.SetFPDP
+    return _andor.SetFPDP(state)
+SetFPDP = _andor.SetFPDP
 
 def SetFrameTransferMode(mode):
-    return _andor-guider.SetFrameTransferMode(mode)
-SetFrameTransferMode = _andor-guider.SetFrameTransferMode
+    return _andor.SetFrameTransferMode(mode)
+SetFrameTransferMode = _andor.SetFrameTransferMode
 
 def SetFullImage(hbin, vbin):
-    return _andor-guider.SetFullImage(hbin, vbin)
-SetFullImage = _andor-guider.SetFullImage
+    return _andor.SetFullImage(hbin, vbin)
+SetFullImage = _andor.SetFullImage
 
 def SetFVBHBin(bin):
-    return _andor-guider.SetFVBHBin(bin)
-SetFVBHBin = _andor-guider.SetFVBHBin
+    return _andor.SetFVBHBin(bin)
+SetFVBHBin = _andor.SetFVBHBin
 
 def SetGain(gain):
-    return _andor-guider.SetGain(gain)
-SetGain = _andor-guider.SetGain
+    return _andor.SetGain(gain)
+SetGain = _andor.SetGain
 
 def SetGate(delay, width, stepRenamed):
-    return _andor-guider.SetGate(delay, width, stepRenamed)
-SetGate = _andor-guider.SetGate
+    return _andor.SetGate(delay, width, stepRenamed)
+SetGate = _andor.SetGate
 
 def SetGateMode(gatemode):
-    return _andor-guider.SetGateMode(gatemode)
-SetGateMode = _andor-guider.SetGateMode
+    return _andor.SetGateMode(gatemode)
+SetGateMode = _andor.SetGateMode
 
 def SetHighCapacity(state):
-    return _andor-guider.SetHighCapacity(state)
-SetHighCapacity = _andor-guider.SetHighCapacity
+    return _andor.SetHighCapacity(state)
+SetHighCapacity = _andor.SetHighCapacity
 
 def SetHorizontalSpeed(index):
-    return _andor-guider.SetHorizontalSpeed(index)
-SetHorizontalSpeed = _andor-guider.SetHorizontalSpeed
+    return _andor.SetHorizontalSpeed(index)
+SetHorizontalSpeed = _andor.SetHorizontalSpeed
 
 def SetHSSpeed(typ, index):
-    return _andor-guider.SetHSSpeed(typ, index)
-SetHSSpeed = _andor-guider.SetHSSpeed
+    return _andor.SetHSSpeed(typ, index)
+SetHSSpeed = _andor.SetHSSpeed
 
 def SetImage(hbin, vbin, hstart, hend, vstart, vend):
-    return _andor-guider.SetImage(hbin, vbin, hstart, hend, vstart, vend)
-SetImage = _andor-guider.SetImage
+    return _andor.SetImage(hbin, vbin, hstart, hend, vstart, vend)
+SetImage = _andor.SetImage
 
 def SetImageFlip(iHFlip, iVFlip):
-    return _andor-guider.SetImageFlip(iHFlip, iVFlip)
-SetImageFlip = _andor-guider.SetImageFlip
+    return _andor.SetImageFlip(iHFlip, iVFlip)
+SetImageFlip = _andor.SetImageFlip
 
 def SetImageRotate(iRotate):
-    return _andor-guider.SetImageRotate(iRotate)
-SetImageRotate = _andor-guider.SetImageRotate
+    return _andor.SetImageRotate(iRotate)
+SetImageRotate = _andor.SetImageRotate
 
 def SetIsolatedCropMode(active, cropheight, cropwidth, vbin, hbin):
-    return _andor-guider.SetIsolatedCropMode(active, cropheight, cropwidth, vbin, hbin)
-SetIsolatedCropMode = _andor-guider.SetIsolatedCropMode
+    return _andor.SetIsolatedCropMode(active, cropheight, cropwidth, vbin, hbin)
+SetIsolatedCropMode = _andor.SetIsolatedCropMode
 
 def SetIsolatedCropModeEx(active, cropheight, cropwidth, vbin, hbin, cropleft, cropbottom):
-    return _andor-guider.SetIsolatedCropModeEx(active, cropheight, cropwidth, vbin, hbin, cropleft, cropbottom)
-SetIsolatedCropModeEx = _andor-guider.SetIsolatedCropModeEx
+    return _andor.SetIsolatedCropModeEx(active, cropheight, cropwidth, vbin, hbin, cropleft, cropbottom)
+SetIsolatedCropModeEx = _andor.SetIsolatedCropModeEx
 
 def SetKineticCycleTime(time):
-    return _andor-guider.SetKineticCycleTime(time)
-SetKineticCycleTime = _andor-guider.SetKineticCycleTime
+    return _andor.SetKineticCycleTime(time)
+SetKineticCycleTime = _andor.SetKineticCycleTime
 
 def SetMCPGain(gain):
-    return _andor-guider.SetMCPGain(gain)
-SetMCPGain = _andor-guider.SetMCPGain
+    return _andor.SetMCPGain(gain)
+SetMCPGain = _andor.SetMCPGain
 
 def SetMCPGating(gating):
-    return _andor-guider.SetMCPGating(gating)
-SetMCPGating = _andor-guider.SetMCPGating
+    return _andor.SetMCPGating(gating)
+SetMCPGating = _andor.SetMCPGating
 
 def SetMessageWindow(wnd):
-    return _andor-guider.SetMessageWindow(wnd)
-SetMessageWindow = _andor-guider.SetMessageWindow
+    return _andor.SetMessageWindow(wnd)
+SetMessageWindow = _andor.SetMessageWindow
 
 def SetMetaData(state):
-    return _andor-guider.SetMetaData(state)
-SetMetaData = _andor-guider.SetMetaData
+    return _andor.SetMetaData(state)
+SetMetaData = _andor.SetMetaData
 
 def SetMultiTrack(number, height, offset, bottom, gap):
-    return _andor-guider.SetMultiTrack(number, height, offset, bottom, gap)
-SetMultiTrack = _andor-guider.SetMultiTrack
+    return _andor.SetMultiTrack(number, height, offset, bottom, gap)
+SetMultiTrack = _andor.SetMultiTrack
 
 def SetMultiTrackHBin(bin):
-    return _andor-guider.SetMultiTrackHBin(bin)
-SetMultiTrackHBin = _andor-guider.SetMultiTrackHBin
+    return _andor.SetMultiTrackHBin(bin)
+SetMultiTrackHBin = _andor.SetMultiTrackHBin
 
 def SetMultiTrackHRange(iStart, iEnd):
-    return _andor-guider.SetMultiTrackHRange(iStart, iEnd)
-SetMultiTrackHRange = _andor-guider.SetMultiTrackHRange
+    return _andor.SetMultiTrackHRange(iStart, iEnd)
+SetMultiTrackHRange = _andor.SetMultiTrackHRange
 
 def SetMultiTrackScan(trackHeight, numberTracks, iSIHStart, iSIHEnd, trackHBinning, trackVBinning, trackGap, trackOffset, trackSkip, numberSubFrames):
-    return _andor-guider.SetMultiTrackScan(trackHeight, numberTracks, iSIHStart, iSIHEnd, trackHBinning, trackVBinning, trackGap, trackOffset, trackSkip, numberSubFrames)
-SetMultiTrackScan = _andor-guider.SetMultiTrackScan
+    return _andor.SetMultiTrackScan(trackHeight, numberTracks, iSIHStart, iSIHEnd, trackHBinning, trackVBinning, trackGap, trackOffset, trackSkip, numberSubFrames)
+SetMultiTrackScan = _andor.SetMultiTrackScan
 
 def SetNextAddress(data, lowAdd, highAdd, length, physical):
-    return _andor-guider.SetNextAddress(data, lowAdd, highAdd, length, physical)
-SetNextAddress = _andor-guider.SetNextAddress
+    return _andor.SetNextAddress(data, lowAdd, highAdd, length, physical)
+SetNextAddress = _andor.SetNextAddress
 
 def SetNextAddress16(data, lowAdd, highAdd, length, physical):
-    return _andor-guider.SetNextAddress16(data, lowAdd, highAdd, length, physical)
-SetNextAddress16 = _andor-guider.SetNextAddress16
+    return _andor.SetNextAddress16(data, lowAdd, highAdd, length, physical)
+SetNextAddress16 = _andor.SetNextAddress16
 
 def SetNumberAccumulations(number):
-    return _andor-guider.SetNumberAccumulations(number)
-SetNumberAccumulations = _andor-guider.SetNumberAccumulations
+    return _andor.SetNumberAccumulations(number)
+SetNumberAccumulations = _andor.SetNumberAccumulations
 
 def SetNumberKinetics(number):
-    return _andor-guider.SetNumberKinetics(number)
-SetNumberKinetics = _andor-guider.SetNumberKinetics
+    return _andor.SetNumberKinetics(number)
+SetNumberKinetics = _andor.SetNumberKinetics
 
 def SetNumberPrescans(iNumber):
-    return _andor-guider.SetNumberPrescans(iNumber)
-SetNumberPrescans = _andor-guider.SetNumberPrescans
+    return _andor.SetNumberPrescans(iNumber)
+SetNumberPrescans = _andor.SetNumberPrescans
 
 def SetOutputAmplifier(typ):
-    return _andor-guider.SetOutputAmplifier(typ)
-SetOutputAmplifier = _andor-guider.SetOutputAmplifier
+    return _andor.SetOutputAmplifier(typ)
+SetOutputAmplifier = _andor.SetOutputAmplifier
 
 def SetOverlapMode(mode):
-    return _andor-guider.SetOverlapMode(mode)
-SetOverlapMode = _andor-guider.SetOverlapMode
+    return _andor.SetOverlapMode(mode)
+SetOverlapMode = _andor.SetOverlapMode
 
 def SetPCIMode(mode, value):
-    return _andor-guider.SetPCIMode(mode, value)
-SetPCIMode = _andor-guider.SetPCIMode
+    return _andor.SetPCIMode(mode, value)
+SetPCIMode = _andor.SetPCIMode
 
 def SetPhotonCounting(state):
-    return _andor-guider.SetPhotonCounting(state)
-SetPhotonCounting = _andor-guider.SetPhotonCounting
+    return _andor.SetPhotonCounting(state)
+SetPhotonCounting = _andor.SetPhotonCounting
 
 def SetPhotonCountingThreshold(min, max):
-    return _andor-guider.SetPhotonCountingThreshold(min, max)
-SetPhotonCountingThreshold = _andor-guider.SetPhotonCountingThreshold
+    return _andor.SetPhotonCountingThreshold(min, max)
+SetPhotonCountingThreshold = _andor.SetPhotonCountingThreshold
 
 def SetPhotonCountingDivisions(noOfDivisions, divisions):
-    return _andor-guider.SetPhotonCountingDivisions(noOfDivisions, divisions)
-SetPhotonCountingDivisions = _andor-guider.SetPhotonCountingDivisions
+    return _andor.SetPhotonCountingDivisions(noOfDivisions, divisions)
+SetPhotonCountingDivisions = _andor.SetPhotonCountingDivisions
 
 def SetPixelMode(bitdepth, colormode):
-    return _andor-guider.SetPixelMode(bitdepth, colormode)
-SetPixelMode = _andor-guider.SetPixelMode
+    return _andor.SetPixelMode(bitdepth, colormode)
+SetPixelMode = _andor.SetPixelMode
 
 def SetPreAmpGain(index):
-    return _andor-guider.SetPreAmpGain(index)
-SetPreAmpGain = _andor-guider.SetPreAmpGain
+    return _andor.SetPreAmpGain(index)
+SetPreAmpGain = _andor.SetPreAmpGain
 
 def SetDualExposureTimes(expTime1, expTime2):
-    return _andor-guider.SetDualExposureTimes(expTime1, expTime2)
-SetDualExposureTimes = _andor-guider.SetDualExposureTimes
+    return _andor.SetDualExposureTimes(expTime1, expTime2)
+SetDualExposureTimes = _andor.SetDualExposureTimes
 
 def SetDualExposureMode(mode):
-    return _andor-guider.SetDualExposureMode(mode)
-SetDualExposureMode = _andor-guider.SetDualExposureMode
+    return _andor.SetDualExposureMode(mode)
+SetDualExposureMode = _andor.SetDualExposureMode
 
 def SetRandomTracks(numTracks, areas):
-    return _andor-guider.SetRandomTracks(numTracks, areas)
-SetRandomTracks = _andor-guider.SetRandomTracks
+    return _andor.SetRandomTracks(numTracks, areas)
+SetRandomTracks = _andor.SetRandomTracks
 
 def SetReadMode(mode):
-    return _andor-guider.SetReadMode(mode)
-SetReadMode = _andor-guider.SetReadMode
+    return _andor.SetReadMode(mode)
+SetReadMode = _andor.SetReadMode
 
 def SetReadoutRegisterPacking(mode):
-    return _andor-guider.SetReadoutRegisterPacking(mode)
-SetReadoutRegisterPacking = _andor-guider.SetReadoutRegisterPacking
+    return _andor.SetReadoutRegisterPacking(mode)
+SetReadoutRegisterPacking = _andor.SetReadoutRegisterPacking
 
 def SetRegisterDump(mode):
-    return _andor-guider.SetRegisterDump(mode)
-SetRegisterDump = _andor-guider.SetRegisterDump
+    return _andor.SetRegisterDump(mode)
+SetRegisterDump = _andor.SetRegisterDump
 
 def SetRingExposureTimes(numTimes, times):
-    return _andor-guider.SetRingExposureTimes(numTimes, times)
-SetRingExposureTimes = _andor-guider.SetRingExposureTimes
+    return _andor.SetRingExposureTimes(numTimes, times)
+SetRingExposureTimes = _andor.SetRingExposureTimes
 
 def SetShutter(typ, mode, closingtime, openingtime):
-    return _andor-guider.SetShutter(typ, mode, closingtime, openingtime)
-SetShutter = _andor-guider.SetShutter
+    return _andor.SetShutter(typ, mode, closingtime, openingtime)
+SetShutter = _andor.SetShutter
 
 def SetShutterEx(typ, mode, closingtime, openingtime, extmode):
-    return _andor-guider.SetShutterEx(typ, mode, closingtime, openingtime, extmode)
-SetShutterEx = _andor-guider.SetShutterEx
+    return _andor.SetShutterEx(typ, mode, closingtime, openingtime, extmode)
+SetShutterEx = _andor.SetShutterEx
 
 def SetShutters(typ, mode, closingtime, openingtime, exttype, extmode, dummy1, dummy2):
-    return _andor-guider.SetShutters(typ, mode, closingtime, openingtime, exttype, extmode, dummy1, dummy2)
-SetShutters = _andor-guider.SetShutters
+    return _andor.SetShutters(typ, mode, closingtime, openingtime, exttype, extmode, dummy1, dummy2)
+SetShutters = _andor.SetShutters
 
 def SetSifComment(comment):
-    return _andor-guider.SetSifComment(comment)
-SetSifComment = _andor-guider.SetSifComment
+    return _andor.SetSifComment(comment)
+SetSifComment = _andor.SetSifComment
 
 def SetSingleTrack(centre, height):
-    return _andor-guider.SetSingleTrack(centre, height)
-SetSingleTrack = _andor-guider.SetSingleTrack
+    return _andor.SetSingleTrack(centre, height)
+SetSingleTrack = _andor.SetSingleTrack
 
 def SetSingleTrackHBin(bin):
-    return _andor-guider.SetSingleTrackHBin(bin)
-SetSingleTrackHBin = _andor-guider.SetSingleTrackHBin
+    return _andor.SetSingleTrackHBin(bin)
+SetSingleTrackHBin = _andor.SetSingleTrackHBin
 
 def SetSpool(active, method, path, framebuffersize):
-    return _andor-guider.SetSpool(active, method, path, framebuffersize)
-SetSpool = _andor-guider.SetSpool
+    return _andor.SetSpool(active, method, path, framebuffersize)
+SetSpool = _andor.SetSpool
 
 def SetSpoolThreadCount(count):
-    return _andor-guider.SetSpoolThreadCount(count)
-SetSpoolThreadCount = _andor-guider.SetSpoolThreadCount
+    return _andor.SetSpoolThreadCount(count)
+SetSpoolThreadCount = _andor.SetSpoolThreadCount
 
 def SetStorageMode(mode):
-    return _andor-guider.SetStorageMode(mode)
-SetStorageMode = _andor-guider.SetStorageMode
+    return _andor.SetStorageMode(mode)
+SetStorageMode = _andor.SetStorageMode
 
 def SetTemperature(temperature):
-    return _andor-guider.SetTemperature(temperature)
-SetTemperature = _andor-guider.SetTemperature
+    return _andor.SetTemperature(temperature)
+SetTemperature = _andor.SetTemperature
 
 def SetTriggerMode(mode):
-    return _andor-guider.SetTriggerMode(mode)
-SetTriggerMode = _andor-guider.SetTriggerMode
+    return _andor.SetTriggerMode(mode)
+SetTriggerMode = _andor.SetTriggerMode
 
 def SetTriggerInvert(mode):
-    return _andor-guider.SetTriggerInvert(mode)
-SetTriggerInvert = _andor-guider.SetTriggerInvert
+    return _andor.SetTriggerInvert(mode)
+SetTriggerInvert = _andor.SetTriggerInvert
 
 def GetTriggerLevelRange(minimum, maximum):
-    return _andor-guider.GetTriggerLevelRange(minimum, maximum)
-GetTriggerLevelRange = _andor-guider.GetTriggerLevelRange
+    return _andor.GetTriggerLevelRange(minimum, maximum)
+GetTriggerLevelRange = _andor.GetTriggerLevelRange
 
 def SetTriggerLevel(f_level):
-    return _andor-guider.SetTriggerLevel(f_level)
-SetTriggerLevel = _andor-guider.SetTriggerLevel
+    return _andor.SetTriggerLevel(f_level)
+SetTriggerLevel = _andor.SetTriggerLevel
 
 def SetIODirection(index, iDirection):
-    return _andor-guider.SetIODirection(index, iDirection)
-SetIODirection = _andor-guider.SetIODirection
+    return _andor.SetIODirection(index, iDirection)
+SetIODirection = _andor.SetIODirection
 
 def SetIOLevel(index, iLevel):
-    return _andor-guider.SetIOLevel(index, iLevel)
-SetIOLevel = _andor-guider.SetIOLevel
+    return _andor.SetIOLevel(index, iLevel)
+SetIOLevel = _andor.SetIOLevel
 
 def SetUSGenomics(width, height):
-    return _andor-guider.SetUSGenomics(width, height)
-SetUSGenomics = _andor-guider.SetUSGenomics
+    return _andor.SetUSGenomics(width, height)
+SetUSGenomics = _andor.SetUSGenomics
 
 def SetVerticalRowBuffer(rows):
-    return _andor-guider.SetVerticalRowBuffer(rows)
-SetVerticalRowBuffer = _andor-guider.SetVerticalRowBuffer
+    return _andor.SetVerticalRowBuffer(rows)
+SetVerticalRowBuffer = _andor.SetVerticalRowBuffer
 
 def SetVerticalSpeed(index):
-    return _andor-guider.SetVerticalSpeed(index)
-SetVerticalSpeed = _andor-guider.SetVerticalSpeed
+    return _andor.SetVerticalSpeed(index)
+SetVerticalSpeed = _andor.SetVerticalSpeed
 
 def SetVirtualChip(state):
-    return _andor-guider.SetVirtualChip(state)
-SetVirtualChip = _andor-guider.SetVirtualChip
+    return _andor.SetVirtualChip(state)
+SetVirtualChip = _andor.SetVirtualChip
 
 def SetVSAmplitude(index):
-    return _andor-guider.SetVSAmplitude(index)
-SetVSAmplitude = _andor-guider.SetVSAmplitude
+    return _andor.SetVSAmplitude(index)
+SetVSAmplitude = _andor.SetVSAmplitude
 
 def SetVSSpeed(index):
-    return _andor-guider.SetVSSpeed(index)
-SetVSSpeed = _andor-guider.SetVSSpeed
+    return _andor.SetVSSpeed(index)
+SetVSSpeed = _andor.SetVSSpeed
 
 def ShutDown():
-    return _andor-guider.ShutDown()
-ShutDown = _andor-guider.ShutDown
+    return _andor.ShutDown()
+ShutDown = _andor.ShutDown
 
 def StartAcquisition():
-    return _andor-guider.StartAcquisition()
-StartAcquisition = _andor-guider.StartAcquisition
+    return _andor.StartAcquisition()
+StartAcquisition = _andor.StartAcquisition
 
 def UnMapPhysicalAddress():
-    return _andor-guider.UnMapPhysicalAddress()
-UnMapPhysicalAddress = _andor-guider.UnMapPhysicalAddress
+    return _andor.UnMapPhysicalAddress()
+UnMapPhysicalAddress = _andor.UnMapPhysicalAddress
 
 def UpdateDDGTimings():
-    return _andor-guider.UpdateDDGTimings()
-UpdateDDGTimings = _andor-guider.UpdateDDGTimings
+    return _andor.UpdateDDGTimings()
+UpdateDDGTimings = _andor.UpdateDDGTimings
 
 def WaitForAcquisition():
-    return _andor-guider.WaitForAcquisition()
-WaitForAcquisition = _andor-guider.WaitForAcquisition
+    return _andor.WaitForAcquisition()
+WaitForAcquisition = _andor.WaitForAcquisition
 
 def WaitForAcquisitionByHandle(cameraHandle):
-    return _andor-guider.WaitForAcquisitionByHandle(cameraHandle)
-WaitForAcquisitionByHandle = _andor-guider.WaitForAcquisitionByHandle
+    return _andor.WaitForAcquisitionByHandle(cameraHandle)
+WaitForAcquisitionByHandle = _andor.WaitForAcquisitionByHandle
 
 def WaitForAcquisitionByHandleTimeOut(cameraHandle, iTimeOutMs):
-    return _andor-guider.WaitForAcquisitionByHandleTimeOut(cameraHandle, iTimeOutMs)
-WaitForAcquisitionByHandleTimeOut = _andor-guider.WaitForAcquisitionByHandleTimeOut
+    return _andor.WaitForAcquisitionByHandleTimeOut(cameraHandle, iTimeOutMs)
+WaitForAcquisitionByHandleTimeOut = _andor.WaitForAcquisitionByHandleTimeOut
 
 def WaitForAcquisitionTimeOut(iTimeOutMs):
-    return _andor-guider.WaitForAcquisitionTimeOut(iTimeOutMs)
-WaitForAcquisitionTimeOut = _andor-guider.WaitForAcquisitionTimeOut
+    return _andor.WaitForAcquisitionTimeOut(iTimeOutMs)
+WaitForAcquisitionTimeOut = _andor.WaitForAcquisitionTimeOut
 
 def WhiteBalance(wRed, wGreen, wBlue, fRelR, fRelB, info):
-    return _andor-guider.WhiteBalance(wRed, wGreen, wBlue, fRelR, fRelB, info)
-WhiteBalance = _andor-guider.WhiteBalance
+    return _andor.WhiteBalance(wRed, wGreen, wBlue, fRelR, fRelB, info)
+WhiteBalance = _andor.WhiteBalance
 
 def OA_Initialize(pcFilename, uiFileNameLen):
-    return _andor-guider.OA_Initialize(pcFilename, uiFileNameLen)
-OA_Initialize = _andor-guider.OA_Initialize
+    return _andor.OA_Initialize(pcFilename, uiFileNameLen)
+OA_Initialize = _andor.OA_Initialize
 
 def OA_EnableMode(pcModeName):
-    return _andor-guider.OA_EnableMode(pcModeName)
-OA_EnableMode = _andor-guider.OA_EnableMode
+    return _andor.OA_EnableMode(pcModeName)
+OA_EnableMode = _andor.OA_EnableMode
 
 def OA_GetModeAcqParams(pcModeName, pcListOfParams):
-    return _andor-guider.OA_GetModeAcqParams(pcModeName, pcListOfParams)
-OA_GetModeAcqParams = _andor-guider.OA_GetModeAcqParams
+    return _andor.OA_GetModeAcqParams(pcModeName, pcListOfParams)
+OA_GetModeAcqParams = _andor.OA_GetModeAcqParams
 
 def OA_GetUserModeNames(pcListOfModes):
-    return _andor-guider.OA_GetUserModeNames(pcListOfModes)
-OA_GetUserModeNames = _andor-guider.OA_GetUserModeNames
+    return _andor.OA_GetUserModeNames(pcListOfModes)
+OA_GetUserModeNames = _andor.OA_GetUserModeNames
 
 def OA_GetPreSetModeNames(pcListOfModes):
-    return _andor-guider.OA_GetPreSetModeNames(pcListOfModes)
-OA_GetPreSetModeNames = _andor-guider.OA_GetPreSetModeNames
+    return _andor.OA_GetPreSetModeNames(pcListOfModes)
+OA_GetPreSetModeNames = _andor.OA_GetPreSetModeNames
 
 def OA_GetNumberOfUserModes(puiNumberOfModes):
-    return _andor-guider.OA_GetNumberOfUserModes(puiNumberOfModes)
-OA_GetNumberOfUserModes = _andor-guider.OA_GetNumberOfUserModes
+    return _andor.OA_GetNumberOfUserModes(puiNumberOfModes)
+OA_GetNumberOfUserModes = _andor.OA_GetNumberOfUserModes
 
 def OA_GetNumberOfPreSetModes(puiNumberOfModes):
-    return _andor-guider.OA_GetNumberOfPreSetModes(puiNumberOfModes)
-OA_GetNumberOfPreSetModes = _andor-guider.OA_GetNumberOfPreSetModes
+    return _andor.OA_GetNumberOfPreSetModes(puiNumberOfModes)
+OA_GetNumberOfPreSetModes = _andor.OA_GetNumberOfPreSetModes
 
 def OA_GetNumberOfAcqParams(pcModeName, puiNumberOfParams):
-    return _andor-guider.OA_GetNumberOfAcqParams(pcModeName, puiNumberOfParams)
-OA_GetNumberOfAcqParams = _andor-guider.OA_GetNumberOfAcqParams
+    return _andor.OA_GetNumberOfAcqParams(pcModeName, puiNumberOfParams)
+OA_GetNumberOfAcqParams = _andor.OA_GetNumberOfAcqParams
 
 def OA_AddMode(pcModeName, uiModeNameLen, pcModeDescription, uiModeDescriptionLen):
-    return _andor-guider.OA_AddMode(pcModeName, uiModeNameLen, pcModeDescription, uiModeDescriptionLen)
-OA_AddMode = _andor-guider.OA_AddMode
+    return _andor.OA_AddMode(pcModeName, uiModeNameLen, pcModeDescription, uiModeDescriptionLen)
+OA_AddMode = _andor.OA_AddMode
 
 def OA_WriteToFile(pcFileName, uiFileNameLen):
-    return _andor-guider.OA_WriteToFile(pcFileName, uiFileNameLen)
-OA_WriteToFile = _andor-guider.OA_WriteToFile
+    return _andor.OA_WriteToFile(pcFileName, uiFileNameLen)
+OA_WriteToFile = _andor.OA_WriteToFile
 
 def OA_DeleteMode(pcModeName, uiModeNameLen):
-    return _andor-guider.OA_DeleteMode(pcModeName, uiModeNameLen)
-OA_DeleteMode = _andor-guider.OA_DeleteMode
+    return _andor.OA_DeleteMode(pcModeName, uiModeNameLen)
+OA_DeleteMode = _andor.OA_DeleteMode
 
 def OA_SetInt(pcModeName, pcModeParam, iIntValue):
-    return _andor-guider.OA_SetInt(pcModeName, pcModeParam, iIntValue)
-OA_SetInt = _andor-guider.OA_SetInt
+    return _andor.OA_SetInt(pcModeName, pcModeParam, iIntValue)
+OA_SetInt = _andor.OA_SetInt
 
 def OA_SetFloat(pcModeName, pcModeParam, fFloatValue):
-    return _andor-guider.OA_SetFloat(pcModeName, pcModeParam, fFloatValue)
-OA_SetFloat = _andor-guider.OA_SetFloat
+    return _andor.OA_SetFloat(pcModeName, pcModeParam, fFloatValue)
+OA_SetFloat = _andor.OA_SetFloat
 
 def OA_SetString(pcModeName, pcModeParam, pcStringValue, uiStringLen):
-    return _andor-guider.OA_SetString(pcModeName, pcModeParam, pcStringValue, uiStringLen)
-OA_SetString = _andor-guider.OA_SetString
+    return _andor.OA_SetString(pcModeName, pcModeParam, pcStringValue, uiStringLen)
+OA_SetString = _andor.OA_SetString
 
 def OA_GetInt(pcModeName, pcModeParam, iIntValue):
-    return _andor-guider.OA_GetInt(pcModeName, pcModeParam, iIntValue)
-OA_GetInt = _andor-guider.OA_GetInt
+    return _andor.OA_GetInt(pcModeName, pcModeParam, iIntValue)
+OA_GetInt = _andor.OA_GetInt
 
 def OA_GetFloat(pcModeName, pcModeParam, fFloatValue):
-    return _andor-guider.OA_GetFloat(pcModeName, pcModeParam, fFloatValue)
-OA_GetFloat = _andor-guider.OA_GetFloat
+    return _andor.OA_GetFloat(pcModeName, pcModeParam, fFloatValue)
+OA_GetFloat = _andor.OA_GetFloat
 
 def OA_GetString(pcModeName, pcModeParam, pcStringValue, uiStringLen):
-    return _andor-guider.OA_GetString(pcModeName, pcModeParam, pcStringValue, uiStringLen)
-OA_GetString = _andor-guider.OA_GetString
+    return _andor.OA_GetString(pcModeName, pcModeParam, pcStringValue, uiStringLen)
+OA_GetString = _andor.OA_GetString
 
 def Filter_SetMode(mode):
-    return _andor-guider.Filter_SetMode(mode)
-Filter_SetMode = _andor-guider.Filter_SetMode
+    return _andor.Filter_SetMode(mode)
+Filter_SetMode = _andor.Filter_SetMode
 
 def Filter_GetMode(mode):
-    return _andor-guider.Filter_GetMode(mode)
-Filter_GetMode = _andor-guider.Filter_GetMode
+    return _andor.Filter_GetMode(mode)
+Filter_GetMode = _andor.Filter_GetMode
 
 def Filter_SetThreshold(threshold):
-    return _andor-guider.Filter_SetThreshold(threshold)
-Filter_SetThreshold = _andor-guider.Filter_SetThreshold
+    return _andor.Filter_SetThreshold(threshold)
+Filter_SetThreshold = _andor.Filter_SetThreshold
 
 def Filter_GetThreshold(threshold):
-    return _andor-guider.Filter_GetThreshold(threshold)
-Filter_GetThreshold = _andor-guider.Filter_GetThreshold
+    return _andor.Filter_GetThreshold(threshold)
+Filter_GetThreshold = _andor.Filter_GetThreshold
 
 def Filter_SetDataAveragingMode(mode):
-    return _andor-guider.Filter_SetDataAveragingMode(mode)
-Filter_SetDataAveragingMode = _andor-guider.Filter_SetDataAveragingMode
+    return _andor.Filter_SetDataAveragingMode(mode)
+Filter_SetDataAveragingMode = _andor.Filter_SetDataAveragingMode
 
 def Filter_GetDataAveragingMode(mode):
-    return _andor-guider.Filter_GetDataAveragingMode(mode)
-Filter_GetDataAveragingMode = _andor-guider.Filter_GetDataAveragingMode
+    return _andor.Filter_GetDataAveragingMode(mode)
+Filter_GetDataAveragingMode = _andor.Filter_GetDataAveragingMode
 
 def Filter_SetAveragingFrameCount(frames):
-    return _andor-guider.Filter_SetAveragingFrameCount(frames)
-Filter_SetAveragingFrameCount = _andor-guider.Filter_SetAveragingFrameCount
+    return _andor.Filter_SetAveragingFrameCount(frames)
+Filter_SetAveragingFrameCount = _andor.Filter_SetAveragingFrameCount
 
 def Filter_GetAveragingFrameCount(frames):
-    return _andor-guider.Filter_GetAveragingFrameCount(frames)
-Filter_GetAveragingFrameCount = _andor-guider.Filter_GetAveragingFrameCount
+    return _andor.Filter_GetAveragingFrameCount(frames)
+Filter_GetAveragingFrameCount = _andor.Filter_GetAveragingFrameCount
 
 def Filter_SetAveragingFactor(averagingFactor):
-    return _andor-guider.Filter_SetAveragingFactor(averagingFactor)
-Filter_SetAveragingFactor = _andor-guider.Filter_SetAveragingFactor
+    return _andor.Filter_SetAveragingFactor(averagingFactor)
+Filter_SetAveragingFactor = _andor.Filter_SetAveragingFactor
 
 def Filter_GetAveragingFactor(averagingFactor):
-    return _andor-guider.Filter_GetAveragingFactor(averagingFactor)
-Filter_GetAveragingFactor = _andor-guider.Filter_GetAveragingFactor
+    return _andor.Filter_GetAveragingFactor(averagingFactor)
+Filter_GetAveragingFactor = _andor.Filter_GetAveragingFactor
 
 def PostProcessNoiseFilter(pInputImage, pOutputImage, iOutputBufferSize, iBaseline, iMode, fThreshold, iHeight, iWidth):
-    return _andor-guider.PostProcessNoiseFilter(pInputImage, pOutputImage, iOutputBufferSize, iBaseline, iMode, fThreshold, iHeight, iWidth)
-PostProcessNoiseFilter = _andor-guider.PostProcessNoiseFilter
+    return _andor.PostProcessNoiseFilter(pInputImage, pOutputImage, iOutputBufferSize, iBaseline, iMode, fThreshold, iHeight, iWidth)
+PostProcessNoiseFilter = _andor.PostProcessNoiseFilter
 
 def PostProcessCountConvert(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iBaseline, iMode, iEmGain, fQE, fSensitivity, iHeight, iWidth):
-    return _andor-guider.PostProcessCountConvert(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iBaseline, iMode, iEmGain, fQE, fSensitivity, iHeight, iWidth)
-PostProcessCountConvert = _andor-guider.PostProcessCountConvert
+    return _andor.PostProcessCountConvert(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iBaseline, iMode, iEmGain, fQE, fSensitivity, iHeight, iWidth)
+PostProcessCountConvert = _andor.PostProcessCountConvert
 
 def PostProcessPhotonCounting(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iNumframes, iNumberOfThresholds, pfThreshold, iHeight, iWidth):
-    return _andor-guider.PostProcessPhotonCounting(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iNumframes, iNumberOfThresholds, pfThreshold, iHeight, iWidth)
-PostProcessPhotonCounting = _andor-guider.PostProcessPhotonCounting
+    return _andor.PostProcessPhotonCounting(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iNumframes, iNumberOfThresholds, pfThreshold, iHeight, iWidth)
+PostProcessPhotonCounting = _andor.PostProcessPhotonCounting
 
 def PostProcessDataAveraging(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iAveragingFilterMode, iHeight, iWidth, iFrameCount, iAveragingFactor):
-    return _andor-guider.PostProcessDataAveraging(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iAveragingFilterMode, iHeight, iWidth, iFrameCount, iAveragingFactor)
-PostProcessDataAveraging = _andor-guider.PostProcessDataAveraging
+    return _andor.PostProcessDataAveraging(pInputImage, pOutputImage, iOutputBufferSize, iNumImages, iAveragingFilterMode, iHeight, iWidth, iFrameCount, iAveragingFactor)
+PostProcessDataAveraging = _andor.PostProcessDataAveraging
 
-_andor-guider.DRV_ERROR_CODES_swigconstant(_andor-guider)
-DRV_ERROR_CODES = _andor-guider.DRV_ERROR_CODES
+_andor.DRV_ERROR_CODES_swigconstant(_andor)
+DRV_ERROR_CODES = _andor.DRV_ERROR_CODES
 
-_andor-guider.DRV_SUCCESS_swigconstant(_andor-guider)
-DRV_SUCCESS = _andor-guider.DRV_SUCCESS
+_andor.DRV_SUCCESS_swigconstant(_andor)
+DRV_SUCCESS = _andor.DRV_SUCCESS
 
-_andor-guider.DRV_VXDNOTINSTALLED_swigconstant(_andor-guider)
-DRV_VXDNOTINSTALLED = _andor-guider.DRV_VXDNOTINSTALLED
+_andor.DRV_VXDNOTINSTALLED_swigconstant(_andor)
+DRV_VXDNOTINSTALLED = _andor.DRV_VXDNOTINSTALLED
 
-_andor-guider.DRV_ERROR_SCAN_swigconstant(_andor-guider)
-DRV_ERROR_SCAN = _andor-guider.DRV_ERROR_SCAN
+_andor.DRV_ERROR_SCAN_swigconstant(_andor)
+DRV_ERROR_SCAN = _andor.DRV_ERROR_SCAN
 
-_andor-guider.DRV_ERROR_CHECK_SUM_swigconstant(_andor-guider)
-DRV_ERROR_CHECK_SUM = _andor-guider.DRV_ERROR_CHECK_SUM
+_andor.DRV_ERROR_CHECK_SUM_swigconstant(_andor)
+DRV_ERROR_CHECK_SUM = _andor.DRV_ERROR_CHECK_SUM
 
-_andor-guider.DRV_ERROR_FILELOAD_swigconstant(_andor-guider)
-DRV_ERROR_FILELOAD = _andor-guider.DRV_ERROR_FILELOAD
+_andor.DRV_ERROR_FILELOAD_swigconstant(_andor)
+DRV_ERROR_FILELOAD = _andor.DRV_ERROR_FILELOAD
 
-_andor-guider.DRV_UNKNOWN_FUNCTION_swigconstant(_andor-guider)
-DRV_UNKNOWN_FUNCTION = _andor-guider.DRV_UNKNOWN_FUNCTION
+_andor.DRV_UNKNOWN_FUNCTION_swigconstant(_andor)
+DRV_UNKNOWN_FUNCTION = _andor.DRV_UNKNOWN_FUNCTION
 
-_andor-guider.DRV_ERROR_VXD_INIT_swigconstant(_andor-guider)
-DRV_ERROR_VXD_INIT = _andor-guider.DRV_ERROR_VXD_INIT
+_andor.DRV_ERROR_VXD_INIT_swigconstant(_andor)
+DRV_ERROR_VXD_INIT = _andor.DRV_ERROR_VXD_INIT
 
-_andor-guider.DRV_ERROR_ADDRESS_swigconstant(_andor-guider)
-DRV_ERROR_ADDRESS = _andor-guider.DRV_ERROR_ADDRESS
+_andor.DRV_ERROR_ADDRESS_swigconstant(_andor)
+DRV_ERROR_ADDRESS = _andor.DRV_ERROR_ADDRESS
 
-_andor-guider.DRV_ERROR_PAGELOCK_swigconstant(_andor-guider)
-DRV_ERROR_PAGELOCK = _andor-guider.DRV_ERROR_PAGELOCK
+_andor.DRV_ERROR_PAGELOCK_swigconstant(_andor)
+DRV_ERROR_PAGELOCK = _andor.DRV_ERROR_PAGELOCK
 
-_andor-guider.DRV_ERROR_PAGEUNLOCK_swigconstant(_andor-guider)
-DRV_ERROR_PAGEUNLOCK = _andor-guider.DRV_ERROR_PAGEUNLOCK
+_andor.DRV_ERROR_PAGEUNLOCK_swigconstant(_andor)
+DRV_ERROR_PAGEUNLOCK = _andor.DRV_ERROR_PAGEUNLOCK
 
-_andor-guider.DRV_ERROR_BOARDTEST_swigconstant(_andor-guider)
-DRV_ERROR_BOARDTEST = _andor-guider.DRV_ERROR_BOARDTEST
+_andor.DRV_ERROR_BOARDTEST_swigconstant(_andor)
+DRV_ERROR_BOARDTEST = _andor.DRV_ERROR_BOARDTEST
 
-_andor-guider.DRV_ERROR_ACK_swigconstant(_andor-guider)
-DRV_ERROR_ACK = _andor-guider.DRV_ERROR_ACK
+_andor.DRV_ERROR_ACK_swigconstant(_andor)
+DRV_ERROR_ACK = _andor.DRV_ERROR_ACK
 
-_andor-guider.DRV_ERROR_UP_FIFO_swigconstant(_andor-guider)
-DRV_ERROR_UP_FIFO = _andor-guider.DRV_ERROR_UP_FIFO
+_andor.DRV_ERROR_UP_FIFO_swigconstant(_andor)
+DRV_ERROR_UP_FIFO = _andor.DRV_ERROR_UP_FIFO
 
-_andor-guider.DRV_ERROR_PATTERN_swigconstant(_andor-guider)
-DRV_ERROR_PATTERN = _andor-guider.DRV_ERROR_PATTERN
+_andor.DRV_ERROR_PATTERN_swigconstant(_andor)
+DRV_ERROR_PATTERN = _andor.DRV_ERROR_PATTERN
 
-_andor-guider.DRV_ACQUISITION_ERRORS_swigconstant(_andor-guider)
-DRV_ACQUISITION_ERRORS = _andor-guider.DRV_ACQUISITION_ERRORS
+_andor.DRV_ACQUISITION_ERRORS_swigconstant(_andor)
+DRV_ACQUISITION_ERRORS = _andor.DRV_ACQUISITION_ERRORS
 
-_andor-guider.DRV_ACQ_BUFFER_swigconstant(_andor-guider)
-DRV_ACQ_BUFFER = _andor-guider.DRV_ACQ_BUFFER
+_andor.DRV_ACQ_BUFFER_swigconstant(_andor)
+DRV_ACQ_BUFFER = _andor.DRV_ACQ_BUFFER
 
-_andor-guider.DRV_ACQ_DOWNFIFO_FULL_swigconstant(_andor-guider)
-DRV_ACQ_DOWNFIFO_FULL = _andor-guider.DRV_ACQ_DOWNFIFO_FULL
+_andor.DRV_ACQ_DOWNFIFO_FULL_swigconstant(_andor)
+DRV_ACQ_DOWNFIFO_FULL = _andor.DRV_ACQ_DOWNFIFO_FULL
 
-_andor-guider.DRV_PROC_UNKONWN_INSTRUCTION_swigconstant(_andor-guider)
-DRV_PROC_UNKONWN_INSTRUCTION = _andor-guider.DRV_PROC_UNKONWN_INSTRUCTION
+_andor.DRV_PROC_UNKONWN_INSTRUCTION_swigconstant(_andor)
+DRV_PROC_UNKONWN_INSTRUCTION = _andor.DRV_PROC_UNKONWN_INSTRUCTION
 
-_andor-guider.DRV_ILLEGAL_OP_CODE_swigconstant(_andor-guider)
-DRV_ILLEGAL_OP_CODE = _andor-guider.DRV_ILLEGAL_OP_CODE
+_andor.DRV_ILLEGAL_OP_CODE_swigconstant(_andor)
+DRV_ILLEGAL_OP_CODE = _andor.DRV_ILLEGAL_OP_CODE
 
-_andor-guider.DRV_KINETIC_TIME_NOT_MET_swigconstant(_andor-guider)
-DRV_KINETIC_TIME_NOT_MET = _andor-guider.DRV_KINETIC_TIME_NOT_MET
+_andor.DRV_KINETIC_TIME_NOT_MET_swigconstant(_andor)
+DRV_KINETIC_TIME_NOT_MET = _andor.DRV_KINETIC_TIME_NOT_MET
 
-_andor-guider.DRV_ACCUM_TIME_NOT_MET_swigconstant(_andor-guider)
-DRV_ACCUM_TIME_NOT_MET = _andor-guider.DRV_ACCUM_TIME_NOT_MET
+_andor.DRV_ACCUM_TIME_NOT_MET_swigconstant(_andor)
+DRV_ACCUM_TIME_NOT_MET = _andor.DRV_ACCUM_TIME_NOT_MET
 
-_andor-guider.DRV_NO_NEW_DATA_swigconstant(_andor-guider)
-DRV_NO_NEW_DATA = _andor-guider.DRV_NO_NEW_DATA
+_andor.DRV_NO_NEW_DATA_swigconstant(_andor)
+DRV_NO_NEW_DATA = _andor.DRV_NO_NEW_DATA
 
-_andor-guider.KERN_MEM_ERROR_swigconstant(_andor-guider)
-KERN_MEM_ERROR = _andor-guider.KERN_MEM_ERROR
+_andor.KERN_MEM_ERROR_swigconstant(_andor)
+KERN_MEM_ERROR = _andor.KERN_MEM_ERROR
 
-_andor-guider.DRV_SPOOLERROR_swigconstant(_andor-guider)
-DRV_SPOOLERROR = _andor-guider.DRV_SPOOLERROR
+_andor.DRV_SPOOLERROR_swigconstant(_andor)
+DRV_SPOOLERROR = _andor.DRV_SPOOLERROR
 
-_andor-guider.DRV_SPOOLSETUPERROR_swigconstant(_andor-guider)
-DRV_SPOOLSETUPERROR = _andor-guider.DRV_SPOOLSETUPERROR
+_andor.DRV_SPOOLSETUPERROR_swigconstant(_andor)
+DRV_SPOOLSETUPERROR = _andor.DRV_SPOOLSETUPERROR
 
-_andor-guider.DRV_FILESIZELIMITERROR_swigconstant(_andor-guider)
-DRV_FILESIZELIMITERROR = _andor-guider.DRV_FILESIZELIMITERROR
+_andor.DRV_FILESIZELIMITERROR_swigconstant(_andor)
+DRV_FILESIZELIMITERROR = _andor.DRV_FILESIZELIMITERROR
 
-_andor-guider.DRV_ERROR_FILESAVE_swigconstant(_andor-guider)
-DRV_ERROR_FILESAVE = _andor-guider.DRV_ERROR_FILESAVE
+_andor.DRV_ERROR_FILESAVE_swigconstant(_andor)
+DRV_ERROR_FILESAVE = _andor.DRV_ERROR_FILESAVE
 
-_andor-guider.DRV_TEMPERATURE_CODES_swigconstant(_andor-guider)
-DRV_TEMPERATURE_CODES = _andor-guider.DRV_TEMPERATURE_CODES
+_andor.DRV_TEMPERATURE_CODES_swigconstant(_andor)
+DRV_TEMPERATURE_CODES = _andor.DRV_TEMPERATURE_CODES
 
-_andor-guider.DRV_TEMPERATURE_OFF_swigconstant(_andor-guider)
-DRV_TEMPERATURE_OFF = _andor-guider.DRV_TEMPERATURE_OFF
+_andor.DRV_TEMPERATURE_OFF_swigconstant(_andor)
+DRV_TEMPERATURE_OFF = _andor.DRV_TEMPERATURE_OFF
 
-_andor-guider.DRV_TEMPERATURE_NOT_STABILIZED_swigconstant(_andor-guider)
-DRV_TEMPERATURE_NOT_STABILIZED = _andor-guider.DRV_TEMPERATURE_NOT_STABILIZED
+_andor.DRV_TEMPERATURE_NOT_STABILIZED_swigconstant(_andor)
+DRV_TEMPERATURE_NOT_STABILIZED = _andor.DRV_TEMPERATURE_NOT_STABILIZED
 
-_andor-guider.DRV_TEMPERATURE_STABILIZED_swigconstant(_andor-guider)
-DRV_TEMPERATURE_STABILIZED = _andor-guider.DRV_TEMPERATURE_STABILIZED
+_andor.DRV_TEMPERATURE_STABILIZED_swigconstant(_andor)
+DRV_TEMPERATURE_STABILIZED = _andor.DRV_TEMPERATURE_STABILIZED
 
-_andor-guider.DRV_TEMPERATURE_NOT_REACHED_swigconstant(_andor-guider)
-DRV_TEMPERATURE_NOT_REACHED = _andor-guider.DRV_TEMPERATURE_NOT_REACHED
+_andor.DRV_TEMPERATURE_NOT_REACHED_swigconstant(_andor)
+DRV_TEMPERATURE_NOT_REACHED = _andor.DRV_TEMPERATURE_NOT_REACHED
 
-_andor-guider.DRV_TEMPERATURE_OUT_RANGE_swigconstant(_andor-guider)
-DRV_TEMPERATURE_OUT_RANGE = _andor-guider.DRV_TEMPERATURE_OUT_RANGE
+_andor.DRV_TEMPERATURE_OUT_RANGE_swigconstant(_andor)
+DRV_TEMPERATURE_OUT_RANGE = _andor.DRV_TEMPERATURE_OUT_RANGE
 
-_andor-guider.DRV_TEMPERATURE_NOT_SUPPORTED_swigconstant(_andor-guider)
-DRV_TEMPERATURE_NOT_SUPPORTED = _andor-guider.DRV_TEMPERATURE_NOT_SUPPORTED
+_andor.DRV_TEMPERATURE_NOT_SUPPORTED_swigconstant(_andor)
+DRV_TEMPERATURE_NOT_SUPPORTED = _andor.DRV_TEMPERATURE_NOT_SUPPORTED
 
-_andor-guider.DRV_TEMPERATURE_DRIFT_swigconstant(_andor-guider)
-DRV_TEMPERATURE_DRIFT = _andor-guider.DRV_TEMPERATURE_DRIFT
+_andor.DRV_TEMPERATURE_DRIFT_swigconstant(_andor)
+DRV_TEMPERATURE_DRIFT = _andor.DRV_TEMPERATURE_DRIFT
 
-_andor-guider.DRV_TEMP_CODES_swigconstant(_andor-guider)
-DRV_TEMP_CODES = _andor-guider.DRV_TEMP_CODES
+_andor.DRV_TEMP_CODES_swigconstant(_andor)
+DRV_TEMP_CODES = _andor.DRV_TEMP_CODES
 
-_andor-guider.DRV_TEMP_OFF_swigconstant(_andor-guider)
-DRV_TEMP_OFF = _andor-guider.DRV_TEMP_OFF
+_andor.DRV_TEMP_OFF_swigconstant(_andor)
+DRV_TEMP_OFF = _andor.DRV_TEMP_OFF
 
-_andor-guider.DRV_TEMP_NOT_STABILIZED_swigconstant(_andor-guider)
-DRV_TEMP_NOT_STABILIZED = _andor-guider.DRV_TEMP_NOT_STABILIZED
+_andor.DRV_TEMP_NOT_STABILIZED_swigconstant(_andor)
+DRV_TEMP_NOT_STABILIZED = _andor.DRV_TEMP_NOT_STABILIZED
 
-_andor-guider.DRV_TEMP_STABILIZED_swigconstant(_andor-guider)
-DRV_TEMP_STABILIZED = _andor-guider.DRV_TEMP_STABILIZED
+_andor.DRV_TEMP_STABILIZED_swigconstant(_andor)
+DRV_TEMP_STABILIZED = _andor.DRV_TEMP_STABILIZED
 
-_andor-guider.DRV_TEMP_NOT_REACHED_swigconstant(_andor-guider)
-DRV_TEMP_NOT_REACHED = _andor-guider.DRV_TEMP_NOT_REACHED
+_andor.DRV_TEMP_NOT_REACHED_swigconstant(_andor)
+DRV_TEMP_NOT_REACHED = _andor.DRV_TEMP_NOT_REACHED
 
-_andor-guider.DRV_TEMP_OUT_RANGE_swigconstant(_andor-guider)
-DRV_TEMP_OUT_RANGE = _andor-guider.DRV_TEMP_OUT_RANGE
+_andor.DRV_TEMP_OUT_RANGE_swigconstant(_andor)
+DRV_TEMP_OUT_RANGE = _andor.DRV_TEMP_OUT_RANGE
 
-_andor-guider.DRV_TEMP_NOT_SUPPORTED_swigconstant(_andor-guider)
-DRV_TEMP_NOT_SUPPORTED = _andor-guider.DRV_TEMP_NOT_SUPPORTED
+_andor.DRV_TEMP_NOT_SUPPORTED_swigconstant(_andor)
+DRV_TEMP_NOT_SUPPORTED = _andor.DRV_TEMP_NOT_SUPPORTED
 
-_andor-guider.DRV_TEMP_DRIFT_swigconstant(_andor-guider)
-DRV_TEMP_DRIFT = _andor-guider.DRV_TEMP_DRIFT
+_andor.DRV_TEMP_DRIFT_swigconstant(_andor)
+DRV_TEMP_DRIFT = _andor.DRV_TEMP_DRIFT
 
-_andor-guider.DRV_GENERAL_ERRORS_swigconstant(_andor-guider)
-DRV_GENERAL_ERRORS = _andor-guider.DRV_GENERAL_ERRORS
+_andor.DRV_GENERAL_ERRORS_swigconstant(_andor)
+DRV_GENERAL_ERRORS = _andor.DRV_GENERAL_ERRORS
 
-_andor-guider.DRV_INVALID_AUX_swigconstant(_andor-guider)
-DRV_INVALID_AUX = _andor-guider.DRV_INVALID_AUX
+_andor.DRV_INVALID_AUX_swigconstant(_andor)
+DRV_INVALID_AUX = _andor.DRV_INVALID_AUX
 
-_andor-guider.DRV_COF_NOTLOADED_swigconstant(_andor-guider)
-DRV_COF_NOTLOADED = _andor-guider.DRV_COF_NOTLOADED
+_andor.DRV_COF_NOTLOADED_swigconstant(_andor)
+DRV_COF_NOTLOADED = _andor.DRV_COF_NOTLOADED
 
-_andor-guider.DRV_FPGAPROG_swigconstant(_andor-guider)
-DRV_FPGAPROG = _andor-guider.DRV_FPGAPROG
+_andor.DRV_FPGAPROG_swigconstant(_andor)
+DRV_FPGAPROG = _andor.DRV_FPGAPROG
 
-_andor-guider.DRV_FLEXERROR_swigconstant(_andor-guider)
-DRV_FLEXERROR = _andor-guider.DRV_FLEXERROR
+_andor.DRV_FLEXERROR_swigconstant(_andor)
+DRV_FLEXERROR = _andor.DRV_FLEXERROR
 
-_andor-guider.DRV_GPIBERROR_swigconstant(_andor-guider)
-DRV_GPIBERROR = _andor-guider.DRV_GPIBERROR
+_andor.DRV_GPIBERROR_swigconstant(_andor)
+DRV_GPIBERROR = _andor.DRV_GPIBERROR
 
-_andor-guider.DRV_EEPROMVERSIONERROR_swigconstant(_andor-guider)
-DRV_EEPROMVERSIONERROR = _andor-guider.DRV_EEPROMVERSIONERROR
+_andor.DRV_EEPROMVERSIONERROR_swigconstant(_andor)
+DRV_EEPROMVERSIONERROR = _andor.DRV_EEPROMVERSIONERROR
 
-_andor-guider.DRV_DATATYPE_swigconstant(_andor-guider)
-DRV_DATATYPE = _andor-guider.DRV_DATATYPE
+_andor.DRV_DATATYPE_swigconstant(_andor)
+DRV_DATATYPE = _andor.DRV_DATATYPE
 
-_andor-guider.DRV_DRIVER_ERRORS_swigconstant(_andor-guider)
-DRV_DRIVER_ERRORS = _andor-guider.DRV_DRIVER_ERRORS
+_andor.DRV_DRIVER_ERRORS_swigconstant(_andor)
+DRV_DRIVER_ERRORS = _andor.DRV_DRIVER_ERRORS
 
-_andor-guider.DRV_P1INVALID_swigconstant(_andor-guider)
-DRV_P1INVALID = _andor-guider.DRV_P1INVALID
+_andor.DRV_P1INVALID_swigconstant(_andor)
+DRV_P1INVALID = _andor.DRV_P1INVALID
 
-_andor-guider.DRV_P2INVALID_swigconstant(_andor-guider)
-DRV_P2INVALID = _andor-guider.DRV_P2INVALID
+_andor.DRV_P2INVALID_swigconstant(_andor)
+DRV_P2INVALID = _andor.DRV_P2INVALID
 
-_andor-guider.DRV_P3INVALID_swigconstant(_andor-guider)
-DRV_P3INVALID = _andor-guider.DRV_P3INVALID
+_andor.DRV_P3INVALID_swigconstant(_andor)
+DRV_P3INVALID = _andor.DRV_P3INVALID
 
-_andor-guider.DRV_P4INVALID_swigconstant(_andor-guider)
-DRV_P4INVALID = _andor-guider.DRV_P4INVALID
+_andor.DRV_P4INVALID_swigconstant(_andor)
+DRV_P4INVALID = _andor.DRV_P4INVALID
 
-_andor-guider.DRV_INIERROR_swigconstant(_andor-guider)
-DRV_INIERROR = _andor-guider.DRV_INIERROR
+_andor.DRV_INIERROR_swigconstant(_andor)
+DRV_INIERROR = _andor.DRV_INIERROR
 
-_andor-guider.DRV_COFERROR_swigconstant(_andor-guider)
-DRV_COFERROR = _andor-guider.DRV_COFERROR
+_andor.DRV_COFERROR_swigconstant(_andor)
+DRV_COFERROR = _andor.DRV_COFERROR
 
-_andor-guider.DRV_ACQUIRING_swigconstant(_andor-guider)
-DRV_ACQUIRING = _andor-guider.DRV_ACQUIRING
+_andor.DRV_ACQUIRING_swigconstant(_andor)
+DRV_ACQUIRING = _andor.DRV_ACQUIRING
 
-_andor-guider.DRV_IDLE_swigconstant(_andor-guider)
-DRV_IDLE = _andor-guider.DRV_IDLE
+_andor.DRV_IDLE_swigconstant(_andor)
+DRV_IDLE = _andor.DRV_IDLE
 
-_andor-guider.DRV_TEMPCYCLE_swigconstant(_andor-guider)
-DRV_TEMPCYCLE = _andor-guider.DRV_TEMPCYCLE
+_andor.DRV_TEMPCYCLE_swigconstant(_andor)
+DRV_TEMPCYCLE = _andor.DRV_TEMPCYCLE
 
-_andor-guider.DRV_NOT_INITIALIZED_swigconstant(_andor-guider)
-DRV_NOT_INITIALIZED = _andor-guider.DRV_NOT_INITIALIZED
+_andor.DRV_NOT_INITIALIZED_swigconstant(_andor)
+DRV_NOT_INITIALIZED = _andor.DRV_NOT_INITIALIZED
 
-_andor-guider.DRV_P5INVALID_swigconstant(_andor-guider)
-DRV_P5INVALID = _andor-guider.DRV_P5INVALID
+_andor.DRV_P5INVALID_swigconstant(_andor)
+DRV_P5INVALID = _andor.DRV_P5INVALID
 
-_andor-guider.DRV_P6INVALID_swigconstant(_andor-guider)
-DRV_P6INVALID = _andor-guider.DRV_P6INVALID
+_andor.DRV_P6INVALID_swigconstant(_andor)
+DRV_P6INVALID = _andor.DRV_P6INVALID
 
-_andor-guider.DRV_INVALID_MODE_swigconstant(_andor-guider)
-DRV_INVALID_MODE = _andor-guider.DRV_INVALID_MODE
+_andor.DRV_INVALID_MODE_swigconstant(_andor)
+DRV_INVALID_MODE = _andor.DRV_INVALID_MODE
 
-_andor-guider.DRV_INVALID_FILTER_swigconstant(_andor-guider)
-DRV_INVALID_FILTER = _andor-guider.DRV_INVALID_FILTER
+_andor.DRV_INVALID_FILTER_swigconstant(_andor)
+DRV_INVALID_FILTER = _andor.DRV_INVALID_FILTER
 
-_andor-guider.DRV_I2CERRORS_swigconstant(_andor-guider)
-DRV_I2CERRORS = _andor-guider.DRV_I2CERRORS
+_andor.DRV_I2CERRORS_swigconstant(_andor)
+DRV_I2CERRORS = _andor.DRV_I2CERRORS
 
-_andor-guider.DRV_I2CDEVNOTFOUND_swigconstant(_andor-guider)
-DRV_I2CDEVNOTFOUND = _andor-guider.DRV_I2CDEVNOTFOUND
+_andor.DRV_I2CDEVNOTFOUND_swigconstant(_andor)
+DRV_I2CDEVNOTFOUND = _andor.DRV_I2CDEVNOTFOUND
 
-_andor-guider.DRV_I2CTIMEOUT_swigconstant(_andor-guider)
-DRV_I2CTIMEOUT = _andor-guider.DRV_I2CTIMEOUT
+_andor.DRV_I2CTIMEOUT_swigconstant(_andor)
+DRV_I2CTIMEOUT = _andor.DRV_I2CTIMEOUT
 
-_andor-guider.DRV_P7INVALID_swigconstant(_andor-guider)
-DRV_P7INVALID = _andor-guider.DRV_P7INVALID
+_andor.DRV_P7INVALID_swigconstant(_andor)
+DRV_P7INVALID = _andor.DRV_P7INVALID
 
-_andor-guider.DRV_P8INVALID_swigconstant(_andor-guider)
-DRV_P8INVALID = _andor-guider.DRV_P8INVALID
+_andor.DRV_P8INVALID_swigconstant(_andor)
+DRV_P8INVALID = _andor.DRV_P8INVALID
 
-_andor-guider.DRV_P9INVALID_swigconstant(_andor-guider)
-DRV_P9INVALID = _andor-guider.DRV_P9INVALID
+_andor.DRV_P9INVALID_swigconstant(_andor)
+DRV_P9INVALID = _andor.DRV_P9INVALID
 
-_andor-guider.DRV_P10INVALID_swigconstant(_andor-guider)
-DRV_P10INVALID = _andor-guider.DRV_P10INVALID
+_andor.DRV_P10INVALID_swigconstant(_andor)
+DRV_P10INVALID = _andor.DRV_P10INVALID
 
-_andor-guider.DRV_P11INVALID_swigconstant(_andor-guider)
-DRV_P11INVALID = _andor-guider.DRV_P11INVALID
+_andor.DRV_P11INVALID_swigconstant(_andor)
+DRV_P11INVALID = _andor.DRV_P11INVALID
 
-_andor-guider.DRV_USBERROR_swigconstant(_andor-guider)
-DRV_USBERROR = _andor-guider.DRV_USBERROR
+_andor.DRV_USBERROR_swigconstant(_andor)
+DRV_USBERROR = _andor.DRV_USBERROR
 
-_andor-guider.DRV_IOCERROR_swigconstant(_andor-guider)
-DRV_IOCERROR = _andor-guider.DRV_IOCERROR
+_andor.DRV_IOCERROR_swigconstant(_andor)
+DRV_IOCERROR = _andor.DRV_IOCERROR
 
-_andor-guider.DRV_VRMVERSIONERROR_swigconstant(_andor-guider)
-DRV_VRMVERSIONERROR = _andor-guider.DRV_VRMVERSIONERROR
+_andor.DRV_VRMVERSIONERROR_swigconstant(_andor)
+DRV_VRMVERSIONERROR = _andor.DRV_VRMVERSIONERROR
 
-_andor-guider.DRV_GATESTEPERROR_swigconstant(_andor-guider)
-DRV_GATESTEPERROR = _andor-guider.DRV_GATESTEPERROR
+_andor.DRV_GATESTEPERROR_swigconstant(_andor)
+DRV_GATESTEPERROR = _andor.DRV_GATESTEPERROR
 
-_andor-guider.DRV_USB_INTERRUPT_ENDPOINT_ERROR_swigconstant(_andor-guider)
-DRV_USB_INTERRUPT_ENDPOINT_ERROR = _andor-guider.DRV_USB_INTERRUPT_ENDPOINT_ERROR
+_andor.DRV_USB_INTERRUPT_ENDPOINT_ERROR_swigconstant(_andor)
+DRV_USB_INTERRUPT_ENDPOINT_ERROR = _andor.DRV_USB_INTERRUPT_ENDPOINT_ERROR
 
-_andor-guider.DRV_RANDOM_TRACK_ERROR_swigconstant(_andor-guider)
-DRV_RANDOM_TRACK_ERROR = _andor-guider.DRV_RANDOM_TRACK_ERROR
+_andor.DRV_RANDOM_TRACK_ERROR_swigconstant(_andor)
+DRV_RANDOM_TRACK_ERROR = _andor.DRV_RANDOM_TRACK_ERROR
 
-_andor-guider.DRV_INVALID_TRIGGER_MODE_swigconstant(_andor-guider)
-DRV_INVALID_TRIGGER_MODE = _andor-guider.DRV_INVALID_TRIGGER_MODE
+_andor.DRV_INVALID_TRIGGER_MODE_swigconstant(_andor)
+DRV_INVALID_TRIGGER_MODE = _andor.DRV_INVALID_TRIGGER_MODE
 
-_andor-guider.DRV_LOAD_FIRMWARE_ERROR_swigconstant(_andor-guider)
-DRV_LOAD_FIRMWARE_ERROR = _andor-guider.DRV_LOAD_FIRMWARE_ERROR
+_andor.DRV_LOAD_FIRMWARE_ERROR_swigconstant(_andor)
+DRV_LOAD_FIRMWARE_ERROR = _andor.DRV_LOAD_FIRMWARE_ERROR
 
-_andor-guider.DRV_DIVIDE_BY_ZERO_ERROR_swigconstant(_andor-guider)
-DRV_DIVIDE_BY_ZERO_ERROR = _andor-guider.DRV_DIVIDE_BY_ZERO_ERROR
+_andor.DRV_DIVIDE_BY_ZERO_ERROR_swigconstant(_andor)
+DRV_DIVIDE_BY_ZERO_ERROR = _andor.DRV_DIVIDE_BY_ZERO_ERROR
 
-_andor-guider.DRV_INVALID_RINGEXPOSURES_swigconstant(_andor-guider)
-DRV_INVALID_RINGEXPOSURES = _andor-guider.DRV_INVALID_RINGEXPOSURES
+_andor.DRV_INVALID_RINGEXPOSURES_swigconstant(_andor)
+DRV_INVALID_RINGEXPOSURES = _andor.DRV_INVALID_RINGEXPOSURES
 
-_andor-guider.DRV_BINNING_ERROR_swigconstant(_andor-guider)
-DRV_BINNING_ERROR = _andor-guider.DRV_BINNING_ERROR
+_andor.DRV_BINNING_ERROR_swigconstant(_andor)
+DRV_BINNING_ERROR = _andor.DRV_BINNING_ERROR
 
-_andor-guider.DRV_INVALID_AMPLIFIER_swigconstant(_andor-guider)
-DRV_INVALID_AMPLIFIER = _andor-guider.DRV_INVALID_AMPLIFIER
+_andor.DRV_INVALID_AMPLIFIER_swigconstant(_andor)
+DRV_INVALID_AMPLIFIER = _andor.DRV_INVALID_AMPLIFIER
 
-_andor-guider.DRV_INVALID_COUNTCONVERT_MODE_swigconstant(_andor-guider)
-DRV_INVALID_COUNTCONVERT_MODE = _andor-guider.DRV_INVALID_COUNTCONVERT_MODE
+_andor.DRV_INVALID_COUNTCONVERT_MODE_swigconstant(_andor)
+DRV_INVALID_COUNTCONVERT_MODE = _andor.DRV_INVALID_COUNTCONVERT_MODE
 
-_andor-guider.DRV_ERROR_NOCAMERA_swigconstant(_andor-guider)
-DRV_ERROR_NOCAMERA = _andor-guider.DRV_ERROR_NOCAMERA
+_andor.DRV_ERROR_NOCAMERA_swigconstant(_andor)
+DRV_ERROR_NOCAMERA = _andor.DRV_ERROR_NOCAMERA
 
-_andor-guider.DRV_NOT_SUPPORTED_swigconstant(_andor-guider)
-DRV_NOT_SUPPORTED = _andor-guider.DRV_NOT_SUPPORTED
+_andor.DRV_NOT_SUPPORTED_swigconstant(_andor)
+DRV_NOT_SUPPORTED = _andor.DRV_NOT_SUPPORTED
 
-_andor-guider.DRV_NOT_AVAILABLE_swigconstant(_andor-guider)
-DRV_NOT_AVAILABLE = _andor-guider.DRV_NOT_AVAILABLE
+_andor.DRV_NOT_AVAILABLE_swigconstant(_andor)
+DRV_NOT_AVAILABLE = _andor.DRV_NOT_AVAILABLE
 
-_andor-guider.DRV_ERROR_MAP_swigconstant(_andor-guider)
-DRV_ERROR_MAP = _andor-guider.DRV_ERROR_MAP
+_andor.DRV_ERROR_MAP_swigconstant(_andor)
+DRV_ERROR_MAP = _andor.DRV_ERROR_MAP
 
-_andor-guider.DRV_ERROR_UNMAP_swigconstant(_andor-guider)
-DRV_ERROR_UNMAP = _andor-guider.DRV_ERROR_UNMAP
+_andor.DRV_ERROR_UNMAP_swigconstant(_andor)
+DRV_ERROR_UNMAP = _andor.DRV_ERROR_UNMAP
 
-_andor-guider.DRV_ERROR_MDL_swigconstant(_andor-guider)
-DRV_ERROR_MDL = _andor-guider.DRV_ERROR_MDL
+_andor.DRV_ERROR_MDL_swigconstant(_andor)
+DRV_ERROR_MDL = _andor.DRV_ERROR_MDL
 
-_andor-guider.DRV_ERROR_UNMDL_swigconstant(_andor-guider)
-DRV_ERROR_UNMDL = _andor-guider.DRV_ERROR_UNMDL
+_andor.DRV_ERROR_UNMDL_swigconstant(_andor)
+DRV_ERROR_UNMDL = _andor.DRV_ERROR_UNMDL
 
-_andor-guider.DRV_ERROR_BUFFSIZE_swigconstant(_andor-guider)
-DRV_ERROR_BUFFSIZE = _andor-guider.DRV_ERROR_BUFFSIZE
+_andor.DRV_ERROR_BUFFSIZE_swigconstant(_andor)
+DRV_ERROR_BUFFSIZE = _andor.DRV_ERROR_BUFFSIZE
 
-_andor-guider.DRV_ERROR_NOHANDLE_swigconstant(_andor-guider)
-DRV_ERROR_NOHANDLE = _andor-guider.DRV_ERROR_NOHANDLE
+_andor.DRV_ERROR_NOHANDLE_swigconstant(_andor)
+DRV_ERROR_NOHANDLE = _andor.DRV_ERROR_NOHANDLE
 
-_andor-guider.DRV_GATING_NOT_AVAILABLE_swigconstant(_andor-guider)
-DRV_GATING_NOT_AVAILABLE = _andor-guider.DRV_GATING_NOT_AVAILABLE
+_andor.DRV_GATING_NOT_AVAILABLE_swigconstant(_andor)
+DRV_GATING_NOT_AVAILABLE = _andor.DRV_GATING_NOT_AVAILABLE
 
-_andor-guider.DRV_FPGA_VOLTAGE_ERROR_swigconstant(_andor-guider)
-DRV_FPGA_VOLTAGE_ERROR = _andor-guider.DRV_FPGA_VOLTAGE_ERROR
+_andor.DRV_FPGA_VOLTAGE_ERROR_swigconstant(_andor)
+DRV_FPGA_VOLTAGE_ERROR = _andor.DRV_FPGA_VOLTAGE_ERROR
 
-_andor-guider.DRV_OW_CMD_FAIL_swigconstant(_andor-guider)
-DRV_OW_CMD_FAIL = _andor-guider.DRV_OW_CMD_FAIL
+_andor.DRV_OW_CMD_FAIL_swigconstant(_andor)
+DRV_OW_CMD_FAIL = _andor.DRV_OW_CMD_FAIL
 
-_andor-guider.DRV_OWMEMORY_BAD_ADDR_swigconstant(_andor-guider)
-DRV_OWMEMORY_BAD_ADDR = _andor-guider.DRV_OWMEMORY_BAD_ADDR
+_andor.DRV_OWMEMORY_BAD_ADDR_swigconstant(_andor)
+DRV_OWMEMORY_BAD_ADDR = _andor.DRV_OWMEMORY_BAD_ADDR
 
-_andor-guider.DRV_OWCMD_NOT_AVAILABLE_swigconstant(_andor-guider)
-DRV_OWCMD_NOT_AVAILABLE = _andor-guider.DRV_OWCMD_NOT_AVAILABLE
+_andor.DRV_OWCMD_NOT_AVAILABLE_swigconstant(_andor)
+DRV_OWCMD_NOT_AVAILABLE = _andor.DRV_OWCMD_NOT_AVAILABLE
 
-_andor-guider.DRV_OW_NO_SLAVES_swigconstant(_andor-guider)
-DRV_OW_NO_SLAVES = _andor-guider.DRV_OW_NO_SLAVES
+_andor.DRV_OW_NO_SLAVES_swigconstant(_andor)
+DRV_OW_NO_SLAVES = _andor.DRV_OW_NO_SLAVES
 
-_andor-guider.DRV_OW_NOT_INITIALIZED_swigconstant(_andor-guider)
-DRV_OW_NOT_INITIALIZED = _andor-guider.DRV_OW_NOT_INITIALIZED
+_andor.DRV_OW_NOT_INITIALIZED_swigconstant(_andor)
+DRV_OW_NOT_INITIALIZED = _andor.DRV_OW_NOT_INITIALIZED
 
-_andor-guider.DRV_OW_ERROR_SLAVE_NUM_swigconstant(_andor-guider)
-DRV_OW_ERROR_SLAVE_NUM = _andor-guider.DRV_OW_ERROR_SLAVE_NUM
+_andor.DRV_OW_ERROR_SLAVE_NUM_swigconstant(_andor)
+DRV_OW_ERROR_SLAVE_NUM = _andor.DRV_OW_ERROR_SLAVE_NUM
 
-_andor-guider.DRV_MSTIMINGS_ERROR_swigconstant(_andor-guider)
-DRV_MSTIMINGS_ERROR = _andor-guider.DRV_MSTIMINGS_ERROR
+_andor.DRV_MSTIMINGS_ERROR_swigconstant(_andor)
+DRV_MSTIMINGS_ERROR = _andor.DRV_MSTIMINGS_ERROR
 
-_andor-guider.DRV_OA_NULL_ERROR_swigconstant(_andor-guider)
-DRV_OA_NULL_ERROR = _andor-guider.DRV_OA_NULL_ERROR
+_andor.DRV_OA_NULL_ERROR_swigconstant(_andor)
+DRV_OA_NULL_ERROR = _andor.DRV_OA_NULL_ERROR
 
-_andor-guider.DRV_OA_PARSE_DTD_ERROR_swigconstant(_andor-guider)
-DRV_OA_PARSE_DTD_ERROR = _andor-guider.DRV_OA_PARSE_DTD_ERROR
+_andor.DRV_OA_PARSE_DTD_ERROR_swigconstant(_andor)
+DRV_OA_PARSE_DTD_ERROR = _andor.DRV_OA_PARSE_DTD_ERROR
 
-_andor-guider.DRV_OA_DTD_VALIDATE_ERROR_swigconstant(_andor-guider)
-DRV_OA_DTD_VALIDATE_ERROR = _andor-guider.DRV_OA_DTD_VALIDATE_ERROR
+_andor.DRV_OA_DTD_VALIDATE_ERROR_swigconstant(_andor)
+DRV_OA_DTD_VALIDATE_ERROR = _andor.DRV_OA_DTD_VALIDATE_ERROR
 
-_andor-guider.DRV_OA_FILE_ACCESS_ERROR_swigconstant(_andor-guider)
-DRV_OA_FILE_ACCESS_ERROR = _andor-guider.DRV_OA_FILE_ACCESS_ERROR
+_andor.DRV_OA_FILE_ACCESS_ERROR_swigconstant(_andor)
+DRV_OA_FILE_ACCESS_ERROR = _andor.DRV_OA_FILE_ACCESS_ERROR
 
-_andor-guider.DRV_OA_FILE_DOES_NOT_EXIST_swigconstant(_andor-guider)
-DRV_OA_FILE_DOES_NOT_EXIST = _andor-guider.DRV_OA_FILE_DOES_NOT_EXIST
+_andor.DRV_OA_FILE_DOES_NOT_EXIST_swigconstant(_andor)
+DRV_OA_FILE_DOES_NOT_EXIST = _andor.DRV_OA_FILE_DOES_NOT_EXIST
 
-_andor-guider.DRV_OA_XML_INVALID_OR_NOT_FOUND_ERROR_swigconstant(_andor-guider)
-DRV_OA_XML_INVALID_OR_NOT_FOUND_ERROR = _andor-guider.DRV_OA_XML_INVALID_OR_NOT_FOUND_ERROR
+_andor.DRV_OA_XML_INVALID_OR_NOT_FOUND_ERROR_swigconstant(_andor)
+DRV_OA_XML_INVALID_OR_NOT_FOUND_ERROR = _andor.DRV_OA_XML_INVALID_OR_NOT_FOUND_ERROR
 
-_andor-guider.DRV_OA_PRESET_FILE_NOT_LOADED_swigconstant(_andor-guider)
-DRV_OA_PRESET_FILE_NOT_LOADED = _andor-guider.DRV_OA_PRESET_FILE_NOT_LOADED
+_andor.DRV_OA_PRESET_FILE_NOT_LOADED_swigconstant(_andor)
+DRV_OA_PRESET_FILE_NOT_LOADED = _andor.DRV_OA_PRESET_FILE_NOT_LOADED
 
-_andor-guider.DRV_OA_USER_FILE_NOT_LOADED_swigconstant(_andor-guider)
-DRV_OA_USER_FILE_NOT_LOADED = _andor-guider.DRV_OA_USER_FILE_NOT_LOADED
+_andor.DRV_OA_USER_FILE_NOT_LOADED_swigconstant(_andor)
+DRV_OA_USER_FILE_NOT_LOADED = _andor.DRV_OA_USER_FILE_NOT_LOADED
 
-_andor-guider.DRV_OA_PRESET_AND_USER_FILE_NOT_LOADED_swigconstant(_andor-guider)
-DRV_OA_PRESET_AND_USER_FILE_NOT_LOADED = _andor-guider.DRV_OA_PRESET_AND_USER_FILE_NOT_LOADED
+_andor.DRV_OA_PRESET_AND_USER_FILE_NOT_LOADED_swigconstant(_andor)
+DRV_OA_PRESET_AND_USER_FILE_NOT_LOADED = _andor.DRV_OA_PRESET_AND_USER_FILE_NOT_LOADED
 
-_andor-guider.DRV_OA_INVALID_FILE_swigconstant(_andor-guider)
-DRV_OA_INVALID_FILE = _andor-guider.DRV_OA_INVALID_FILE
+_andor.DRV_OA_INVALID_FILE_swigconstant(_andor)
+DRV_OA_INVALID_FILE = _andor.DRV_OA_INVALID_FILE
 
-_andor-guider.DRV_OA_FILE_HAS_BEEN_MODIFIED_swigconstant(_andor-guider)
-DRV_OA_FILE_HAS_BEEN_MODIFIED = _andor-guider.DRV_OA_FILE_HAS_BEEN_MODIFIED
+_andor.DRV_OA_FILE_HAS_BEEN_MODIFIED_swigconstant(_andor)
+DRV_OA_FILE_HAS_BEEN_MODIFIED = _andor.DRV_OA_FILE_HAS_BEEN_MODIFIED
 
-_andor-guider.DRV_OA_BUFFER_FULL_swigconstant(_andor-guider)
-DRV_OA_BUFFER_FULL = _andor-guider.DRV_OA_BUFFER_FULL
+_andor.DRV_OA_BUFFER_FULL_swigconstant(_andor)
+DRV_OA_BUFFER_FULL = _andor.DRV_OA_BUFFER_FULL
 
-_andor-guider.DRV_OA_INVALID_STRING_LENGTH_swigconstant(_andor-guider)
-DRV_OA_INVALID_STRING_LENGTH = _andor-guider.DRV_OA_INVALID_STRING_LENGTH
+_andor.DRV_OA_INVALID_STRING_LENGTH_swigconstant(_andor)
+DRV_OA_INVALID_STRING_LENGTH = _andor.DRV_OA_INVALID_STRING_LENGTH
 
-_andor-guider.DRV_OA_INVALID_CHARS_IN_NAME_swigconstant(_andor-guider)
-DRV_OA_INVALID_CHARS_IN_NAME = _andor-guider.DRV_OA_INVALID_CHARS_IN_NAME
+_andor.DRV_OA_INVALID_CHARS_IN_NAME_swigconstant(_andor)
+DRV_OA_INVALID_CHARS_IN_NAME = _andor.DRV_OA_INVALID_CHARS_IN_NAME
 
-_andor-guider.DRV_OA_INVALID_NAMING_swigconstant(_andor-guider)
-DRV_OA_INVALID_NAMING = _andor-guider.DRV_OA_INVALID_NAMING
+_andor.DRV_OA_INVALID_NAMING_swigconstant(_andor)
+DRV_OA_INVALID_NAMING = _andor.DRV_OA_INVALID_NAMING
 
-_andor-guider.DRV_OA_GET_CAMERA_ERROR_swigconstant(_andor-guider)
-DRV_OA_GET_CAMERA_ERROR = _andor-guider.DRV_OA_GET_CAMERA_ERROR
+_andor.DRV_OA_GET_CAMERA_ERROR_swigconstant(_andor)
+DRV_OA_GET_CAMERA_ERROR = _andor.DRV_OA_GET_CAMERA_ERROR
 
-_andor-guider.DRV_OA_MODE_ALREADY_EXISTS_swigconstant(_andor-guider)
-DRV_OA_MODE_ALREADY_EXISTS = _andor-guider.DRV_OA_MODE_ALREADY_EXISTS
+_andor.DRV_OA_MODE_ALREADY_EXISTS_swigconstant(_andor)
+DRV_OA_MODE_ALREADY_EXISTS = _andor.DRV_OA_MODE_ALREADY_EXISTS
 
-_andor-guider.DRV_OA_STRINGS_NOT_EQUAL_swigconstant(_andor-guider)
-DRV_OA_STRINGS_NOT_EQUAL = _andor-guider.DRV_OA_STRINGS_NOT_EQUAL
+_andor.DRV_OA_STRINGS_NOT_EQUAL_swigconstant(_andor)
+DRV_OA_STRINGS_NOT_EQUAL = _andor.DRV_OA_STRINGS_NOT_EQUAL
 
-_andor-guider.DRV_OA_NO_USER_DATA_swigconstant(_andor-guider)
-DRV_OA_NO_USER_DATA = _andor-guider.DRV_OA_NO_USER_DATA
+_andor.DRV_OA_NO_USER_DATA_swigconstant(_andor)
+DRV_OA_NO_USER_DATA = _andor.DRV_OA_NO_USER_DATA
 
-_andor-guider.DRV_OA_VALUE_NOT_SUPPORTED_swigconstant(_andor-guider)
-DRV_OA_VALUE_NOT_SUPPORTED = _andor-guider.DRV_OA_VALUE_NOT_SUPPORTED
+_andor.DRV_OA_VALUE_NOT_SUPPORTED_swigconstant(_andor)
+DRV_OA_VALUE_NOT_SUPPORTED = _andor.DRV_OA_VALUE_NOT_SUPPORTED
 
-_andor-guider.DRV_OA_MODE_DOES_NOT_EXIST_swigconstant(_andor-guider)
-DRV_OA_MODE_DOES_NOT_EXIST = _andor-guider.DRV_OA_MODE_DOES_NOT_EXIST
+_andor.DRV_OA_MODE_DOES_NOT_EXIST_swigconstant(_andor)
+DRV_OA_MODE_DOES_NOT_EXIST = _andor.DRV_OA_MODE_DOES_NOT_EXIST
 
-_andor-guider.DRV_OA_CAMERA_NOT_SUPPORTED_swigconstant(_andor-guider)
-DRV_OA_CAMERA_NOT_SUPPORTED = _andor-guider.DRV_OA_CAMERA_NOT_SUPPORTED
+_andor.DRV_OA_CAMERA_NOT_SUPPORTED_swigconstant(_andor)
+DRV_OA_CAMERA_NOT_SUPPORTED = _andor.DRV_OA_CAMERA_NOT_SUPPORTED
 
-_andor-guider.DRV_OA_FAILED_TO_GET_MODE_swigconstant(_andor-guider)
-DRV_OA_FAILED_TO_GET_MODE = _andor-guider.DRV_OA_FAILED_TO_GET_MODE
+_andor.DRV_OA_FAILED_TO_GET_MODE_swigconstant(_andor)
+DRV_OA_FAILED_TO_GET_MODE = _andor.DRV_OA_FAILED_TO_GET_MODE
 
-_andor-guider.DRV_PROCESSING_FAILED_swigconstant(_andor-guider)
-DRV_PROCESSING_FAILED = _andor-guider.DRV_PROCESSING_FAILED
+_andor.DRV_PROCESSING_FAILED_swigconstant(_andor)
+DRV_PROCESSING_FAILED = _andor.DRV_PROCESSING_FAILED
 
-_andor-guider.AC_ACQMODE_SINGLE_swigconstant(_andor-guider)
-AC_ACQMODE_SINGLE = _andor-guider.AC_ACQMODE_SINGLE
+_andor.AC_ACQMODE_SINGLE_swigconstant(_andor)
+AC_ACQMODE_SINGLE = _andor.AC_ACQMODE_SINGLE
 
-_andor-guider.AC_ACQMODE_VIDEO_swigconstant(_andor-guider)
-AC_ACQMODE_VIDEO = _andor-guider.AC_ACQMODE_VIDEO
+_andor.AC_ACQMODE_VIDEO_swigconstant(_andor)
+AC_ACQMODE_VIDEO = _andor.AC_ACQMODE_VIDEO
 
-_andor-guider.AC_ACQMODE_ACCUMULATE_swigconstant(_andor-guider)
-AC_ACQMODE_ACCUMULATE = _andor-guider.AC_ACQMODE_ACCUMULATE
+_andor.AC_ACQMODE_ACCUMULATE_swigconstant(_andor)
+AC_ACQMODE_ACCUMULATE = _andor.AC_ACQMODE_ACCUMULATE
 
-_andor-guider.AC_ACQMODE_KINETIC_swigconstant(_andor-guider)
-AC_ACQMODE_KINETIC = _andor-guider.AC_ACQMODE_KINETIC
+_andor.AC_ACQMODE_KINETIC_swigconstant(_andor)
+AC_ACQMODE_KINETIC = _andor.AC_ACQMODE_KINETIC
 
-_andor-guider.AC_ACQMODE_FRAMETRANSFER_swigconstant(_andor-guider)
-AC_ACQMODE_FRAMETRANSFER = _andor-guider.AC_ACQMODE_FRAMETRANSFER
+_andor.AC_ACQMODE_FRAMETRANSFER_swigconstant(_andor)
+AC_ACQMODE_FRAMETRANSFER = _andor.AC_ACQMODE_FRAMETRANSFER
 
-_andor-guider.AC_ACQMODE_FASTKINETICS_swigconstant(_andor-guider)
-AC_ACQMODE_FASTKINETICS = _andor-guider.AC_ACQMODE_FASTKINETICS
+_andor.AC_ACQMODE_FASTKINETICS_swigconstant(_andor)
+AC_ACQMODE_FASTKINETICS = _andor.AC_ACQMODE_FASTKINETICS
 
-_andor-guider.AC_ACQMODE_OVERLAP_swigconstant(_andor-guider)
-AC_ACQMODE_OVERLAP = _andor-guider.AC_ACQMODE_OVERLAP
+_andor.AC_ACQMODE_OVERLAP_swigconstant(_andor)
+AC_ACQMODE_OVERLAP = _andor.AC_ACQMODE_OVERLAP
 
-_andor-guider.AC_ACQMODE_SUPERKINETICS_swigconstant(_andor-guider)
-AC_ACQMODE_SUPERKINETICS = _andor-guider.AC_ACQMODE_SUPERKINETICS
+_andor.AC_ACQMODE_SUPERKINETICS_swigconstant(_andor)
+AC_ACQMODE_SUPERKINETICS = _andor.AC_ACQMODE_SUPERKINETICS
 
-_andor-guider.AC_ACQMODE_TIMESCAN_swigconstant(_andor-guider)
-AC_ACQMODE_TIMESCAN = _andor-guider.AC_ACQMODE_TIMESCAN
+_andor.AC_ACQMODE_TIMESCAN_swigconstant(_andor)
+AC_ACQMODE_TIMESCAN = _andor.AC_ACQMODE_TIMESCAN
 
-_andor-guider.AC_READMODE_FULLIMAGE_swigconstant(_andor-guider)
-AC_READMODE_FULLIMAGE = _andor-guider.AC_READMODE_FULLIMAGE
+_andor.AC_READMODE_FULLIMAGE_swigconstant(_andor)
+AC_READMODE_FULLIMAGE = _andor.AC_READMODE_FULLIMAGE
 
-_andor-guider.AC_READMODE_SUBIMAGE_swigconstant(_andor-guider)
-AC_READMODE_SUBIMAGE = _andor-guider.AC_READMODE_SUBIMAGE
+_andor.AC_READMODE_SUBIMAGE_swigconstant(_andor)
+AC_READMODE_SUBIMAGE = _andor.AC_READMODE_SUBIMAGE
 
-_andor-guider.AC_READMODE_SINGLETRACK_swigconstant(_andor-guider)
-AC_READMODE_SINGLETRACK = _andor-guider.AC_READMODE_SINGLETRACK
+_andor.AC_READMODE_SINGLETRACK_swigconstant(_andor)
+AC_READMODE_SINGLETRACK = _andor.AC_READMODE_SINGLETRACK
 
-_andor-guider.AC_READMODE_FVB_swigconstant(_andor-guider)
-AC_READMODE_FVB = _andor-guider.AC_READMODE_FVB
+_andor.AC_READMODE_FVB_swigconstant(_andor)
+AC_READMODE_FVB = _andor.AC_READMODE_FVB
 
-_andor-guider.AC_READMODE_MULTITRACK_swigconstant(_andor-guider)
-AC_READMODE_MULTITRACK = _andor-guider.AC_READMODE_MULTITRACK
+_andor.AC_READMODE_MULTITRACK_swigconstant(_andor)
+AC_READMODE_MULTITRACK = _andor.AC_READMODE_MULTITRACK
 
-_andor-guider.AC_READMODE_RANDOMTRACK_swigconstant(_andor-guider)
-AC_READMODE_RANDOMTRACK = _andor-guider.AC_READMODE_RANDOMTRACK
+_andor.AC_READMODE_RANDOMTRACK_swigconstant(_andor)
+AC_READMODE_RANDOMTRACK = _andor.AC_READMODE_RANDOMTRACK
 
-_andor-guider.AC_READMODE_MULTITRACKSCAN_swigconstant(_andor-guider)
-AC_READMODE_MULTITRACKSCAN = _andor-guider.AC_READMODE_MULTITRACKSCAN
+_andor.AC_READMODE_MULTITRACKSCAN_swigconstant(_andor)
+AC_READMODE_MULTITRACKSCAN = _andor.AC_READMODE_MULTITRACKSCAN
 
-_andor-guider.AC_TRIGGERMODE_INTERNAL_swigconstant(_andor-guider)
-AC_TRIGGERMODE_INTERNAL = _andor-guider.AC_TRIGGERMODE_INTERNAL
+_andor.AC_TRIGGERMODE_INTERNAL_swigconstant(_andor)
+AC_TRIGGERMODE_INTERNAL = _andor.AC_TRIGGERMODE_INTERNAL
 
-_andor-guider.AC_TRIGGERMODE_EXTERNAL_swigconstant(_andor-guider)
-AC_TRIGGERMODE_EXTERNAL = _andor-guider.AC_TRIGGERMODE_EXTERNAL
+_andor.AC_TRIGGERMODE_EXTERNAL_swigconstant(_andor)
+AC_TRIGGERMODE_EXTERNAL = _andor.AC_TRIGGERMODE_EXTERNAL
 
-_andor-guider.AC_TRIGGERMODE_EXTERNAL_FVB_EM_swigconstant(_andor-guider)
-AC_TRIGGERMODE_EXTERNAL_FVB_EM = _andor-guider.AC_TRIGGERMODE_EXTERNAL_FVB_EM
+_andor.AC_TRIGGERMODE_EXTERNAL_FVB_EM_swigconstant(_andor)
+AC_TRIGGERMODE_EXTERNAL_FVB_EM = _andor.AC_TRIGGERMODE_EXTERNAL_FVB_EM
 
-_andor-guider.AC_TRIGGERMODE_CONTINUOUS_swigconstant(_andor-guider)
-AC_TRIGGERMODE_CONTINUOUS = _andor-guider.AC_TRIGGERMODE_CONTINUOUS
+_andor.AC_TRIGGERMODE_CONTINUOUS_swigconstant(_andor)
+AC_TRIGGERMODE_CONTINUOUS = _andor.AC_TRIGGERMODE_CONTINUOUS
 
-_andor-guider.AC_TRIGGERMODE_EXTERNALSTART_swigconstant(_andor-guider)
-AC_TRIGGERMODE_EXTERNALSTART = _andor-guider.AC_TRIGGERMODE_EXTERNALSTART
+_andor.AC_TRIGGERMODE_EXTERNALSTART_swigconstant(_andor)
+AC_TRIGGERMODE_EXTERNALSTART = _andor.AC_TRIGGERMODE_EXTERNALSTART
 
-_andor-guider.AC_TRIGGERMODE_EXTERNALEXPOSURE_swigconstant(_andor-guider)
-AC_TRIGGERMODE_EXTERNALEXPOSURE = _andor-guider.AC_TRIGGERMODE_EXTERNALEXPOSURE
+_andor.AC_TRIGGERMODE_EXTERNALEXPOSURE_swigconstant(_andor)
+AC_TRIGGERMODE_EXTERNALEXPOSURE = _andor.AC_TRIGGERMODE_EXTERNALEXPOSURE
 
-_andor-guider.AC_TRIGGERMODE_INVERTED_swigconstant(_andor-guider)
-AC_TRIGGERMODE_INVERTED = _andor-guider.AC_TRIGGERMODE_INVERTED
+_andor.AC_TRIGGERMODE_INVERTED_swigconstant(_andor)
+AC_TRIGGERMODE_INVERTED = _andor.AC_TRIGGERMODE_INVERTED
 
-_andor-guider.AC_TRIGGERMODE_EXTERNAL_CHARGESHIFTING_swigconstant(_andor-guider)
-AC_TRIGGERMODE_EXTERNAL_CHARGESHIFTING = _andor-guider.AC_TRIGGERMODE_EXTERNAL_CHARGESHIFTING
+_andor.AC_TRIGGERMODE_EXTERNAL_CHARGESHIFTING_swigconstant(_andor)
+AC_TRIGGERMODE_EXTERNAL_CHARGESHIFTING = _andor.AC_TRIGGERMODE_EXTERNAL_CHARGESHIFTING
 
-_andor-guider.AC_TRIGGERMODE_BULB_swigconstant(_andor-guider)
-AC_TRIGGERMODE_BULB = _andor-guider.AC_TRIGGERMODE_BULB
+_andor.AC_TRIGGERMODE_BULB_swigconstant(_andor)
+AC_TRIGGERMODE_BULB = _andor.AC_TRIGGERMODE_BULB
 
-_andor-guider.AC_CAMERATYPE_PDA_swigconstant(_andor-guider)
-AC_CAMERATYPE_PDA = _andor-guider.AC_CAMERATYPE_PDA
+_andor.AC_CAMERATYPE_PDA_swigconstant(_andor)
+AC_CAMERATYPE_PDA = _andor.AC_CAMERATYPE_PDA
 
-_andor-guider.AC_CAMERATYPE_IXON_swigconstant(_andor-guider)
-AC_CAMERATYPE_IXON = _andor-guider.AC_CAMERATYPE_IXON
+_andor.AC_CAMERATYPE_IXON_swigconstant(_andor)
+AC_CAMERATYPE_IXON = _andor.AC_CAMERATYPE_IXON
 
-_andor-guider.AC_CAMERATYPE_ICCD_swigconstant(_andor-guider)
-AC_CAMERATYPE_ICCD = _andor-guider.AC_CAMERATYPE_ICCD
+_andor.AC_CAMERATYPE_ICCD_swigconstant(_andor)
+AC_CAMERATYPE_ICCD = _andor.AC_CAMERATYPE_ICCD
 
-_andor-guider.AC_CAMERATYPE_EMCCD_swigconstant(_andor-guider)
-AC_CAMERATYPE_EMCCD = _andor-guider.AC_CAMERATYPE_EMCCD
+_andor.AC_CAMERATYPE_EMCCD_swigconstant(_andor)
+AC_CAMERATYPE_EMCCD = _andor.AC_CAMERATYPE_EMCCD
 
-_andor-guider.AC_CAMERATYPE_CCD_swigconstant(_andor-guider)
-AC_CAMERATYPE_CCD = _andor-guider.AC_CAMERATYPE_CCD
+_andor.AC_CAMERATYPE_CCD_swigconstant(_andor)
+AC_CAMERATYPE_CCD = _andor.AC_CAMERATYPE_CCD
 
-_andor-guider.AC_CAMERATYPE_ISTAR_swigconstant(_andor-guider)
-AC_CAMERATYPE_ISTAR = _andor-guider.AC_CAMERATYPE_ISTAR
+_andor.AC_CAMERATYPE_ISTAR_swigconstant(_andor)
+AC_CAMERATYPE_ISTAR = _andor.AC_CAMERATYPE_ISTAR
 
-_andor-guider.AC_CAMERATYPE_VIDEO_swigconstant(_andor-guider)
-AC_CAMERATYPE_VIDEO = _andor-guider.AC_CAMERATYPE_VIDEO
+_andor.AC_CAMERATYPE_VIDEO_swigconstant(_andor)
+AC_CAMERATYPE_VIDEO = _andor.AC_CAMERATYPE_VIDEO
 
-_andor-guider.AC_CAMERATYPE_IDUS_swigconstant(_andor-guider)
-AC_CAMERATYPE_IDUS = _andor-guider.AC_CAMERATYPE_IDUS
+_andor.AC_CAMERATYPE_IDUS_swigconstant(_andor)
+AC_CAMERATYPE_IDUS = _andor.AC_CAMERATYPE_IDUS
 
-_andor-guider.AC_CAMERATYPE_NEWTON_swigconstant(_andor-guider)
-AC_CAMERATYPE_NEWTON = _andor-guider.AC_CAMERATYPE_NEWTON
+_andor.AC_CAMERATYPE_NEWTON_swigconstant(_andor)
+AC_CAMERATYPE_NEWTON = _andor.AC_CAMERATYPE_NEWTON
 
-_andor-guider.AC_CAMERATYPE_SURCAM_swigconstant(_andor-guider)
-AC_CAMERATYPE_SURCAM = _andor-guider.AC_CAMERATYPE_SURCAM
+_andor.AC_CAMERATYPE_SURCAM_swigconstant(_andor)
+AC_CAMERATYPE_SURCAM = _andor.AC_CAMERATYPE_SURCAM
 
-_andor-guider.AC_CAMERATYPE_USBICCD_swigconstant(_andor-guider)
-AC_CAMERATYPE_USBICCD = _andor-guider.AC_CAMERATYPE_USBICCD
+_andor.AC_CAMERATYPE_USBICCD_swigconstant(_andor)
+AC_CAMERATYPE_USBICCD = _andor.AC_CAMERATYPE_USBICCD
 
-_andor-guider.AC_CAMERATYPE_LUCA_swigconstant(_andor-guider)
-AC_CAMERATYPE_LUCA = _andor-guider.AC_CAMERATYPE_LUCA
+_andor.AC_CAMERATYPE_LUCA_swigconstant(_andor)
+AC_CAMERATYPE_LUCA = _andor.AC_CAMERATYPE_LUCA
 
-_andor-guider.AC_CAMERATYPE_RESERVED_swigconstant(_andor-guider)
-AC_CAMERATYPE_RESERVED = _andor-guider.AC_CAMERATYPE_RESERVED
+_andor.AC_CAMERATYPE_RESERVED_swigconstant(_andor)
+AC_CAMERATYPE_RESERVED = _andor.AC_CAMERATYPE_RESERVED
 
-_andor-guider.AC_CAMERATYPE_IKON_swigconstant(_andor-guider)
-AC_CAMERATYPE_IKON = _andor-guider.AC_CAMERATYPE_IKON
+_andor.AC_CAMERATYPE_IKON_swigconstant(_andor)
+AC_CAMERATYPE_IKON = _andor.AC_CAMERATYPE_IKON
 
-_andor-guider.AC_CAMERATYPE_INGAAS_swigconstant(_andor-guider)
-AC_CAMERATYPE_INGAAS = _andor-guider.AC_CAMERATYPE_INGAAS
+_andor.AC_CAMERATYPE_INGAAS_swigconstant(_andor)
+AC_CAMERATYPE_INGAAS = _andor.AC_CAMERATYPE_INGAAS
 
-_andor-guider.AC_CAMERATYPE_IVAC_swigconstant(_andor-guider)
-AC_CAMERATYPE_IVAC = _andor-guider.AC_CAMERATYPE_IVAC
+_andor.AC_CAMERATYPE_IVAC_swigconstant(_andor)
+AC_CAMERATYPE_IVAC = _andor.AC_CAMERATYPE_IVAC
 
-_andor-guider.AC_CAMERATYPE_UNPROGRAMMED_swigconstant(_andor-guider)
-AC_CAMERATYPE_UNPROGRAMMED = _andor-guider.AC_CAMERATYPE_UNPROGRAMMED
+_andor.AC_CAMERATYPE_UNPROGRAMMED_swigconstant(_andor)
+AC_CAMERATYPE_UNPROGRAMMED = _andor.AC_CAMERATYPE_UNPROGRAMMED
 
-_andor-guider.AC_CAMERATYPE_CLARA_swigconstant(_andor-guider)
-AC_CAMERATYPE_CLARA = _andor-guider.AC_CAMERATYPE_CLARA
+_andor.AC_CAMERATYPE_CLARA_swigconstant(_andor)
+AC_CAMERATYPE_CLARA = _andor.AC_CAMERATYPE_CLARA
 
-_andor-guider.AC_CAMERATYPE_USBISTAR_swigconstant(_andor-guider)
-AC_CAMERATYPE_USBISTAR = _andor-guider.AC_CAMERATYPE_USBISTAR
+_andor.AC_CAMERATYPE_USBISTAR_swigconstant(_andor)
+AC_CAMERATYPE_USBISTAR = _andor.AC_CAMERATYPE_USBISTAR
 
-_andor-guider.AC_CAMERATYPE_SIMCAM_swigconstant(_andor-guider)
-AC_CAMERATYPE_SIMCAM = _andor-guider.AC_CAMERATYPE_SIMCAM
+_andor.AC_CAMERATYPE_SIMCAM_swigconstant(_andor)
+AC_CAMERATYPE_SIMCAM = _andor.AC_CAMERATYPE_SIMCAM
 
-_andor-guider.AC_CAMERATYPE_NEO_swigconstant(_andor-guider)
-AC_CAMERATYPE_NEO = _andor-guider.AC_CAMERATYPE_NEO
+_andor.AC_CAMERATYPE_NEO_swigconstant(_andor)
+AC_CAMERATYPE_NEO = _andor.AC_CAMERATYPE_NEO
 
-_andor-guider.AC_CAMERATYPE_IXONULTRA_swigconstant(_andor-guider)
-AC_CAMERATYPE_IXONULTRA = _andor-guider.AC_CAMERATYPE_IXONULTRA
+_andor.AC_CAMERATYPE_IXONULTRA_swigconstant(_andor)
+AC_CAMERATYPE_IXONULTRA = _andor.AC_CAMERATYPE_IXONULTRA
 
-_andor-guider.AC_CAMERATYPE_VOLMOS_swigconstant(_andor-guider)
-AC_CAMERATYPE_VOLMOS = _andor-guider.AC_CAMERATYPE_VOLMOS
+_andor.AC_CAMERATYPE_VOLMOS_swigconstant(_andor)
+AC_CAMERATYPE_VOLMOS = _andor.AC_CAMERATYPE_VOLMOS
 
-_andor-guider.AC_CAMERATYPE_IVAC_CCD_swigconstant(_andor-guider)
-AC_CAMERATYPE_IVAC_CCD = _andor-guider.AC_CAMERATYPE_IVAC_CCD
+_andor.AC_CAMERATYPE_IVAC_CCD_swigconstant(_andor)
+AC_CAMERATYPE_IVAC_CCD = _andor.AC_CAMERATYPE_IVAC_CCD
 
-_andor-guider.AC_CAMERATYPE_ASPEN_swigconstant(_andor-guider)
-AC_CAMERATYPE_ASPEN = _andor-guider.AC_CAMERATYPE_ASPEN
+_andor.AC_CAMERATYPE_ASPEN_swigconstant(_andor)
+AC_CAMERATYPE_ASPEN = _andor.AC_CAMERATYPE_ASPEN
 
-_andor-guider.AC_CAMERATYPE_ASCENT_swigconstant(_andor-guider)
-AC_CAMERATYPE_ASCENT = _andor-guider.AC_CAMERATYPE_ASCENT
+_andor.AC_CAMERATYPE_ASCENT_swigconstant(_andor)
+AC_CAMERATYPE_ASCENT = _andor.AC_CAMERATYPE_ASCENT
 
-_andor-guider.AC_CAMERATYPE_ALTA_swigconstant(_andor-guider)
-AC_CAMERATYPE_ALTA = _andor-guider.AC_CAMERATYPE_ALTA
+_andor.AC_CAMERATYPE_ALTA_swigconstant(_andor)
+AC_CAMERATYPE_ALTA = _andor.AC_CAMERATYPE_ALTA
 
-_andor-guider.AC_CAMERATYPE_ALTAF_swigconstant(_andor-guider)
-AC_CAMERATYPE_ALTAF = _andor-guider.AC_CAMERATYPE_ALTAF
+_andor.AC_CAMERATYPE_ALTAF_swigconstant(_andor)
+AC_CAMERATYPE_ALTAF = _andor.AC_CAMERATYPE_ALTAF
 
-_andor-guider.AC_CAMERATYPE_IKONXL_swigconstant(_andor-guider)
-AC_CAMERATYPE_IKONXL = _andor-guider.AC_CAMERATYPE_IKONXL
+_andor.AC_CAMERATYPE_IKONXL_swigconstant(_andor)
+AC_CAMERATYPE_IKONXL = _andor.AC_CAMERATYPE_IKONXL
 
-_andor-guider.AC_CAMERATYPE_RES1_swigconstant(_andor-guider)
-AC_CAMERATYPE_RES1 = _andor-guider.AC_CAMERATYPE_RES1
+_andor.AC_CAMERATYPE_RES1_swigconstant(_andor)
+AC_CAMERATYPE_RES1 = _andor.AC_CAMERATYPE_RES1
 
-_andor-guider.AC_PIXELMODE_8BIT_swigconstant(_andor-guider)
-AC_PIXELMODE_8BIT = _andor-guider.AC_PIXELMODE_8BIT
+_andor.AC_PIXELMODE_8BIT_swigconstant(_andor)
+AC_PIXELMODE_8BIT = _andor.AC_PIXELMODE_8BIT
 
-_andor-guider.AC_PIXELMODE_14BIT_swigconstant(_andor-guider)
-AC_PIXELMODE_14BIT = _andor-guider.AC_PIXELMODE_14BIT
+_andor.AC_PIXELMODE_14BIT_swigconstant(_andor)
+AC_PIXELMODE_14BIT = _andor.AC_PIXELMODE_14BIT
 
-_andor-guider.AC_PIXELMODE_16BIT_swigconstant(_andor-guider)
-AC_PIXELMODE_16BIT = _andor-guider.AC_PIXELMODE_16BIT
+_andor.AC_PIXELMODE_16BIT_swigconstant(_andor)
+AC_PIXELMODE_16BIT = _andor.AC_PIXELMODE_16BIT
 
-_andor-guider.AC_PIXELMODE_32BIT_swigconstant(_andor-guider)
-AC_PIXELMODE_32BIT = _andor-guider.AC_PIXELMODE_32BIT
+_andor.AC_PIXELMODE_32BIT_swigconstant(_andor)
+AC_PIXELMODE_32BIT = _andor.AC_PIXELMODE_32BIT
 
-_andor-guider.AC_PIXELMODE_MONO_swigconstant(_andor-guider)
-AC_PIXELMODE_MONO = _andor-guider.AC_PIXELMODE_MONO
+_andor.AC_PIXELMODE_MONO_swigconstant(_andor)
+AC_PIXELMODE_MONO = _andor.AC_PIXELMODE_MONO
 
-_andor-guider.AC_PIXELMODE_RGB_swigconstant(_andor-guider)
-AC_PIXELMODE_RGB = _andor-guider.AC_PIXELMODE_RGB
+_andor.AC_PIXELMODE_RGB_swigconstant(_andor)
+AC_PIXELMODE_RGB = _andor.AC_PIXELMODE_RGB
 
-_andor-guider.AC_PIXELMODE_CMY_swigconstant(_andor-guider)
-AC_PIXELMODE_CMY = _andor-guider.AC_PIXELMODE_CMY
+_andor.AC_PIXELMODE_CMY_swigconstant(_andor)
+AC_PIXELMODE_CMY = _andor.AC_PIXELMODE_CMY
 
-_andor-guider.AC_SETFUNCTION_VREADOUT_swigconstant(_andor-guider)
-AC_SETFUNCTION_VREADOUT = _andor-guider.AC_SETFUNCTION_VREADOUT
+_andor.AC_SETFUNCTION_VREADOUT_swigconstant(_andor)
+AC_SETFUNCTION_VREADOUT = _andor.AC_SETFUNCTION_VREADOUT
 
-_andor-guider.AC_SETFUNCTION_HREADOUT_swigconstant(_andor-guider)
-AC_SETFUNCTION_HREADOUT = _andor-guider.AC_SETFUNCTION_HREADOUT
+_andor.AC_SETFUNCTION_HREADOUT_swigconstant(_andor)
+AC_SETFUNCTION_HREADOUT = _andor.AC_SETFUNCTION_HREADOUT
 
-_andor-guider.AC_SETFUNCTION_TEMPERATURE_swigconstant(_andor-guider)
-AC_SETFUNCTION_TEMPERATURE = _andor-guider.AC_SETFUNCTION_TEMPERATURE
+_andor.AC_SETFUNCTION_TEMPERATURE_swigconstant(_andor)
+AC_SETFUNCTION_TEMPERATURE = _andor.AC_SETFUNCTION_TEMPERATURE
 
-_andor-guider.AC_SETFUNCTION_MCPGAIN_swigconstant(_andor-guider)
-AC_SETFUNCTION_MCPGAIN = _andor-guider.AC_SETFUNCTION_MCPGAIN
+_andor.AC_SETFUNCTION_MCPGAIN_swigconstant(_andor)
+AC_SETFUNCTION_MCPGAIN = _andor.AC_SETFUNCTION_MCPGAIN
 
-_andor-guider.AC_SETFUNCTION_EMCCDGAIN_swigconstant(_andor-guider)
-AC_SETFUNCTION_EMCCDGAIN = _andor-guider.AC_SETFUNCTION_EMCCDGAIN
+_andor.AC_SETFUNCTION_EMCCDGAIN_swigconstant(_andor)
+AC_SETFUNCTION_EMCCDGAIN = _andor.AC_SETFUNCTION_EMCCDGAIN
 
-_andor-guider.AC_SETFUNCTION_BASELINECLAMP_swigconstant(_andor-guider)
-AC_SETFUNCTION_BASELINECLAMP = _andor-guider.AC_SETFUNCTION_BASELINECLAMP
+_andor.AC_SETFUNCTION_BASELINECLAMP_swigconstant(_andor)
+AC_SETFUNCTION_BASELINECLAMP = _andor.AC_SETFUNCTION_BASELINECLAMP
 
-_andor-guider.AC_SETFUNCTION_VSAMPLITUDE_swigconstant(_andor-guider)
-AC_SETFUNCTION_VSAMPLITUDE = _andor-guider.AC_SETFUNCTION_VSAMPLITUDE
+_andor.AC_SETFUNCTION_VSAMPLITUDE_swigconstant(_andor)
+AC_SETFUNCTION_VSAMPLITUDE = _andor.AC_SETFUNCTION_VSAMPLITUDE
 
-_andor-guider.AC_SETFUNCTION_HIGHCAPACITY_swigconstant(_andor-guider)
-AC_SETFUNCTION_HIGHCAPACITY = _andor-guider.AC_SETFUNCTION_HIGHCAPACITY
+_andor.AC_SETFUNCTION_HIGHCAPACITY_swigconstant(_andor)
+AC_SETFUNCTION_HIGHCAPACITY = _andor.AC_SETFUNCTION_HIGHCAPACITY
 
-_andor-guider.AC_SETFUNCTION_BASELINEOFFSET_swigconstant(_andor-guider)
-AC_SETFUNCTION_BASELINEOFFSET = _andor-guider.AC_SETFUNCTION_BASELINEOFFSET
+_andor.AC_SETFUNCTION_BASELINEOFFSET_swigconstant(_andor)
+AC_SETFUNCTION_BASELINEOFFSET = _andor.AC_SETFUNCTION_BASELINEOFFSET
 
-_andor-guider.AC_SETFUNCTION_PREAMPGAIN_swigconstant(_andor-guider)
-AC_SETFUNCTION_PREAMPGAIN = _andor-guider.AC_SETFUNCTION_PREAMPGAIN
+_andor.AC_SETFUNCTION_PREAMPGAIN_swigconstant(_andor)
+AC_SETFUNCTION_PREAMPGAIN = _andor.AC_SETFUNCTION_PREAMPGAIN
 
-_andor-guider.AC_SETFUNCTION_CROPMODE_swigconstant(_andor-guider)
-AC_SETFUNCTION_CROPMODE = _andor-guider.AC_SETFUNCTION_CROPMODE
+_andor.AC_SETFUNCTION_CROPMODE_swigconstant(_andor)
+AC_SETFUNCTION_CROPMODE = _andor.AC_SETFUNCTION_CROPMODE
 
-_andor-guider.AC_SETFUNCTION_DMAPARAMETERS_swigconstant(_andor-guider)
-AC_SETFUNCTION_DMAPARAMETERS = _andor-guider.AC_SETFUNCTION_DMAPARAMETERS
+_andor.AC_SETFUNCTION_DMAPARAMETERS_swigconstant(_andor)
+AC_SETFUNCTION_DMAPARAMETERS = _andor.AC_SETFUNCTION_DMAPARAMETERS
 
-_andor-guider.AC_SETFUNCTION_HORIZONTALBIN_swigconstant(_andor-guider)
-AC_SETFUNCTION_HORIZONTALBIN = _andor-guider.AC_SETFUNCTION_HORIZONTALBIN
+_andor.AC_SETFUNCTION_HORIZONTALBIN_swigconstant(_andor)
+AC_SETFUNCTION_HORIZONTALBIN = _andor.AC_SETFUNCTION_HORIZONTALBIN
 
-_andor-guider.AC_SETFUNCTION_MULTITRACKHRANGE_swigconstant(_andor-guider)
-AC_SETFUNCTION_MULTITRACKHRANGE = _andor-guider.AC_SETFUNCTION_MULTITRACKHRANGE
+_andor.AC_SETFUNCTION_MULTITRACKHRANGE_swigconstant(_andor)
+AC_SETFUNCTION_MULTITRACKHRANGE = _andor.AC_SETFUNCTION_MULTITRACKHRANGE
 
-_andor-guider.AC_SETFUNCTION_RANDOMTRACKNOGAPS_swigconstant(_andor-guider)
-AC_SETFUNCTION_RANDOMTRACKNOGAPS = _andor-guider.AC_SETFUNCTION_RANDOMTRACKNOGAPS
+_andor.AC_SETFUNCTION_RANDOMTRACKNOGAPS_swigconstant(_andor)
+AC_SETFUNCTION_RANDOMTRACKNOGAPS = _andor.AC_SETFUNCTION_RANDOMTRACKNOGAPS
 
-_andor-guider.AC_SETFUNCTION_EMADVANCED_swigconstant(_andor-guider)
-AC_SETFUNCTION_EMADVANCED = _andor-guider.AC_SETFUNCTION_EMADVANCED
+_andor.AC_SETFUNCTION_EMADVANCED_swigconstant(_andor)
+AC_SETFUNCTION_EMADVANCED = _andor.AC_SETFUNCTION_EMADVANCED
 
-_andor-guider.AC_SETFUNCTION_GATEMODE_swigconstant(_andor-guider)
-AC_SETFUNCTION_GATEMODE = _andor-guider.AC_SETFUNCTION_GATEMODE
+_andor.AC_SETFUNCTION_GATEMODE_swigconstant(_andor)
+AC_SETFUNCTION_GATEMODE = _andor.AC_SETFUNCTION_GATEMODE
 
-_andor-guider.AC_SETFUNCTION_DDGTIMES_swigconstant(_andor-guider)
-AC_SETFUNCTION_DDGTIMES = _andor-guider.AC_SETFUNCTION_DDGTIMES
+_andor.AC_SETFUNCTION_DDGTIMES_swigconstant(_andor)
+AC_SETFUNCTION_DDGTIMES = _andor.AC_SETFUNCTION_DDGTIMES
 
-_andor-guider.AC_SETFUNCTION_IOC_swigconstant(_andor-guider)
-AC_SETFUNCTION_IOC = _andor-guider.AC_SETFUNCTION_IOC
+_andor.AC_SETFUNCTION_IOC_swigconstant(_andor)
+AC_SETFUNCTION_IOC = _andor.AC_SETFUNCTION_IOC
 
-_andor-guider.AC_SETFUNCTION_INTELLIGATE_swigconstant(_andor-guider)
-AC_SETFUNCTION_INTELLIGATE = _andor-guider.AC_SETFUNCTION_INTELLIGATE
+_andor.AC_SETFUNCTION_INTELLIGATE_swigconstant(_andor)
+AC_SETFUNCTION_INTELLIGATE = _andor.AC_SETFUNCTION_INTELLIGATE
 
-_andor-guider.AC_SETFUNCTION_INSERTION_DELAY_swigconstant(_andor-guider)
-AC_SETFUNCTION_INSERTION_DELAY = _andor-guider.AC_SETFUNCTION_INSERTION_DELAY
+_andor.AC_SETFUNCTION_INSERTION_DELAY_swigconstant(_andor)
+AC_SETFUNCTION_INSERTION_DELAY = _andor.AC_SETFUNCTION_INSERTION_DELAY
 
-_andor-guider.AC_SETFUNCTION_GATESTEP_swigconstant(_andor-guider)
-AC_SETFUNCTION_GATESTEP = _andor-guider.AC_SETFUNCTION_GATESTEP
+_andor.AC_SETFUNCTION_GATESTEP_swigconstant(_andor)
+AC_SETFUNCTION_GATESTEP = _andor.AC_SETFUNCTION_GATESTEP
 
-_andor-guider.AC_SETFUNCTION_GATEDELAYSTEP_swigconstant(_andor-guider)
-AC_SETFUNCTION_GATEDELAYSTEP = _andor-guider.AC_SETFUNCTION_GATEDELAYSTEP
+_andor.AC_SETFUNCTION_GATEDELAYSTEP_swigconstant(_andor)
+AC_SETFUNCTION_GATEDELAYSTEP = _andor.AC_SETFUNCTION_GATEDELAYSTEP
 
-_andor-guider.AC_SETFUNCTION_TRIGGERTERMINATION_swigconstant(_andor-guider)
-AC_SETFUNCTION_TRIGGERTERMINATION = _andor-guider.AC_SETFUNCTION_TRIGGERTERMINATION
+_andor.AC_SETFUNCTION_TRIGGERTERMINATION_swigconstant(_andor)
+AC_SETFUNCTION_TRIGGERTERMINATION = _andor.AC_SETFUNCTION_TRIGGERTERMINATION
 
-_andor-guider.AC_SETFUNCTION_EXTENDEDNIR_swigconstant(_andor-guider)
-AC_SETFUNCTION_EXTENDEDNIR = _andor-guider.AC_SETFUNCTION_EXTENDEDNIR
+_andor.AC_SETFUNCTION_EXTENDEDNIR_swigconstant(_andor)
+AC_SETFUNCTION_EXTENDEDNIR = _andor.AC_SETFUNCTION_EXTENDEDNIR
 
-_andor-guider.AC_SETFUNCTION_SPOOLTHREADCOUNT_swigconstant(_andor-guider)
-AC_SETFUNCTION_SPOOLTHREADCOUNT = _andor-guider.AC_SETFUNCTION_SPOOLTHREADCOUNT
+_andor.AC_SETFUNCTION_SPOOLTHREADCOUNT_swigconstant(_andor)
+AC_SETFUNCTION_SPOOLTHREADCOUNT = _andor.AC_SETFUNCTION_SPOOLTHREADCOUNT
 
-_andor-guider.AC_SETFUNCTION_REGISTERPACK_swigconstant(_andor-guider)
-AC_SETFUNCTION_REGISTERPACK = _andor-guider.AC_SETFUNCTION_REGISTERPACK
+_andor.AC_SETFUNCTION_REGISTERPACK_swigconstant(_andor)
+AC_SETFUNCTION_REGISTERPACK = _andor.AC_SETFUNCTION_REGISTERPACK
 
-_andor-guider.AC_SETFUNCTION_PRESCANS_swigconstant(_andor-guider)
-AC_SETFUNCTION_PRESCANS = _andor-guider.AC_SETFUNCTION_PRESCANS
+_andor.AC_SETFUNCTION_PRESCANS_swigconstant(_andor)
+AC_SETFUNCTION_PRESCANS = _andor.AC_SETFUNCTION_PRESCANS
 
-_andor-guider.AC_SETFUNCTION_GATEWIDTHSTEP_swigconstant(_andor-guider)
-AC_SETFUNCTION_GATEWIDTHSTEP = _andor-guider.AC_SETFUNCTION_GATEWIDTHSTEP
+_andor.AC_SETFUNCTION_GATEWIDTHSTEP_swigconstant(_andor)
+AC_SETFUNCTION_GATEWIDTHSTEP = _andor.AC_SETFUNCTION_GATEWIDTHSTEP
 
-_andor-guider.AC_SETFUNCTION_EXTENDED_CROP_MODE_swigconstant(_andor-guider)
-AC_SETFUNCTION_EXTENDED_CROP_MODE = _andor-guider.AC_SETFUNCTION_EXTENDED_CROP_MODE
+_andor.AC_SETFUNCTION_EXTENDED_CROP_MODE_swigconstant(_andor)
+AC_SETFUNCTION_EXTENDED_CROP_MODE = _andor.AC_SETFUNCTION_EXTENDED_CROP_MODE
 
-_andor-guider.AC_SETFUNCTION_GAIN_swigconstant(_andor-guider)
-AC_SETFUNCTION_GAIN = _andor-guider.AC_SETFUNCTION_GAIN
+_andor.AC_SETFUNCTION_GAIN_swigconstant(_andor)
+AC_SETFUNCTION_GAIN = _andor.AC_SETFUNCTION_GAIN
 
-_andor-guider.AC_SETFUNCTION_ICCDGAIN_swigconstant(_andor-guider)
-AC_SETFUNCTION_ICCDGAIN = _andor-guider.AC_SETFUNCTION_ICCDGAIN
+_andor.AC_SETFUNCTION_ICCDGAIN_swigconstant(_andor)
+AC_SETFUNCTION_ICCDGAIN = _andor.AC_SETFUNCTION_ICCDGAIN
 
-_andor-guider.AC_GETFUNCTION_TEMPERATURE_swigconstant(_andor-guider)
-AC_GETFUNCTION_TEMPERATURE = _andor-guider.AC_GETFUNCTION_TEMPERATURE
+_andor.AC_GETFUNCTION_TEMPERATURE_swigconstant(_andor)
+AC_GETFUNCTION_TEMPERATURE = _andor.AC_GETFUNCTION_TEMPERATURE
 
-_andor-guider.AC_GETFUNCTION_TARGETTEMPERATURE_swigconstant(_andor-guider)
-AC_GETFUNCTION_TARGETTEMPERATURE = _andor-guider.AC_GETFUNCTION_TARGETTEMPERATURE
+_andor.AC_GETFUNCTION_TARGETTEMPERATURE_swigconstant(_andor)
+AC_GETFUNCTION_TARGETTEMPERATURE = _andor.AC_GETFUNCTION_TARGETTEMPERATURE
 
-_andor-guider.AC_GETFUNCTION_TEMPERATURERANGE_swigconstant(_andor-guider)
-AC_GETFUNCTION_TEMPERATURERANGE = _andor-guider.AC_GETFUNCTION_TEMPERATURERANGE
+_andor.AC_GETFUNCTION_TEMPERATURERANGE_swigconstant(_andor)
+AC_GETFUNCTION_TEMPERATURERANGE = _andor.AC_GETFUNCTION_TEMPERATURERANGE
 
-_andor-guider.AC_GETFUNCTION_DETECTORSIZE_swigconstant(_andor-guider)
-AC_GETFUNCTION_DETECTORSIZE = _andor-guider.AC_GETFUNCTION_DETECTORSIZE
+_andor.AC_GETFUNCTION_DETECTORSIZE_swigconstant(_andor)
+AC_GETFUNCTION_DETECTORSIZE = _andor.AC_GETFUNCTION_DETECTORSIZE
 
-_andor-guider.AC_GETFUNCTION_MCPGAIN_swigconstant(_andor-guider)
-AC_GETFUNCTION_MCPGAIN = _andor-guider.AC_GETFUNCTION_MCPGAIN
+_andor.AC_GETFUNCTION_MCPGAIN_swigconstant(_andor)
+AC_GETFUNCTION_MCPGAIN = _andor.AC_GETFUNCTION_MCPGAIN
 
-_andor-guider.AC_GETFUNCTION_EMCCDGAIN_swigconstant(_andor-guider)
-AC_GETFUNCTION_EMCCDGAIN = _andor-guider.AC_GETFUNCTION_EMCCDGAIN
+_andor.AC_GETFUNCTION_EMCCDGAIN_swigconstant(_andor)
+AC_GETFUNCTION_EMCCDGAIN = _andor.AC_GETFUNCTION_EMCCDGAIN
 
-_andor-guider.AC_GETFUNCTION_HVFLAG_swigconstant(_andor-guider)
-AC_GETFUNCTION_HVFLAG = _andor-guider.AC_GETFUNCTION_HVFLAG
+_andor.AC_GETFUNCTION_HVFLAG_swigconstant(_andor)
+AC_GETFUNCTION_HVFLAG = _andor.AC_GETFUNCTION_HVFLAG
 
-_andor-guider.AC_GETFUNCTION_GATEMODE_swigconstant(_andor-guider)
-AC_GETFUNCTION_GATEMODE = _andor-guider.AC_GETFUNCTION_GATEMODE
+_andor.AC_GETFUNCTION_GATEMODE_swigconstant(_andor)
+AC_GETFUNCTION_GATEMODE = _andor.AC_GETFUNCTION_GATEMODE
 
-_andor-guider.AC_GETFUNCTION_DDGTIMES_swigconstant(_andor-guider)
-AC_GETFUNCTION_DDGTIMES = _andor-guider.AC_GETFUNCTION_DDGTIMES
+_andor.AC_GETFUNCTION_DDGTIMES_swigconstant(_andor)
+AC_GETFUNCTION_DDGTIMES = _andor.AC_GETFUNCTION_DDGTIMES
 
-_andor-guider.AC_GETFUNCTION_IOC_swigconstant(_andor-guider)
-AC_GETFUNCTION_IOC = _andor-guider.AC_GETFUNCTION_IOC
+_andor.AC_GETFUNCTION_IOC_swigconstant(_andor)
+AC_GETFUNCTION_IOC = _andor.AC_GETFUNCTION_IOC
 
-_andor-guider.AC_GETFUNCTION_INTELLIGATE_swigconstant(_andor-guider)
-AC_GETFUNCTION_INTELLIGATE = _andor-guider.AC_GETFUNCTION_INTELLIGATE
+_andor.AC_GETFUNCTION_INTELLIGATE_swigconstant(_andor)
+AC_GETFUNCTION_INTELLIGATE = _andor.AC_GETFUNCTION_INTELLIGATE
 
-_andor-guider.AC_GETFUNCTION_INSERTION_DELAY_swigconstant(_andor-guider)
-AC_GETFUNCTION_INSERTION_DELAY = _andor-guider.AC_GETFUNCTION_INSERTION_DELAY
+_andor.AC_GETFUNCTION_INSERTION_DELAY_swigconstant(_andor)
+AC_GETFUNCTION_INSERTION_DELAY = _andor.AC_GETFUNCTION_INSERTION_DELAY
 
-_andor-guider.AC_GETFUNCTION_GATESTEP_swigconstant(_andor-guider)
-AC_GETFUNCTION_GATESTEP = _andor-guider.AC_GETFUNCTION_GATESTEP
+_andor.AC_GETFUNCTION_GATESTEP_swigconstant(_andor)
+AC_GETFUNCTION_GATESTEP = _andor.AC_GETFUNCTION_GATESTEP
 
-_andor-guider.AC_GETFUNCTION_GATEDELAYSTEP_swigconstant(_andor-guider)
-AC_GETFUNCTION_GATEDELAYSTEP = _andor-guider.AC_GETFUNCTION_GATEDELAYSTEP
+_andor.AC_GETFUNCTION_GATEDELAYSTEP_swigconstant(_andor)
+AC_GETFUNCTION_GATEDELAYSTEP = _andor.AC_GETFUNCTION_GATEDELAYSTEP
 
-_andor-guider.AC_GETFUNCTION_PHOSPHORSTATUS_swigconstant(_andor-guider)
-AC_GETFUNCTION_PHOSPHORSTATUS = _andor-guider.AC_GETFUNCTION_PHOSPHORSTATUS
+_andor.AC_GETFUNCTION_PHOSPHORSTATUS_swigconstant(_andor)
+AC_GETFUNCTION_PHOSPHORSTATUS = _andor.AC_GETFUNCTION_PHOSPHORSTATUS
 
-_andor-guider.AC_GETFUNCTION_MCPGAINTABLE_swigconstant(_andor-guider)
-AC_GETFUNCTION_MCPGAINTABLE = _andor-guider.AC_GETFUNCTION_MCPGAINTABLE
+_andor.AC_GETFUNCTION_MCPGAINTABLE_swigconstant(_andor)
+AC_GETFUNCTION_MCPGAINTABLE = _andor.AC_GETFUNCTION_MCPGAINTABLE
 
-_andor-guider.AC_GETFUNCTION_BASELINECLAMP_swigconstant(_andor-guider)
-AC_GETFUNCTION_BASELINECLAMP = _andor-guider.AC_GETFUNCTION_BASELINECLAMP
+_andor.AC_GETFUNCTION_BASELINECLAMP_swigconstant(_andor)
+AC_GETFUNCTION_BASELINECLAMP = _andor.AC_GETFUNCTION_BASELINECLAMP
 
-_andor-guider.AC_GETFUNCTION_GATEWIDTHSTEP_swigconstant(_andor-guider)
-AC_GETFUNCTION_GATEWIDTHSTEP = _andor-guider.AC_GETFUNCTION_GATEWIDTHSTEP
+_andor.AC_GETFUNCTION_GATEWIDTHSTEP_swigconstant(_andor)
+AC_GETFUNCTION_GATEWIDTHSTEP = _andor.AC_GETFUNCTION_GATEWIDTHSTEP
 
-_andor-guider.AC_GETFUNCTION_GAIN_swigconstant(_andor-guider)
-AC_GETFUNCTION_GAIN = _andor-guider.AC_GETFUNCTION_GAIN
+_andor.AC_GETFUNCTION_GAIN_swigconstant(_andor)
+AC_GETFUNCTION_GAIN = _andor.AC_GETFUNCTION_GAIN
 
-_andor-guider.AC_GETFUNCTION_ICCDGAIN_swigconstant(_andor-guider)
-AC_GETFUNCTION_ICCDGAIN = _andor-guider.AC_GETFUNCTION_ICCDGAIN
+_andor.AC_GETFUNCTION_ICCDGAIN_swigconstant(_andor)
+AC_GETFUNCTION_ICCDGAIN = _andor.AC_GETFUNCTION_ICCDGAIN
 
-_andor-guider.AC_FEATURES_POLLING_swigconstant(_andor-guider)
-AC_FEATURES_POLLING = _andor-guider.AC_FEATURES_POLLING
+_andor.AC_FEATURES_POLLING_swigconstant(_andor)
+AC_FEATURES_POLLING = _andor.AC_FEATURES_POLLING
 
-_andor-guider.AC_FEATURES_EVENTS_swigconstant(_andor-guider)
-AC_FEATURES_EVENTS = _andor-guider.AC_FEATURES_EVENTS
+_andor.AC_FEATURES_EVENTS_swigconstant(_andor)
+AC_FEATURES_EVENTS = _andor.AC_FEATURES_EVENTS
 
-_andor-guider.AC_FEATURES_SPOOLING_swigconstant(_andor-guider)
-AC_FEATURES_SPOOLING = _andor-guider.AC_FEATURES_SPOOLING
+_andor.AC_FEATURES_SPOOLING_swigconstant(_andor)
+AC_FEATURES_SPOOLING = _andor.AC_FEATURES_SPOOLING
 
-_andor-guider.AC_FEATURES_SHUTTER_swigconstant(_andor-guider)
-AC_FEATURES_SHUTTER = _andor-guider.AC_FEATURES_SHUTTER
+_andor.AC_FEATURES_SHUTTER_swigconstant(_andor)
+AC_FEATURES_SHUTTER = _andor.AC_FEATURES_SHUTTER
 
-_andor-guider.AC_FEATURES_SHUTTEREX_swigconstant(_andor-guider)
-AC_FEATURES_SHUTTEREX = _andor-guider.AC_FEATURES_SHUTTEREX
+_andor.AC_FEATURES_SHUTTEREX_swigconstant(_andor)
+AC_FEATURES_SHUTTEREX = _andor.AC_FEATURES_SHUTTEREX
 
-_andor-guider.AC_FEATURES_EXTERNAL_I2C_swigconstant(_andor-guider)
-AC_FEATURES_EXTERNAL_I2C = _andor-guider.AC_FEATURES_EXTERNAL_I2C
+_andor.AC_FEATURES_EXTERNAL_I2C_swigconstant(_andor)
+AC_FEATURES_EXTERNAL_I2C = _andor.AC_FEATURES_EXTERNAL_I2C
 
-_andor-guider.AC_FEATURES_SATURATIONEVENT_swigconstant(_andor-guider)
-AC_FEATURES_SATURATIONEVENT = _andor-guider.AC_FEATURES_SATURATIONEVENT
+_andor.AC_FEATURES_SATURATIONEVENT_swigconstant(_andor)
+AC_FEATURES_SATURATIONEVENT = _andor.AC_FEATURES_SATURATIONEVENT
 
-_andor-guider.AC_FEATURES_FANCONTROL_swigconstant(_andor-guider)
-AC_FEATURES_FANCONTROL = _andor-guider.AC_FEATURES_FANCONTROL
+_andor.AC_FEATURES_FANCONTROL_swigconstant(_andor)
+AC_FEATURES_FANCONTROL = _andor.AC_FEATURES_FANCONTROL
 
-_andor-guider.AC_FEATURES_MIDFANCONTROL_swigconstant(_andor-guider)
-AC_FEATURES_MIDFANCONTROL = _andor-guider.AC_FEATURES_MIDFANCONTROL
+_andor.AC_FEATURES_MIDFANCONTROL_swigconstant(_andor)
+AC_FEATURES_MIDFANCONTROL = _andor.AC_FEATURES_MIDFANCONTROL
 
-_andor-guider.AC_FEATURES_TEMPERATUREDURINGACQUISITION_swigconstant(_andor-guider)
-AC_FEATURES_TEMPERATUREDURINGACQUISITION = _andor-guider.AC_FEATURES_TEMPERATUREDURINGACQUISITION
+_andor.AC_FEATURES_TEMPERATUREDURINGACQUISITION_swigconstant(_andor)
+AC_FEATURES_TEMPERATUREDURINGACQUISITION = _andor.AC_FEATURES_TEMPERATUREDURINGACQUISITION
 
-_andor-guider.AC_FEATURES_KEEPCLEANCONTROL_swigconstant(_andor-guider)
-AC_FEATURES_KEEPCLEANCONTROL = _andor-guider.AC_FEATURES_KEEPCLEANCONTROL
+_andor.AC_FEATURES_KEEPCLEANCONTROL_swigconstant(_andor)
+AC_FEATURES_KEEPCLEANCONTROL = _andor.AC_FEATURES_KEEPCLEANCONTROL
 
-_andor-guider.AC_FEATURES_DDGLITE_swigconstant(_andor-guider)
-AC_FEATURES_DDGLITE = _andor-guider.AC_FEATURES_DDGLITE
+_andor.AC_FEATURES_DDGLITE_swigconstant(_andor)
+AC_FEATURES_DDGLITE = _andor.AC_FEATURES_DDGLITE
 
-_andor-guider.AC_FEATURES_FTEXTERNALEXPOSURE_swigconstant(_andor-guider)
-AC_FEATURES_FTEXTERNALEXPOSURE = _andor-guider.AC_FEATURES_FTEXTERNALEXPOSURE
+_andor.AC_FEATURES_FTEXTERNALEXPOSURE_swigconstant(_andor)
+AC_FEATURES_FTEXTERNALEXPOSURE = _andor.AC_FEATURES_FTEXTERNALEXPOSURE
 
-_andor-guider.AC_FEATURES_KINETICEXTERNALEXPOSURE_swigconstant(_andor-guider)
-AC_FEATURES_KINETICEXTERNALEXPOSURE = _andor-guider.AC_FEATURES_KINETICEXTERNALEXPOSURE
+_andor.AC_FEATURES_KINETICEXTERNALEXPOSURE_swigconstant(_andor)
+AC_FEATURES_KINETICEXTERNALEXPOSURE = _andor.AC_FEATURES_KINETICEXTERNALEXPOSURE
 
-_andor-guider.AC_FEATURES_DACCONTROL_swigconstant(_andor-guider)
-AC_FEATURES_DACCONTROL = _andor-guider.AC_FEATURES_DACCONTROL
+_andor.AC_FEATURES_DACCONTROL_swigconstant(_andor)
+AC_FEATURES_DACCONTROL = _andor.AC_FEATURES_DACCONTROL
 
-_andor-guider.AC_FEATURES_METADATA_swigconstant(_andor-guider)
-AC_FEATURES_METADATA = _andor-guider.AC_FEATURES_METADATA
+_andor.AC_FEATURES_METADATA_swigconstant(_andor)
+AC_FEATURES_METADATA = _andor.AC_FEATURES_METADATA
 
-_andor-guider.AC_FEATURES_IOCONTROL_swigconstant(_andor-guider)
-AC_FEATURES_IOCONTROL = _andor-guider.AC_FEATURES_IOCONTROL
+_andor.AC_FEATURES_IOCONTROL_swigconstant(_andor)
+AC_FEATURES_IOCONTROL = _andor.AC_FEATURES_IOCONTROL
 
-_andor-guider.AC_FEATURES_PHOTONCOUNTING_swigconstant(_andor-guider)
-AC_FEATURES_PHOTONCOUNTING = _andor-guider.AC_FEATURES_PHOTONCOUNTING
+_andor.AC_FEATURES_PHOTONCOUNTING_swigconstant(_andor)
+AC_FEATURES_PHOTONCOUNTING = _andor.AC_FEATURES_PHOTONCOUNTING
 
-_andor-guider.AC_FEATURES_COUNTCONVERT_swigconstant(_andor-guider)
-AC_FEATURES_COUNTCONVERT = _andor-guider.AC_FEATURES_COUNTCONVERT
+_andor.AC_FEATURES_COUNTCONVERT_swigconstant(_andor)
+AC_FEATURES_COUNTCONVERT = _andor.AC_FEATURES_COUNTCONVERT
 
-_andor-guider.AC_FEATURES_DUALMODE_swigconstant(_andor-guider)
-AC_FEATURES_DUALMODE = _andor-guider.AC_FEATURES_DUALMODE
+_andor.AC_FEATURES_DUALMODE_swigconstant(_andor)
+AC_FEATURES_DUALMODE = _andor.AC_FEATURES_DUALMODE
 
-_andor-guider.AC_FEATURES_OPTACQUIRE_swigconstant(_andor-guider)
-AC_FEATURES_OPTACQUIRE = _andor-guider.AC_FEATURES_OPTACQUIRE
+_andor.AC_FEATURES_OPTACQUIRE_swigconstant(_andor)
+AC_FEATURES_OPTACQUIRE = _andor.AC_FEATURES_OPTACQUIRE
 
-_andor-guider.AC_FEATURES_REALTIMESPURIOUSNOISEFILTER_swigconstant(_andor-guider)
-AC_FEATURES_REALTIMESPURIOUSNOISEFILTER = _andor-guider.AC_FEATURES_REALTIMESPURIOUSNOISEFILTER
+_andor.AC_FEATURES_REALTIMESPURIOUSNOISEFILTER_swigconstant(_andor)
+AC_FEATURES_REALTIMESPURIOUSNOISEFILTER = _andor.AC_FEATURES_REALTIMESPURIOUSNOISEFILTER
 
-_andor-guider.AC_FEATURES_POSTPROCESSSPURIOUSNOISEFILTER_swigconstant(_andor-guider)
-AC_FEATURES_POSTPROCESSSPURIOUSNOISEFILTER = _andor-guider.AC_FEATURES_POSTPROCESSSPURIOUSNOISEFILTER
+_andor.AC_FEATURES_POSTPROCESSSPURIOUSNOISEFILTER_swigconstant(_andor)
+AC_FEATURES_POSTPROCESSSPURIOUSNOISEFILTER = _andor.AC_FEATURES_POSTPROCESSSPURIOUSNOISEFILTER
 
-_andor-guider.AC_FEATURES_DUALPREAMPGAIN_swigconstant(_andor-guider)
-AC_FEATURES_DUALPREAMPGAIN = _andor-guider.AC_FEATURES_DUALPREAMPGAIN
+_andor.AC_FEATURES_DUALPREAMPGAIN_swigconstant(_andor)
+AC_FEATURES_DUALPREAMPGAIN = _andor.AC_FEATURES_DUALPREAMPGAIN
 
-_andor-guider.AC_FEATURES_DEFECT_CORRECTION_swigconstant(_andor-guider)
-AC_FEATURES_DEFECT_CORRECTION = _andor-guider.AC_FEATURES_DEFECT_CORRECTION
+_andor.AC_FEATURES_DEFECT_CORRECTION_swigconstant(_andor)
+AC_FEATURES_DEFECT_CORRECTION = _andor.AC_FEATURES_DEFECT_CORRECTION
 
-_andor-guider.AC_FEATURES_STARTOFEXPOSURE_EVENT_swigconstant(_andor-guider)
-AC_FEATURES_STARTOFEXPOSURE_EVENT = _andor-guider.AC_FEATURES_STARTOFEXPOSURE_EVENT
+_andor.AC_FEATURES_STARTOFEXPOSURE_EVENT_swigconstant(_andor)
+AC_FEATURES_STARTOFEXPOSURE_EVENT = _andor.AC_FEATURES_STARTOFEXPOSURE_EVENT
 
-_andor-guider.AC_FEATURES_ENDOFEXPOSURE_EVENT_swigconstant(_andor-guider)
-AC_FEATURES_ENDOFEXPOSURE_EVENT = _andor-guider.AC_FEATURES_ENDOFEXPOSURE_EVENT
+_andor.AC_FEATURES_ENDOFEXPOSURE_EVENT_swigconstant(_andor)
+AC_FEATURES_ENDOFEXPOSURE_EVENT = _andor.AC_FEATURES_ENDOFEXPOSURE_EVENT
 
-_andor-guider.AC_FEATURES_CAMERALINK_swigconstant(_andor-guider)
-AC_FEATURES_CAMERALINK = _andor-guider.AC_FEATURES_CAMERALINK
+_andor.AC_FEATURES_CAMERALINK_swigconstant(_andor)
+AC_FEATURES_CAMERALINK = _andor.AC_FEATURES_CAMERALINK
 
-_andor-guider.AC_FEATURES_FIFOFULL_EVENT_swigconstant(_andor-guider)
-AC_FEATURES_FIFOFULL_EVENT = _andor-guider.AC_FEATURES_FIFOFULL_EVENT
+_andor.AC_FEATURES_FIFOFULL_EVENT_swigconstant(_andor)
+AC_FEATURES_FIFOFULL_EVENT = _andor.AC_FEATURES_FIFOFULL_EVENT
 
-_andor-guider.AC_FEATURES_SENSOR_PORT_CONFIGURATION_swigconstant(_andor-guider)
-AC_FEATURES_SENSOR_PORT_CONFIGURATION = _andor-guider.AC_FEATURES_SENSOR_PORT_CONFIGURATION
+_andor.AC_FEATURES_SENSOR_PORT_CONFIGURATION_swigconstant(_andor)
+AC_FEATURES_SENSOR_PORT_CONFIGURATION = _andor.AC_FEATURES_SENSOR_PORT_CONFIGURATION
 
-_andor-guider.AC_FEATURES_SENSOR_COMPENSATION_swigconstant(_andor-guider)
-AC_FEATURES_SENSOR_COMPENSATION = _andor-guider.AC_FEATURES_SENSOR_COMPENSATION
+_andor.AC_FEATURES_SENSOR_COMPENSATION_swigconstant(_andor)
+AC_FEATURES_SENSOR_COMPENSATION = _andor.AC_FEATURES_SENSOR_COMPENSATION
 
-_andor-guider.AC_FEATURES_IRIG_SUPPORT_swigconstant(_andor-guider)
-AC_FEATURES_IRIG_SUPPORT = _andor-guider.AC_FEATURES_IRIG_SUPPORT
+_andor.AC_FEATURES_IRIG_SUPPORT_swigconstant(_andor)
+AC_FEATURES_IRIG_SUPPORT = _andor.AC_FEATURES_IRIG_SUPPORT
 
-_andor-guider.AC_EMGAIN_8BIT_swigconstant(_andor-guider)
-AC_EMGAIN_8BIT = _andor-guider.AC_EMGAIN_8BIT
+_andor.AC_EMGAIN_8BIT_swigconstant(_andor)
+AC_EMGAIN_8BIT = _andor.AC_EMGAIN_8BIT
 
-_andor-guider.AC_EMGAIN_12BIT_swigconstant(_andor-guider)
-AC_EMGAIN_12BIT = _andor-guider.AC_EMGAIN_12BIT
+_andor.AC_EMGAIN_12BIT_swigconstant(_andor)
+AC_EMGAIN_12BIT = _andor.AC_EMGAIN_12BIT
 
-_andor-guider.AC_EMGAIN_LINEAR12_swigconstant(_andor-guider)
-AC_EMGAIN_LINEAR12 = _andor-guider.AC_EMGAIN_LINEAR12
+_andor.AC_EMGAIN_LINEAR12_swigconstant(_andor)
+AC_EMGAIN_LINEAR12 = _andor.AC_EMGAIN_LINEAR12
 
-_andor-guider.AC_EMGAIN_REAL12_swigconstant(_andor-guider)
-AC_EMGAIN_REAL12 = _andor-guider.AC_EMGAIN_REAL12
+_andor.AC_EMGAIN_REAL12_swigconstant(_andor)
+AC_EMGAIN_REAL12 = _andor.AC_EMGAIN_REAL12
 # This file is compatible with both classic and new-style classes.
 
 
