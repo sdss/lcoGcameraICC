@@ -1,3 +1,5 @@
+"""Python OO interface for controlling an Apogee Alta camera."""
+
 __all__ = ['AltaCam']
 
 import alta
@@ -10,7 +12,9 @@ import socket
 import time
 from traceback import print_exc
 
-class AltaCam(alta.CApnCamera):
+import BaseCam
+
+class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
     # The CoolerStatus enum values, with slightly shortened names.
     coolerStatusNames = ('Off', 'RampingToSetPoint', 'Correcting', 'RampingToAmbient', 
                          'AtAmbient', 'AtMax', 'AtMin', 'AtSetPoint')
@@ -19,28 +23,18 @@ class AltaCam(alta.CApnCamera):
         """ Connect to an Alta-E at the given IP address and start to initialize it. """
 
         alta.CApnCamera.__init__(self)
+        BaseCam.BaseCam.__init__(self,hostname)
 
-        self.hostname = hostname
-
-        self.ok = False
-        self.doInit()
-        self.bin_x, self.bin_y = 1,1
-        self.x0, self.y0 = 0, 0
+        self.camName = "alta"
 
     def __del__(self):
         self.CloseDriver()
-        
+
     def __addr2ip(self, addr):
         """ Convert an IP address in string form (192.41.211.69) to an integer. """
 
         o1, o2, o3, o4 = map(int, addr.split('.'))
         return (o1 << 24) | (o2 << 16) | (o3 << 8) | o4
-
-    def __checkSelf(self):
-        """ Single point to call before communicating with the camera. """
-        
-        if not self.ok:
-            raise RuntimeError("Alta camera connection is down")
         
     def doOpen(self):
         """ (Re-)open a connection to the camera at self.hostname. """
