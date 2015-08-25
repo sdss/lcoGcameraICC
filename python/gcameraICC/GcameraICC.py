@@ -104,13 +104,14 @@ class GcameraAPO(GcameraICC):
 
     def ConnectCamera(self):
         """Estabilish a connection with the camera's network port."""
-        import gcameraICC.alta.altacam as alta
+
+        from Controllers import altacam
 
         altaHostname = self.config.get('camera', 'hostname')
         self.prep_connectCamera()
 
         try:
-            self.cam = alta.AltaCam(altaHostname)
+            self.cam = altacam.AltaCam(altaHostname)
         except Exception, e:
             self.bcast.warn('text="BAD THING: could not connect to camera: %s"' % (e))
 
@@ -122,8 +123,16 @@ class GcameraLCO(GcameraICC):
     location='LCO'
 
     def ConnectCamera(self):
-        """Estabilish a connection with the camera's network port."""
+        """Estabilish a connection with the camera's USB port."""
 
-        # Do something to connect to the Andor camera.
-        
-        pass
+        from Controllers import andorcam
+
+
+        self.prep_connectCamera()
+
+        try:
+            self.cam = andorcam.AndorCam()
+        except Exception, e:
+            self.bcast.warn('text="BAD THING: could not connect to camera: %s"' % (e))
+
+        self.finish_connectCamera()

@@ -1,8 +1,8 @@
 * text=auto !eol
+etc/apo.cfg -text
 etc/ecamera.cfg -text
 etc/gcamera.cfg -text
 etc/lco.cfg -text
-python/__init__.py -text
 python/gcameraICC/Commands/CameraCmd.py -text
 python/gcameraICC/Commands/__init__.py -text
 python/gcameraICC/Controllers/BaseCam.py -text
@@ -10,7 +10,6 @@ python/gcameraICC/Controllers/__init__.py -text
 python/gcameraICC/Controllers/alta.i -text
 python/gcameraICC/Controllers/alta.py -text
 python/gcameraICC/Controllers/altacam.py -text
-python/gcameraICC/Controllers/andor.py -text
 python/gcameraICC/Controllers/andorcam.py -text
 python/gcameraICC/Controllers/makefile -text
 python/gcameraICC/GcameraICC.py -text
@@ -21,5 +20,6 @@ python/gcameraICC/keydict.py -text
 /setup.py -text
 test_gcameraICC/gcameraTester.py -text
 test_gcameraICC/test_CameraCmd.py -text
+test_gcameraICC/test_Controllers.py -text
 test_gcameraICC/test_gcameraICC.py -text
 ups/gcameraICC.table -text

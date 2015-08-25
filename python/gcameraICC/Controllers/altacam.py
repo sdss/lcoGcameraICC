@@ -4,10 +4,8 @@ __all__ = ['AltaCam']
 
 import alta
 import numpy as np
-import pyfits
 
 import sys
-import math
 import socket
 import time
 from traceback import print_exc
@@ -22,10 +20,10 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
     def __init__(self, hostname):
         """ Connect to an Alta-E at the given IP address and start to initialize it. """
 
+        self.camName = 'Apogee Alta'
+
         alta.CApnCamera.__init__(self)
         BaseCam.BaseCam.__init__(self,hostname)
-
-        self.camName = "alta"
 
     def __del__(self):
         self.CloseDriver()
@@ -46,7 +44,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
             sys.stderr.write("failed to re-open a camera connection: %s\n" % (e))
         self.doInit()
     
-    def doInit(self):
+    def connect(self):
         """ (Re-)initialize and already open connection. """
 
         ip = socket.gethostbyname(self.hostname)
@@ -198,13 +196,6 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         self.write_RoiStartY(1)
         oc = self.read_OverscanColumns()
         self.write_DigitizeOverscan(1)
-
-    def expose(self, itime, filename=None, cmd=None):
-        return self._expose(itime, True, filename, cmd=cmd)
-    def dark(self, itime, filename=None, cmd=None):
-        return self._expose(itime, False, filename, cmd=cmd)
-    def bias(self, filename=None, cmd=None):
-        return self._expose(0.0, False, filename, cmd=cmd)
         
     def _expose(self, itime, openShutter, filename, cmd=None, recursing=False):
         """ Take an exposure.
@@ -317,48 +308,3 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         if image is None:
             image = self._safe_fetchImage(h,w,cmd=cmd)
         return image
-
-    def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
-        """ Return a proper ISO timestamp for t, or now if t==None. """
-        
-        if t == None:
-            t = time.time()
-            
-        if zone == None:
-            zone = ''
-            
-        return time.strftime(format, time.gmtime(t)) \
-               + ".%01d%s" % (10 * math.modf(t)[0], zone)
-    
-    def WriteFITS(self, dataDict):
-        """
-        Write dataDict['data'] to a fits file given by dataDict['filename'].
-        """
-        filename = dataDict['filename']
-
-        hdu = pyfits.PrimaryHDU(dataDict['data'])
-        hdr = hdu.header
-
-        hdr.update('IMAGETYP', dataDict['type'])
-        hdr.update('EXPTIME',  dataDict['iTime'])
-        hdr.update('TIMESYS', 'TAI')
-        hdr.update('DATE-OBS', self.getTS(dataDict['startTime']), 'start of integration')
-        hdr.update('CCDTEMP', self.read_TempCCD(), 'degrees C')
-        hdr.update('FILENAME', filename)
-#        hdr.update('FULLX', self.m_ImagingCols)
-#        hdr.update('FULLY', self.m_ImagingRows)
-        hdr.update('BEGX', self.x0+1)
-        hdr.update('BEGY', self.y0+1)
-        hdr.update('BINX', self.bin_x)
-        hdr.update('BINY', self.bin_y)
-
-        # pyfits now does the right thing with uint16
-        hdu.writeto(filename)
-
-        del hdu
-        del hdr
-
-if __name__ == "__main__":
-    an = AltaCam('sdss-guider.apo.nmsu.edu')
-    an.bias('bias.fits')
-    del an
