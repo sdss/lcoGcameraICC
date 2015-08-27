@@ -83,7 +83,7 @@ class AndorCam(BaseCam.BaseCam):
             return
 
         # not safe_call: we need the return value
-        result = andor.GetTemperature()
+        result = andor.GetTemperatureF()
         if result[0] == andor.DRV_TEMPERATURE_OFF:
             self.safe_call(andor.CoolerON)
         andor.SetTemperature(setpoint)
@@ -127,7 +127,7 @@ class AndorCam(BaseCam.BaseCam):
         # NOTE: apparently this function doesn't actually exist?
         # SensorTemp, TargetTemp, AmbientTemp, CoolerVolts = self.safe_call(andor.GetTemperatureStatus)
 
-        result = andor.GetTemperature()
+        result = andor.GetTemperatureF()
         if result[0] == andor.DRV_ACQUIRING:
             # just update the temperature, don't change the status text
             self.ccdTemp = result[1]

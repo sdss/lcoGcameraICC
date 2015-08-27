@@ -36,11 +36,12 @@ attrs = {'GetCameraHandle.return_value':[DRV_SUCCESS,1234],
          'CoolerOFF.return_value':DRV_SUCCESS,
          'CoolerON.return_value':DRV_SUCCESS,
          'SetTemperature.return_value':DRV_SUCCESS,
-         'GetTemperature.return_value':[DRV_TEMPERATURE_OFF,10],
+         'GetTemperature.return_value':[54321,10],
+         'GetTemperatureF.return_value':[DRV_TEMPERATURE_OFF,10.0],
          'ShutDown.return_value':DRV_SUCCESS,
          }
          # this appears not to be implemented yet...
-         # 'GetTemperatureStatus.return_value':[DRV_SUCCESS,-80,-100,10,5],
+         # 'GetTemperatureFStatus.return_value':[DRV_SUCCESS,-80,-100,10,5],
 andor = mock.Mock(**attrs)
 # TBD: It would be better to automate the process of setting these constants...
 andor.DRV_SUCCESS = DRV_SUCCESS
@@ -153,58 +154,58 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
     def test_cooler_status_off(self):
         self.cam.setpoint = -100
         self.cam.cooler_status()
-        andor.GetTemperature.assert_called_once_with()
+        andor.GetTemperatureF.assert_called_once_with()
         super(TestAndorCam,self)._cooler_status(setpoint=-100, ccdTemp=10, statusText='Off')
 
     def test_cooler_status_acquiring(self):
         """The CCD temperature should update, but the status text should not."""
-        newattr = {'GetTemperature.return_value':[DRV_ACQUIRING,-50]}
+        newattr = {'GetTemperatureF.return_value':[DRV_ACQUIRING,-50]}
         andor.configure_mock(**newattr)
 
         self.cam.statusText = 'NotStabilized'
         self.cam.setpoint = -100
         self.cam.cooler_status()
-        andor.GetTemperature.assert_called_once_with()
+        andor.GetTemperatureF.assert_called_once_with()
         super(TestAndorCam,self)._cooler_status(setpoint=-100, ccdTemp=-50, statusText='NotStabilized')
 
     def test_cooler_status_driver_error(self):
-        newattr = {'GetTemperature.return_value':[DRV_ERROR_ACK,-50]}
+        newattr = {'GetTemperatureF.return_value':[DRV_ERROR_ACK,-50]}
         andor.configure_mock(**newattr)
 
         with self.assertRaises(andorcam.AndorError) as cm:
             self.cam.cooler_status()
         self.assertIn('Communication error when getting temperature',cm.exception.message)
-        andor.GetTemperature.assert_called_once_with()
+        andor.GetTemperatureF.assert_called_once_with()
 
     def test_cooler_status_cooling(self):
-        newattr = {'GetTemperature.return_value':[DRV_TEMPERATURE_NOT_STABILIZED,-50]}
+        newattr = {'GetTemperatureF.return_value':[DRV_TEMPERATURE_NOT_STABILIZED,-50]}
         andor.configure_mock(**newattr)
 
         self.cam.setpoint = -100
         self.cam.cooler_status()
-        andor.GetTemperature.assert_called_once_with()
+        andor.GetTemperatureF.assert_called_once_with()
         super(TestAndorCam,self)._cooler_status(setpoint=-100, ccdTemp=-50, statusText='NotStabilized')
 
     def test_cooler_status_stable(self):
-        newattr = {'GetTemperature.return_value':[DRV_TEMPERATURE_STABILIZED,-100]}
+        newattr = {'GetTemperatureF.return_value':[DRV_TEMPERATURE_STABILIZED,-100]}
         andor.configure_mock(**newattr)
 
         self.cam.setpoint = -100
         self.cam.cooler_status()
-        andor.GetTemperature.assert_called_once_with()
+        andor.GetTemperatureF.assert_called_once_with()
         super(TestAndorCam,self)._cooler_status(setpoint=-100, ccdTemp=-100, statusText='Stabilized')
 
 
     def test_set_cooler_on_new_temp(self):
         # one call to check if cooler is on, one for cooler_status()
         side_effect = [[DRV_TEMPERATURE_STABILIZED,-20], [DRV_TEMPERATURE_NOT_STABILIZED,-25]]
-        newattr = {'GetTemperature.side_effect':side_effect}
+        newattr = {'GetTemperatureF.side_effect':side_effect}
         andor.configure_mock(**newattr)
 
         temp = -40
         self.cam.set_cooler(temp)
         # one call to check if cooler is on, one for cooler_status()
-        self.assertEqual(andor.GetTemperature.call_count,2)
+        self.assertEqual(andor.GetTemperatureF.call_count,2)
         self.assertFalse(andor.CoolerON.called) # not called, since it was already on.
         andor.SetTemperature.assert_called_once_with(temp)
         super(TestAndorCam,self)._cooler_status(setpoint=-40, ccdTemp=-25, statusText='NotStabilized')
@@ -212,19 +213,19 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
     def test_set_cooler_was_off(self):
         # return off first time, on and a colder temp second time.
         side_effect = [[DRV_TEMPERATURE_OFF,0], [DRV_TEMPERATURE_NOT_STABILIZED,-10]]
-        newattr = {'GetTemperature.side_effect':side_effect}
+        newattr = {'GetTemperatureF.side_effect':side_effect}
         andor.configure_mock(**newattr)
 
         temp = -100
         self.cam.set_cooler(temp)
         # one call to check if cooler is on, one for cooler_status()
-        self.assertEqual(andor.GetTemperature.call_count,2)
+        self.assertEqual(andor.GetTemperatureF.call_count,2)
         andor.CoolerON.assert_called_once_with()
         andor.SetTemperature.assert_called_once_with(temp)
         super(TestAndorCam,self)._cooler_status(setpoint=-100, ccdTemp=-10, statusText='NotStabilized')
 
     def test_set_cooler_off(self):
-        newattr = {'GetTemperature.return_value':[DRV_TEMPERATURE_NOT_STABILIZED,-100]}
+        newattr = {'GetTemperatureF.return_value':[DRV_TEMPERATURE_NOT_STABILIZED,-100]}
         andor.configure_mock(**newattr)
 
         temp = None
@@ -238,14 +239,14 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         N = 10
         retvals = [DRV_TEMPERATURE_NOT_STABILIZED]*(N+1) + [DRV_TEMPERATURE_STABILIZED,]
         temps = np.linspace(-110,0,N+2) + np.random.normal(0,.1,size=N+2)
-        newattr = {'GetTemperature.side_effect':zip(retvals,temps)}
+        newattr = {'GetTemperatureF.side_effect':zip(retvals,temps)}
         andor.configure_mock(**newattr)
 
         self.cam.setpoint = -100
         self.cam.ccdTemp = -100
         self.cam.shut_down()
         andor.CoolerOFF.assert_called_once_with()
-        self.assertEqual(andor.GetTemperature.call_count,12)
+        self.assertEqual(andor.GetTemperatureF.call_count,12)
         andor.ShutDown.assert_called_once_with()
 
     def test_expose(self):
