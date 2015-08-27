@@ -21,6 +21,18 @@ DRV_TEMPERATURE_DRIFT = 20040
 DRV_ACQUIRING = 20072
 DRV_ERROR_ACK = 20013
 
+DRV_ACQUIRING = 20072
+DRV_IDLE = 20073
+DRV_TEMPCYCLE = 20074
+
+height = 1111
+width = 2222
+
+def fake_GetAcquiredData16(image):
+    """Return success code, and set image to something."""
+    image[:] = np.ones(width*height,dtype='uint16')
+    return andor.DRV_SUCCESS
+
 # Need to be able test without having the _andor.so compiled library available.
 # NOTE: the Mock object doesn't do anything: we have to patch each function individually.
 # spec = ['GetCameraHandle', 'SetCurrentCamera', 'Initialize', 'GetDetector',
@@ -28,16 +40,17 @@ DRV_ERROR_ACK = 20013
 attrs = {'GetCameraHandle.return_value':[DRV_SUCCESS,1234],
          'SetCurrentCamera.return_value':DRV_SUCCESS,
          'Initialize.return_value':DRV_SUCCESS,
-         'GetDetector.return_value':[DRV_SUCCESS,1111,2222],
+         'GetDetector.return_value':[DRV_SUCCESS,width,height],
          'SetAcquisitionMode.return_value':DRV_SUCCESS,
          'SetExposureTime.return_value':DRV_SUCCESS,
          'StartAcquisition.return_value':DRV_SUCCESS,
-         'GetAcquiredData16.return_value':[DRV_SUCCESS,np.ones((10,10))],
+         'GetAcquiredData16.side_effect':fake_GetAcquiredData16,
          'CoolerOFF.return_value':DRV_SUCCESS,
          'CoolerON.return_value':DRV_SUCCESS,
          'SetTemperature.return_value':DRV_SUCCESS,
          'GetTemperature.return_value':[54321,10],
          'GetTemperatureF.return_value':[DRV_TEMPERATURE_OFF,10.0],
+         'GetStatus.return_value':[DRV_SUCCESS,DRV_IDLE],
          'ShutDown.return_value':DRV_SUCCESS,
          }
          # this appears not to be implemented yet...
@@ -48,11 +61,11 @@ andor.DRV_SUCCESS = DRV_SUCCESS
 andor.DRV_TEMPERATURE_OFF = DRV_TEMPERATURE_OFF
 andor.DRV_ACQUIRING = DRV_ACQUIRING
 andor.DRV_ERROR_ACK = DRV_ERROR_ACK
+andor.DRV_IDLE = DRV_IDLE
 
 FAKE_FAIL = 123456
 
 sys.modules['andor'] = andor
-import andor
 from gcameraICC.Controllers import BaseCam
 from gcameraICC.Controllers import andorcam
 
@@ -60,6 +73,17 @@ import gcameraTester
 
 class TestBaseCam(gcameraTester.GcameraTester):
     """Subclass this to get the tests for common functions."""
+    def tearDown(self):
+        andor.reset_mock()
+        # clear all side_effects. NOTE: this is not very pretty, but it works...
+        # TBD: there's a unittest ticket about making this an option for reset_mock()
+        for x in dir(andor):
+            old = getattr(getattr(andor,x),'side_effect',None)
+            if old is not None:
+                setattr(getattr(andor,x),'side_effect',None)
+        # reset the return values to their default.
+        andor.configure_mock(**attrs)
+
     def test_checkSelf_not_ok(self):
         self.cam.ok = False
         with self.assertRaises(BaseCam.CameraError) as cm:
@@ -91,11 +115,7 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         super(TestAndorCam,self).setUp()
         self.cam = andorcam.AndorCam()
         andor.reset_mock() # clear any function calls that init produced.
-
-    def tearDown(self):
-        andor.reset_mock()
-        # reset the return values to their default.
-        andor.configure_mock(**attrs)
+        self.cmd.clear_msgs() # clear startup messages
 
     def test_connect(self):
         self.cam = andorcam.AndorCam()
@@ -105,8 +125,8 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         andor.SetCurrentCamera.assert_called_once_with(self.cam.camHandle)
         andor.Initialize.assert_called_once_with("/usr/local/etc/andor")
         andor.GetDetector.assert_called_once_with()
-        self.assertEqual(self.cam.width,1111)
-        self.assertEqual(self.cam.height,2222)
+        self.assertEqual(self.cam.width,width)
+        self.assertEqual(self.cam.height,height)
 
     def test_connect_fails_GetCameraHandle(self,*funcs):
         newattr = {'GetCameraHandle.return_value':FAKE_FAIL}
@@ -234,7 +254,7 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         super(TestAndorCam,self)._cooler_status(setpoint=0, ccdTemp=-100, statusText='NotStabilized')
 
 
-    def test_shut_down(self):
+    def test_shutddown(self):
         """Check that we don't shut down until the camera has reached ~0 degrees."""
         N = 10
         retvals = [DRV_TEMPERATURE_NOT_STABILIZED]*(N+1) + [DRV_TEMPERATURE_STABILIZED,]
@@ -244,16 +264,36 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
 
         self.cam.setpoint = -100
         self.cam.ccdTemp = -100
-        self.cam.shut_down()
+        self.cam.shutdown(self.cmd)
         andor.CoolerOFF.assert_called_once_with()
         self.assertEqual(andor.GetTemperatureF.call_count,12)
         andor.ShutDown.assert_called_once_with()
 
+    def test_shutdown_above_0(self):
+        """Check that we can shutdown immediately if the temperature is above 0."""
+        newattr = {'GetTemperatureF.return_value':[DRV_TEMPERATURE_STABILIZED,15]}
+        andor.configure_mock(**newattr)
+
+        self.cam.setpoint = np.nan
+        self.cam.ccdTemp = np.nan
+        self.cam.shutdown(self.cmd)
+        andor.CoolerOFF.assert_called_once_with()
+        self.assertEqual(andor.GetTemperature.call_count,0)
+        andor.ShutDown.assert_called_once_with()
+
     def test_expose(self):
-        self.cam.expose(1,cmd=self.cmd)
-        self.assertTrue(False)
+        result = self.cam.expose(1,cmd=self.cmd)
+        self.assertEqual(self.cam.errMsg,'')
+        self._check_cmd(0,0,0,0,False)
+        self.assertTrue((result['data'] == np.ones((width,height),dtype='uint16')).all())
 
 if __name__ == '__main__':
     verbosity = 2
     
-    unittest.main(verbosity=verbosity)
+    suite = None
+    # to test just one piece
+    suite = unittest.TestLoader().loadTestsFromName('test_Controllers.TestAndorCam.test_expose')
+    if suite:
+        unittest.TextTestRunner(verbosity=verbosity).run(suite)
+    else:
+        unittest.main(verbosity=verbosity)

@@ -479,7 +479,7 @@ class CameraCmd(object):
             cmd.fail("text='You must specify force when attempting to shut down the guide camera.'")
             return
 
-        self.actor.cam.shutdown()
+        self.actor.cam.shutdown(cmd)
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
         """ Return a proper ISO timestamp for t, or now if t==None. """

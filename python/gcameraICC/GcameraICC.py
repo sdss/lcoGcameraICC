@@ -56,7 +56,7 @@ class GcameraICC(ICC.SDSS_ICC):
         for actor in ['mcp','tcc']:
             self.models[actor] = opscore.actor.model.Model(actor)
 
-    def prep_connectCamera(self,hostname):
+    def prep_connectCamera(self,hostname=""):
         """Prepare to connect to the camera."""
         if self.cam:
             del self.cam
@@ -102,7 +102,7 @@ class GcameraAPO(GcameraICC):
     """APO version of this actor."""
     location='APO'
 
-    def ConnectCamera(self):
+    def connectCamera(self):
         """Estabilish a connection with the camera's network port."""
 
         from Controllers import altacam
@@ -122,7 +122,7 @@ class GcameraLCO(GcameraICC):
     """LCO version of this actor."""
     location='LCO'
 
-    def ConnectCamera(self):
+    def connectCamera(self):
         """Estabilish a connection with the camera's USB port."""
 
         from Controllers import andorcam

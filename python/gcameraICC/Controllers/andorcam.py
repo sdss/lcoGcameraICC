@@ -1,5 +1,4 @@
 """Python OO interface for controlling an Andor Ikon camera."""
-import sys
 import numpy as np
 
 import BaseCam
@@ -19,6 +18,7 @@ class AndorCam(BaseCam.BaseCam):
         """ Connect to an Andor ikon and start to initialize it. """
 
         self.camName = 'Andor iKon'
+        self.IDLE = andor.DRV_IDLE
 
         BaseCam.BaseCam.__init__(self)
 
@@ -61,34 +61,28 @@ class AndorCam(BaseCam.BaseCam):
             raise AndorError('Error number {} calling {} with arguments {}'.format(retval,func,args))
         return result
 
-    def status(self):
+    def _status(self):
         """Get the status of the camera."""
-        pass
+        return self.safe_call(andor.GetStatus)
 
     def cooler_status(self):
         self._checkSelf()
 
         self._check_temperature()
-        super(AndorCam,self).cooler_status()
+        return super(AndorCam,self).cooler_status()
 
     def set_cooler(self, setpoint):
-        self._checkSelf()
-
-        self.setpoint = setpoint
-
-        if setpoint is None:
-            self.setpoint = 0
-            self.safe_call(andor.CoolerOFF)
-            self.cooler_status()
+        if super(AndorCam,self).set_cooler(setpoint) is None:
             return
 
         # not safe_call: we need the return value
         result = andor.GetTemperatureF()
         if result[0] == andor.DRV_TEMPERATURE_OFF:
             self.safe_call(andor.CoolerON)
-        andor.SetTemperature(setpoint)
+        # NOTE: setTemperature wants only an int...
+        andor.SetTemperature(int(setpoint))
 
-        self.cooler_status()
+        return self.cooler_status()
 
     def set_binning(self, x, y=None):
         pass
@@ -102,6 +96,9 @@ class AndorCam(BaseCam.BaseCam):
 
     def _prep_exposure(self):
 
+        if self._status() != self.IDLE:
+            raise AndorError('Cannot start exposure: camera not idle.')
+
         self.safe_call(andor.SetAcquisitionMode, 1)
         self.safe_call(andor.SetExposureTime, self.itime)
         # Internal trigger mode is the default: no need to set anything.
@@ -111,16 +108,12 @@ class AndorCam(BaseCam.BaseCam):
 
     def _safe_fetchImage(self,cmd=None):
         """Wrap a call to GetAcquiredData16 in case of bad reads."""
-        image = np.zeros((self.height,self.width), dtype='uint16')
-        ret = andor.GetAcquiredData16(image)
-        if ret != 0:
-            print >> sys.stderr, 'IMAGE READ FAILED: %s\n' % (ret)
-            if cmd:
-                cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
-            return None
-        return image
+        image = np.zeros(self.width*self.height, dtype='uint16')
+        self.safe_call(andor.GetAcquiredData16,image)
+        return image.reshape(self.width,self.height)
 
     def _cooler_off(self):
+        self.setpoint = 0
         self.safe_call(andor.CoolerOFF)
 
     def _check_temperature(self):

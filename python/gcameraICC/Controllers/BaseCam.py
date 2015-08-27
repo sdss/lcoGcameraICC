@@ -39,6 +39,7 @@ class BaseCam(object):
         self.ow,self.oh = 24, 0 # overscan size, unbinned pixels
 
         self.safe_temp = 0 # the temperature where we can safely turn off the camera.
+        self.t_wait = 1
 
         self.setpoint = None
         self.drive = np.nan
@@ -78,6 +79,11 @@ class BaseCam(object):
         """Initialize the camera."""
         self.errMsg = "" # clear last error messsage
 
+    @abc.abstractmethod
+    def _status(self):
+        """Return the status of the gcamera system."""
+        pass
+
     def cooler_status(self):
         """Return the cooler status keywords."""
         status = "{},{:.1f},{:.1f},{:.1f},{},{}".format(self.setpoint,
@@ -103,7 +109,16 @@ class BaseCam(object):
         Returns:
            the cooler status keyword.
         """
-        pass
+        self._checkSelf()
+
+        self.setpoint = setpoint
+
+        if setpoint is None:
+            self._cooler_off()
+            self.cooler_status()
+            return None
+        else:
+            return setpoint
 
     @abc.abstractmethod
     def set_binning(self, x, y=None):
@@ -115,6 +130,11 @@ class BaseCam(object):
         Kwargs:
             y (int): binning factor along columns. If not passed in, same as x.
         """
+        pass
+
+    def setBOSSFormat(cmd, doFinish=False):
+        pass
+    def setFlatFormat(cmd, doFinish=False):
         pass
 
     def expose(self, itime, cmd=None):
@@ -143,20 +163,20 @@ class BaseCam(object):
         self.cmd = cmd
         self.start = time.time()
         try:
-            self._prep_exposure(itime)
-            self._take_exposure(itime)
+            self._prep_exposure()
+            self._start_exposure()
             self._wait_on_exposure()
-            self._get_exposure()
+            return self._get_exposure()
         except Exception as e:
             self.handle_error(e)
 
     @abc.abstractmethod
-    def _prep_exposure(self, itime):
+    def _prep_exposure(self):
         """Prep for an exposure to start."""
         pass
 
     @abc.abstractmethod
-    def _start_exposure(self, itime):
+    def _start_exposure(self):
         """Start the exposure acquisition."""
         pass
 
@@ -169,14 +189,14 @@ class BaseCam(object):
         if self.itime > self.t_wait:
             time.sleep(self.itime - self.t_wait)
 
-        while self.exposure():
+        while self._status() != self.IDLE:
             time.sleep(0.1)
 
     def _get_exposure(self):
         """Read the exposure and return a dict describing it."""
         imageDict = {}
 
-        self._safe_fetchImage()
+        self.image = self._safe_fetchImage()
         if self.openShutter:
             fitsType = 'obj'
         elif self.itime == 0:
@@ -205,7 +225,7 @@ class BaseCam(object):
         """Command the camera to shut off."""
         pass
 
-    def shut_down(self):
+    def shutdown(self,cmd=None):
         """
         Safely shut down the camera, by turning off cooling, waiting for the
         temperature to stabilize, and then shutting down the connection and camera.
@@ -213,9 +233,13 @@ class BaseCam(object):
         self._checkSelf()
 
         self._cooler_off()
-        # check temperature to within half a degree
-        while not np.isclose(self.ccdTemp, self.safe_temp, atol=0.5):
-            self._check_temperature()
+        # Check that we're above, or close to freezing
+        while not((self.ccdTemp > self.safe_temp) or (np.isclose(self.ccdTemp, self.safe_temp, atol=0.5))):
+            if cmd is not None:
+                cmd.inform(self.cooler_status())
+            else:
+                self._check_temperature()
+            time.sleep(.1)
         self._shutdown()
 
     def _expose_old(self, itime, openShutter, filename, cmd=None, recursing=False):
