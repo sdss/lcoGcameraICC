@@ -39,7 +39,10 @@ class BaseCam(object):
         self.ow,self.oh = 24, 0 # overscan size, unbinned pixels
 
         self.safe_temp = 0 # the temperature where we can safely turn off the camera.
-        self.t_wait = 1
+        self.expose_wait = 1 # minimum exposure before we take a long sleep during integration
+        self.shutdown_wait = 2 # time to wait between status updates during shutdown.
+
+        self.shutter_time = 0. # NOTE: Should update this for your shutter.
 
         self.setpoint = None
         self.drive = np.nan
@@ -61,7 +64,7 @@ class BaseCam(object):
         if self.cmd is not None:
             msg = str(e)
             msg += '. Last message: {}'.format(self.errMsg)
-            self.cmd.error(msg)
+            self.cmd.error("text='{}'".format(msg))
         else:
             self.ok = False
             self.errMsg = str(e)
@@ -169,6 +172,7 @@ class BaseCam(object):
             return self._get_exposure()
         except Exception as e:
             self.handle_error(e)
+            raise e
 
     @abc.abstractmethod
     def _prep_exposure(self):
@@ -186,8 +190,8 @@ class BaseCam(object):
         First, wait most of the exposure time via sleep, then watch more closely.
         """
 
-        if self.itime > self.t_wait:
-            time.sleep(self.itime - self.t_wait)
+        if self.itime > self.expose_wait:
+            time.sleep(self.itime - self.expose_wait)
 
         while self._status() != self.IDLE:
             time.sleep(0.1)
@@ -239,7 +243,7 @@ class BaseCam(object):
                 cmd.inform(self.cooler_status())
             else:
                 self._check_temperature()
-            time.sleep(.1)
+            time.sleep(self.shutdown_wait)
         self._shutdown()
 
     def _expose_old(self, itime, openShutter, filename, cmd=None, recursing=False):

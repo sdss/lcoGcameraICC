@@ -19,6 +19,8 @@ class AndorCam(BaseCam.BaseCam):
 
         self.camName = 'Andor iKon'
         self.IDLE = andor.DRV_IDLE
+        # TBD: this is a guess
+        self.shutter_time = 5 # in milliseconds
 
         BaseCam.BaseCam.__init__(self)
 
@@ -101,7 +103,14 @@ class AndorCam(BaseCam.BaseCam):
 
         self.safe_call(andor.SetAcquisitionMode, 1)
         self.safe_call(andor.SetExposureTime, self.itime)
-        # Internal trigger mode is the default: no need to set anything.
+        # Note: Internal trigger mode is the default: no need to set anything for that.
+
+        if self.openShutter:
+            mode = 0
+        else:
+            mode = 2 # permanently closed for darks, etc.
+        # Internal shutters are always TTL High, so first param is 1
+        self.safe_call(andor.SetShutter,1,mode,int(self.shutter_time),int(self.shutter_time))
 
     def _start_exposure(self):
         self.safe_call(andor.StartAcquisition)
@@ -109,7 +118,16 @@ class AndorCam(BaseCam.BaseCam):
     def _safe_fetchImage(self,cmd=None):
         """Wrap a call to GetAcquiredData16 in case of bad reads."""
         image = np.zeros(self.width*self.height, dtype='uint16')
-        self.safe_call(andor.GetAcquiredData16,image)
+        import pdb
+        pdb.set_trace()
+        result = andor.GetAcquiredData16(image)
+        if result != andor.DRV_SUCCESS:
+            print result
+            import pdb
+            pdb.set_trace()
+            raise AndorError('Error number {} calling GetAcquiredData16 with image.shape'.format(result))
+
+        # self.safe_call(andor.GetAcquiredData16,image)
         return image.reshape(self.width,self.height)
 
     def _cooler_off(self):

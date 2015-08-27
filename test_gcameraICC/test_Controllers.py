@@ -43,6 +43,7 @@ attrs = {'GetCameraHandle.return_value':[DRV_SUCCESS,1234],
          'GetDetector.return_value':[DRV_SUCCESS,width,height],
          'SetAcquisitionMode.return_value':DRV_SUCCESS,
          'SetExposureTime.return_value':DRV_SUCCESS,
+         'SetShutter.return_value':DRV_SUCCESS,
          'StartAcquisition.return_value':DRV_SUCCESS,
          'GetAcquiredData16.side_effect':fake_GetAcquiredData16,
          'CoolerOFF.return_value':DRV_SUCCESS,
@@ -149,11 +150,21 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         andor.Initialize.assert_called_once_with("/usr/local/etc/andor")
 
 
-    def test_prep_exposure(self):
+    def test_prep_exposure_openShutter(self):
         self.cam.itime = 100
+        self.cam.opeShutter = True
         self.cam._prep_exposure()
         andor.SetAcquisitionMode.assert_called_once_with(1)
         andor.SetExposureTime.assert_called_once_with(100)
+        andor.SetShutter.assert_called_once_with(1,0,self.cam.shutter_time,self.cam.shutter_time)
+
+    def test_prep_exposure_openShutter(self):
+        self.cam.itime = 100
+        self.cam.openShutter = False
+        self.cam._prep_exposure()
+        andor.SetAcquisitionMode.assert_called_once_with(1)
+        andor.SetExposureTime.assert_called_once_with(100)
+        andor.SetShutter.assert_called_once_with(1,2,self.cam.shutter_time,self.cam.shutter_time)
 
 
     def test_start_exposure(self):
@@ -262,6 +273,7 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         newattr = {'GetTemperatureF.side_effect':zip(retvals,temps)}
         andor.configure_mock(**newattr)
 
+        self.cam.shutdown_wait = 0.1 # make this go faster
         self.cam.setpoint = -100
         self.cam.ccdTemp = -100
         self.cam.shutdown(self.cmd)
@@ -274,6 +286,7 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
         newattr = {'GetTemperatureF.return_value':[DRV_TEMPERATURE_STABILIZED,15]}
         andor.configure_mock(**newattr)
 
+        self.cam.shutdown_wait = 0.1 # make this go faster
         self.cam.setpoint = np.nan
         self.cam.ccdTemp = np.nan
         self.cam.shutdown(self.cmd)
@@ -283,16 +296,25 @@ class TestAndorCam(TestBaseCam,unittest.TestCase):
 
     def test_expose(self):
         result = self.cam.expose(1,cmd=self.cmd)
+        andor.SetShutter.assert_called_once_with(1,0,self.cam.shutter_time,self.cam.shutter_time)
         self.assertEqual(self.cam.errMsg,'')
         self._check_cmd(0,0,0,0,False)
         self.assertTrue((result['data'] == np.ones((width,height),dtype='uint16')).all())
+
+    def test_dark(self):
+        result = self.cam.dark(1,cmd=self.cmd)
+        andor.SetShutter.assert_called_once_with(1,2,self.cam.shutter_time,self.cam.shutter_time)
+        self.assertEqual(self.cam.errMsg,'')
+        self._check_cmd(0,0,0,0,False)
+        self.assertTrue((result['data'] == np.ones((width,height),dtype='uint16')).all())
+
 
 if __name__ == '__main__':
     verbosity = 2
     
     suite = None
     # to test just one piece
-    suite = unittest.TestLoader().loadTestsFromName('test_Controllers.TestAndorCam.test_expose')
+    # suite = unittest.TestLoader().loadTestsFromName('test_Controllers.TestAndorCam.test_expose')
     if suite:
         unittest.TextTestRunner(verbosity=verbosity).run(suite)
     else:

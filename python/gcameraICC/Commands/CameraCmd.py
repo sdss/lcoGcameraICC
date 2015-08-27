@@ -475,11 +475,13 @@ class CameraCmd(object):
         cmd.finish('text="Pong."')
 
     def shutdown(self, cmd):
+        """"Shutdown the camera connection safely (letting it warm up slowly): you must supply force."""
         if 'force' not in cmd.cmd.keywords:
             cmd.fail("text='You must specify force when attempting to shut down the guide camera.'")
             return
 
         self.actor.cam.shutdown(cmd)
+        self.status(cmd, doFinish=True)
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
         """ Return a proper ISO timestamp for t, or now if t==None. """
