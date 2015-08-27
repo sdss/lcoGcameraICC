@@ -6,7 +6,7 @@ import sys
 import math
 import traceback
 
-import pyfits
+import numpy as np
 
 class CameraError(RuntimeError):
     def __str__(self):
@@ -14,6 +14,9 @@ class CameraError(RuntimeError):
 
 class BaseCam(object):
     __metaclass__ = abc.ABCMeta
+
+    # a tuple enum for responses from your camera's temperature status output
+    coolerStatusNames = ('Off','On')
 
     def __init__(self, hostname="", verbose=True):
         """Connect to a guide camera and initialize it."""
@@ -34,6 +37,21 @@ class BaseCam(object):
         self.bin_x, self.bin_y = 1,1 # default binning
         self.x0, self.y0 = 0, 0 # 0 point of the image
         self.ow,self.oh = 24, 0 # overscan size, unbinned pixels
+
+        self.safe_temp = 0 # the temperature where we can safely turn off the camera.
+
+        self.setpoint = None
+        self.drive = np.nan
+        self.ccdTemp = np.nan
+        self.heatsinkTemp = np.nan
+        self.fan = np.nan
+        self.statusText = 'Unknown'
+
+        # TBD: The stuff below here is only in place for testing.
+        # TBD: It should be removed once I've got full tests in place for
+        # TBD: CameraCmd and the hardcoded values it has.
+
+        self.m_pvtRoiBinningV, self.m_pvtRoiBinningH = 1,1
 
     def handle_error(self,e):
         """Handle an error, either outputting to a cmdr, or saving for later."""
@@ -60,18 +78,27 @@ class BaseCam(object):
         """Initialize the camera."""
         self.errMsg = "" # clear last error messsage
 
-    @abc.abstractmethod
-    def coolerStatus(self):
-        """Return the cooler status keywords. """
-        pass
+    def cooler_status(self):
+        """Return the cooler status keywords."""
+        status = "{},{:.1f},{:.1f},{:.1f},{},{}".format(self.setpoint,
+                                                        self.ccdTemp, self.heatsinkTemp,
+                                                        self.drive, self.fan, self.statusText)
+        return "cooler={}".format(status)
+
+    def set_status_text(self,value):
+        """Set self.statusText from coolerStusNames, safely."""
+        try:
+            self.statusText = self.coolerStatusNames[value]
+        except:
+            self.statusText = 'Invalid'
 
     @abc.abstractmethod
-    def setCooler(self, setPoint):
+    def set_cooler(self, setpoint):
         """
         Set the cooler temperature setpoint.
 
         Args:
-           setPoint (float): degC to use as the TEC setpoint. If None, turn off cooler.
+           setpoint (float): degC to use as the TEC setpoint. If None, turn off cooler.
 
         Returns:
            the cooler status keyword.
@@ -79,7 +106,7 @@ class BaseCam(object):
         pass
 
     @abc.abstractmethod
-    def setBinning(self, x, y=None):
+    def set_binning(self, x, y=None):
         """ Set the readout binning.
 
         Args:
@@ -90,35 +117,36 @@ class BaseCam(object):
         """
         pass
 
-    def expose(self, itime, filename=None, cmd=None):
-        return self._expose(itime, True, filename, cmd=cmd)
-    def dark(self, itime, filename=None, cmd=None):
-        return self._expose(itime, False, filename, cmd=cmd)
-    def bias(self, filename=None, cmd=None):
-        return self._expose(0.0, False, filename, cmd=cmd)
+    def expose(self, itime, cmd=None):
+        return self._expose(itime, True, cmd=cmd)
+    def dark(self, itime, cmd=None):
+        return self._expose(itime, False, cmd=cmd)
+    def bias(self, cmd=None):
+        return self._expose(0.0, False, cmd=cmd)
 
-    def _expose(self, itime, openShutter, filename, cmd=None):
+    def _expose(self, itime, openShutter, cmd=None):
         """
-        Take an exposure.
+        Take an exposure and return a dict of the image and related data.
 
         Args:
             itime (float): exposure duration in seconds
             openShutter (bool): open the shutter.
-            filename (str): a full pathname. If None, the image is returned
 
         Kwargs:
             cmd (Cmdr): Commander for passing response messages.
+
         """
+        self._checkSelf()
+
         self.itime = itime
         self.openShutter = openShutter
-        self.filename = filename
         self.cmd = cmd
         self.start = time.time()
         try:
             self._prep_exposure(itime)
             self._take_exposure(itime)
             self._wait_on_exposure()
-            self._get_exposure(filename)
+            self._get_exposure()
         except Exception as e:
             self.handle_error(e)
 
@@ -144,8 +172,8 @@ class BaseCam(object):
         while self.exposure():
             time.sleep(0.1)
 
-    def _get_exposure(self, filename):
-        """Read the exposure from the chip, process and write to on-disk FITS."""
+    def _get_exposure(self):
+        """Read the exposure and return a dict describing it."""
         imageDict = {}
 
         self._safe_fetchImage()
@@ -160,18 +188,35 @@ class BaseCam(object):
         imageDict['type'] = fitsType
         imageDict['startTime'] = self.start
 
-        # fake the data?  if not, then set real filename and write it out
-        imageDict['filename'] = filename
         imageDict['data'] = self.image
-
-        if filename:
-            try:
-                self.WriteFITS(imageDict)
-            except:
-                traceback.print_exc()
 
         return imageDict
 
+    @abc.abstractmethod
+    def _cooler_off(self):
+        """Turn off the camera's cooler."""
+        pass
+    @abc.abstractmethod
+    def _check_temperature(self):
+        """Check the camera's temperature, but don't send keywords."""
+        pass
+    @abc.abstractmethod
+    def _shutdown(self):
+        """Command the camera to shut off."""
+        pass
+
+    def shut_down(self):
+        """
+        Safely shut down the camera, by turning off cooling, waiting for the
+        temperature to stabilize, and then shutting down the connection and camera.
+        """
+        self._checkSelf()
+
+        self._cooler_off()
+        # check temperature to within half a degree
+        while not np.isclose(self.ccdTemp, self.safe_temp, atol=0.5):
+            self._check_temperature()
+        self._shutdown()
 
     def _expose_old(self, itime, openShutter, filename, cmd=None, recursing=False):
         """
@@ -254,12 +299,6 @@ class BaseCam(object):
         d['filename'] = filename
         d['data'] = image
 
-        if filename:
-            try:
-                self.WriteFITS(d)
-            except:
-                traceback.print_exc()
-
         return d
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
@@ -273,29 +312,3 @@ class BaseCam(object):
             
         return time.strftime(format, time.gmtime(t)) \
                + ".%01d%s" % (10 * math.modf(t)[0], zone)
-
-    def WriteFITS(self, dataDict):
-        """
-        Write dataDict['data'] to a fits file given by dataDict['filename'].
-        """
-        filename = dataDict['filename']
-
-        hdu = pyfits.PrimaryHDU(dataDict['data'])
-        hdr = hdu.header
-
-        hdr.update('IMAGETYP', dataDict['type'])
-        hdr.update('EXPTIME',  dataDict['iTime'])
-        hdr.update('TIMESYS', 'TAI')
-        hdr.update('DATE-OBS', self.getTS(dataDict['startTime']), 'start of integration')
-        hdr.update('CCDTEMP', self.read_TempCCD(), 'degrees C')
-        hdr.update('FILENAME', filename)
-        hdr.update('BEGX', self.x0+1)
-        hdr.update('BEGY', self.y0+1)
-        hdr.update('BINX', self.bin_x)
-        hdr.update('BINY', self.bin_y)
-
-        hdu.writeto(filename)
-
-        del hdu
-        del hdr
-

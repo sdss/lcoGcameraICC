@@ -3,7 +3,6 @@
 """ CameraCmd.py -- wrap camera functions. """
 
 import glob
-import logging
 import math
 import os
 import re
@@ -12,7 +11,6 @@ import time
 import pyfits
 import numpy as np
 
-import opscore.protocols.validation as validation
 import opscore.protocols.keys as opsKeys
 import opscore.protocols.types as types
 
@@ -80,6 +78,7 @@ class CameraCmd(object):
             ('flat', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
             ('reconnect', '', self.reconnect),
             ('resync', '', self.resync),
+            ('shutdown', '[force]', self.shutdown)
             ]
 
     def pingCmd(self, cmd):
@@ -104,7 +103,10 @@ class CameraCmd(object):
 
         self.actor.sendVersionKey(cmd)
 
-        cam = self.actor.cam
+        try:
+            cam = self.actor.cam
+        except:
+            cam = None
         cmd.respond("stack=1")
         if cam:
             cmd.respond('cameraConnected=%s' % (cam != None))
@@ -447,7 +449,7 @@ class CameraCmd(object):
         """ Generate gcamera cooler status keywords. Does NOT finish the command. """
 
         if self.actor.cam:
-            coolerStatus = self.actor.cam.coolerStatus()
+            coolerStatus = self.actor.cam.cooler_status()
             cmd.respond(coolerStatus)
 
         if doFinish:
@@ -464,13 +466,20 @@ class CameraCmd(object):
 
         cmd.inform('text="setting camera cooler setpoint to %0.1f degC"' % (temp))
 
-        self.actor.cam.setCooler(temp)
+        self.actor.cam.set_cooler(temp)
         self.coolerStatus(cmd, doFinish=doFinish)
 
     def ping(self, cmd):
         """ Top-level "ping" command handler. Query all the controllers for liveness/happiness. """
 
         cmd.finish('text="Pong."')
+
+    def shutdown(self, cmd):
+        if 'force' not in cmd.cmd.keywords:
+            cmd.fail("text='You must specify force when attempting to shut down the guide camera.'")
+            return
+
+        self.actor.cam.shutdown()
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
         """ Return a proper ISO timestamp for t, or now if t==None. """

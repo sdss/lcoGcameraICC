@@ -65,32 +65,31 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
 
         return self.ok
     
-    def coolerStatus(self):
+    def cooler_status(self):
         """ Return the cooler status keywords. """
 
         self.__checkSelf()
 
-        setpoint = self.read_CoolerSetPoint()
-        drive = self.read_CoolerDrive()
-        ccdTemp = self.read_TempCCD()
-        heatsinkTemp = self.read_TempHeatsink()
-        fan = self.read_FanMode()
+        self.setpoint = self.read_CoolerSetPoint()
+        self.drive = self.read_CoolerDrive()
+        self.ccdTemp = self.read_TempCCD()
+        self.heatsinkTemp = self.read_TempHeatsink()
+        self.fan = self.read_FanMode()
 
         #
         status = self.read_CoolerStatus()
         try:
-            statusName = self.coolerStatusNames[int(status)]
+            self.statusText = self.coolerStatusNames[int(status)]
         except:
-            statusName = 'Invalid'
+            self.statusText = 'Invalid'
 
-        return "cooler=%0.1f,%0.1f,%0.1f,%0.1f,%d,%s" % (setpoint,
-                                                         ccdTemp, heatsinkTemp,
-                                                         drive, fan, statusName)
-    def setCooler(self, setPoint):
+        super(AltaCam,self).cooler_status()
+
+    def setCooler(self, setpoint):
         """ Set the cooler setpoint.
 
         Args:
-           setPoint - degC to use as the TEC setpoint. If None, turn off cooler.
+           setpoint - degC to use as the TEC setpoint. If None, turn off cooler.
 
         Returns:
            the cooler status keyword.
@@ -98,11 +97,11 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
 
         self.__checkSelf()
 
-        if setPoint == None:
+        if setpoint == None:
             self.write_CoolerEnable(0)
             return
 
-        self.write_CoolerSetPoint(setPoint)
+        self.write_CoolerSetPoint(setpoint)
         self.write_CoolerEnable(1)
 
         return self.coolerStatus()

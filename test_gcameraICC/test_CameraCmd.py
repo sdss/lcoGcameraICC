@@ -6,7 +6,7 @@ import unittest
 from actorcore import TestHelper
 
 from gcameraICC import GcameraICC
-from gcameraICC.Commands import CamCmd
+from gcameraICC.Commands import CameraCmd
 
 verbose = True
 
@@ -22,14 +22,13 @@ class TestCamCmd(TestHelper.ActorTester, unittest.TestCase):
         # so we can call camCmds, but init things silently.
         # self.cmd.verbose = False
         self.icc = icc
-        self.camCmd = CamCmd.CamCmd(icc)
+        self.camCmd = CameraCmd.CamCmd(icc)
         # self.cmd.clear_msgs()
         # self.cmd.verbose = self.verbose
 
-    def test_ackErrors(self):
-        """The deferred ackErrors send a warning per camera, and should finish."""
-        self.camCmd.ackErrors(self.cmd)
-        self.check_cmd(0,0,2,0,finish=True)
+    def test_shutdown_fails_no_force(self):
+        self._run_cmd('shutdown')
+        self._check_cmd(0,0,0,0,True,True)
 
 
 if __name__ == '__main__':

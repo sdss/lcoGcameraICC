@@ -9,6 +9,12 @@ class AndorError(BaseCam.CameraError):
     pass
 
 class AndorCam(BaseCam.BaseCam):
+
+    # index on [result[0] - andor.DRV_TEMPERATURE_OFF]
+    coolerStatusNames = ('Off', 'NotStabilized', 'Stabilized',
+                         'NotReached', 'OutOfRange', 'NotSupported',
+                         'WasStableNowDrifting')
+
     def __init__(self):
         """ Connect to an Andor ikon and start to initialize it. """
 
@@ -59,22 +65,43 @@ class AndorCam(BaseCam.BaseCam):
         """Get the status of the camera."""
         pass
 
-    def coolerStatus(self):
-        pass
+    def cooler_status(self):
+        self._checkSelf()
 
-    def setCooler(self, setPoint):
-        pass
+        self._check_temperature()
+        super(AndorCam,self).cooler_status()
 
-    def setBinning(self, x, y=None):
+    def set_cooler(self, setpoint):
+        self._checkSelf()
+
+        self.setpoint = setpoint
+
+        if setpoint is None:
+            self.setpoint = 0
+            self.safe_call(andor.CoolerOFF)
+            self.cooler_status()
+            return
+
+        # not safe_call: we need the return value
+        result = andor.GetTemperature()
+        if result[0] == andor.DRV_TEMPERATURE_OFF:
+            self.safe_call(andor.CoolerON)
+        andor.SetTemperature(setpoint)
+
+        self.cooler_status()
+
+    def set_binning(self, x, y=None):
         pass
 
     def Unbinned(self):
         """Set the default binning for this camera/location."""
+        self._checkSelf()
 
         self.safe_call(andor.SetReadMode,4)
         self.safe_call(andor.SetImage,1,1,1,1024,1,1024)
 
     def _prep_exposure(self):
+
         self.safe_call(andor.SetAcquisitionMode, 1)
         self.safe_call(andor.SetExposureTime, self.itime)
         # Internal trigger mode is the default: no need to set anything.
@@ -82,9 +109,9 @@ class AndorCam(BaseCam.BaseCam):
     def _start_exposure(self):
         self.safe_call(andor.StartAcquisition)
 
-    def _safe_fetchImage(self,h,w,cmd=None):
+    def _safe_fetchImage(self,cmd=None):
         """Wrap a call to GetAcquiredData16 in case of bad reads."""
-        image = np.zeros((h,w), dtype='uint16')
+        image = np.zeros((self.height,self.width), dtype='uint16')
         ret = andor.GetAcquiredData16(image)
         if ret != 0:
             print >> sys.stderr, 'IMAGE READ FAILED: %s\n' % (ret)
@@ -92,3 +119,24 @@ class AndorCam(BaseCam.BaseCam):
                 cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
             return None
         return image
+
+    def _cooler_off(self):
+        self.safe_call(andor.CoolerOFF)
+
+    def _check_temperature(self):
+        # NOTE: apparently this function doesn't actually exist?
+        # SensorTemp, TargetTemp, AmbientTemp, CoolerVolts = self.safe_call(andor.GetTemperatureStatus)
+
+        result = andor.GetTemperature()
+        if result[0] == andor.DRV_ACQUIRING:
+            # just update the temperature, don't change the status text
+            self.ccdTemp = result[1]
+        elif result[0] == andor.DRV_ERROR_ACK:
+            self.ok = False
+            raise AndorError('Communication error when getting temperature!')
+        else:
+            self.ccdTemp = result[1]
+            self.set_status_text(result[0] - andor.DRV_TEMPERATURE_OFF)
+
+    def _shutdown(self):
+        andor.ShutDown()

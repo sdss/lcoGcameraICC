@@ -14,7 +14,7 @@ import gcameraTester
 
 logDirBase = 'temp/'
 
-class TestGcameraICC(unittest.TestCase,gcameraTester.GcameraTester):
+class TestGcameraICC(gcameraTester.GcameraTester,unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # can only configure the dispatcher once.
