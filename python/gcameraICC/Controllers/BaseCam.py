@@ -42,9 +42,10 @@ class BaseCam(object):
         self.expose_wait = 1 # minimum exposure before we take a long sleep during integration
         self.shutdown_wait = 2 # time to wait between status updates during shutdown.
 
-        self.shutter_time = 0. # NOTE: Should update this for your shutter.
+        self.shutter_time = 0. # NOTE: You should update this for your shutter.
+        self.read_time = 0.
 
-        self.setpoint = None
+        self.setpoint = np.nan
         self.drive = np.nan
         self.ccdTemp = np.nan
         self.heatsinkTemp = np.nan
@@ -80,6 +81,8 @@ class BaseCam(object):
 
     def doInit(self):
         """Initialize the camera."""
+        if self.cmd is not None:
+            self.cmd.respond('exposureState="idle",0,0')
         self.errMsg = "" # clear last error messsage
 
     @abc.abstractmethod
@@ -140,24 +143,21 @@ class BaseCam(object):
     def setFlatFormat(cmd, doFinish=False):
         pass
 
-    def expose(self, itime, cmd=None):
-        return self._expose(itime, True, cmd=cmd)
-    def dark(self, itime, cmd=None):
-        return self._expose(itime, False, cmd=cmd)
-    def bias(self, cmd=None):
-        return self._expose(0.0, False, cmd=cmd)
+    def expose(self, itime, cmd):
+        return self._expose(itime, True, cmd)
+    def dark(self, itime, cmd):
+        return self._expose(itime, False, cmd)
+    def bias(self, cmd):
+        return self._expose(0.0, False, cmd)
 
-    def _expose(self, itime, openShutter, cmd=None):
+    def _expose(self, itime, openShutter, cmd):
         """
         Take an exposure and return a dict of the image and related data.
 
         Args:
             itime (float): exposure duration in seconds
             openShutter (bool): open the shutter.
-
-        Kwargs:
             cmd (Cmdr): Commander for passing response messages.
-
         """
         self._checkSelf()
 
@@ -168,9 +168,14 @@ class BaseCam(object):
         try:
             self._prep_exposure()
             self._start_exposure()
+            cmd.respond('exposureState="integrating",%0.1f,%0.1f' % (itime, itime))
             self._wait_on_exposure()
-            return self._get_exposure()
+            cmd.respond('exposureState="reading",%0.1f,%0.1f' % (self.read_time,self.read_time))
+            image = self._get_exposure()
+            cmd.respond('exposureState="done",0,0')
+            return image
         except Exception as e:
+            cmd.respond('exposureState="failed",0,0')
             self.handle_error(e)
             raise e
 

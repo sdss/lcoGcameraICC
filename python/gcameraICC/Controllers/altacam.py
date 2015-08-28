@@ -25,6 +25,13 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         alta.CApnCamera.__init__(self)
         BaseCam.BaseCam.__init__(self,hostname)
 
+        # self.IDLE = alta.DRV_IDLE
+
+        # TBD: this is a guess
+        self.shutter_time = 5 # in milliseconds
+        self.read_time = 2.0
+
+
     def __del__(self):
         self.CloseDriver()
 

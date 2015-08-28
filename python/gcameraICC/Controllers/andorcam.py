@@ -18,11 +18,13 @@ class AndorCam(BaseCam.BaseCam):
         """ Connect to an Andor ikon and start to initialize it. """
 
         self.camName = 'Andor iKon'
+        BaseCam.BaseCam.__init__(self)
+
         self.IDLE = andor.DRV_IDLE
+
         # TBD: this is a guess
         self.shutter_time = 5 # in milliseconds
-
-        BaseCam.BaseCam.__init__(self)
+        self.read_time = 0.5
 
     def connect(self):
         """ (Re-)initialize and already open connection. """
@@ -94,13 +96,15 @@ class AndorCam(BaseCam.BaseCam):
         self._checkSelf()
 
         self.safe_call(andor.SetReadMode,4)
-        self.safe_call(andor.SetImage,1,1,1,1024,1,1024)
+        self.safe_call(andor.SetImage,1,1,1,self.width,1,self.height)
 
     def _prep_exposure(self):
 
         if self._status() != self.IDLE:
             raise AndorError('Cannot start exposure: camera not idle.')
 
+        # TBD: for now, just use this, since we won't be binning.
+        self.safe_call(andor.SetImage,1,1,1,self.width,1,self.height)
         self.safe_call(andor.SetAcquisitionMode, 1)
         self.safe_call(andor.SetExposureTime, self.itime)
         # Note: Internal trigger mode is the default: no need to set anything for that.
@@ -118,16 +122,7 @@ class AndorCam(BaseCam.BaseCam):
     def _safe_fetchImage(self,cmd=None):
         """Wrap a call to GetAcquiredData16 in case of bad reads."""
         image = np.zeros(self.width*self.height, dtype='uint16')
-        import pdb
-        pdb.set_trace()
-        result = andor.GetAcquiredData16(image)
-        if result != andor.DRV_SUCCESS:
-            print result
-            import pdb
-            pdb.set_trace()
-            raise AndorError('Error number {} calling GetAcquiredData16 with image.shape'.format(result))
-
-        # self.safe_call(andor.GetAcquiredData16,image)
+        self.safe_call(andor.GetAcquiredData16,image)
         return image.reshape(self.width,self.height)
 
     def _cooler_off(self):

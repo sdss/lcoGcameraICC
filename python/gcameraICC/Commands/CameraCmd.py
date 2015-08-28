@@ -332,13 +332,13 @@ class CameraCmd(object):
         else:
             raise ValueError('Invalid gcamera exposure type in exposeStack: %s'%expType)
         
-        imDict = exposeCmd(itime, cmd=cmd)
+        imDict = exposeCmd(itime, cmd)
         
         if stack > 1:
             imList = [imDict['data'],]
             for i in range(2, stack+1):
                 cmd.inform('text="taking stacked integration %d of %d"' % (i, stack))
-                imDict1 = exposeCmd(itime, cmd=cmd)
+                imDict1 = exposeCmd(itime, cmd)
                 imList.append(imDict1['data'])
             imData = np.median(imList,axis=0).astype('u2')
             imDict['data'] = imData
@@ -414,7 +414,7 @@ class CameraCmd(object):
             
             imDict['type'] = 'object' if (expType == 'expose') else expType
             imDict['filename'] = pathname
-            imDict['ccdTemp'] = self.actor.cam.read_TempCCD()
+            imDict['ccdTemp'] = self.actor.cam.ccdTemp
             if expType == 'expose':
                 imDict['flatFile'] = self.flatFile
             if expType != "dark":
@@ -424,7 +424,7 @@ class CameraCmd(object):
         
         if expType == 'dark':
             self.darkFile = pathname + self.ext
-            self.darkTemp = self.actor.cam.read_TempCCD()
+            self.darkTemp = self.actor.cam.ccdTemp
             if not self.simRoot:
                 darknote = open(os.path.join(dirname, 'dark-%04d.dat' % (self.seqno)), 'w+')
                 darknote.write('filename=%s\n' % (self.darkFile))

@@ -18,10 +18,11 @@ def pick_gcamera():
         return ecamera()
 
 def gcamera():
-    return GcameraICC.GcameraICC('gcamera', doConnect=True)
+     return GcameraICC.GcameraICC.newActor('gcamera', location='lco', doConnect=True)
     
 def ecamera():
     return GcameraICC.GcameraICC('ecamera', doConnect=True)
+
 
 def main():
     gcamera = pick_gcamera()

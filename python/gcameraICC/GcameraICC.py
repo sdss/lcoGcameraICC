@@ -74,7 +74,8 @@ class GcameraICC(ICC.SDSS_ICC):
             # OK, try to set the cooler.
             try:
                 setPoint = float(self.config.get('camera', 'setTemp'))
-                self.callCommand("setTemp temp=%g" % (setPoint))
+                # self.callCommand("setTemp temp=%g" % (setPoint))
+                # self.callCommand("setTemp temp=5")
             except Exception, e:
                 self.bcast.warn('text="could not get/parse alta.tempSetpoint config variable: %s"' % (e))
 
