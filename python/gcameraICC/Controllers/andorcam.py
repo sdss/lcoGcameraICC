@@ -26,6 +26,8 @@ class AndorCam(BaseCam.BaseCam):
         self.shutter_time = 5 # in milliseconds
         self.read_time = 0.5
 
+        self.binning = 2
+
     def connect(self):
         """ (Re-)initialize and already open connection. """
 
@@ -48,6 +50,7 @@ class AndorCam(BaseCam.BaseCam):
         
         Raises descriptive exception on call failure.
         """
+        print 'Calling: {}{}'.format(func.__name__,args)
         result = func(*args)
         # unpack the result: could be a single return value,
         # return value + one thing, or return value + many things.
@@ -103,10 +106,12 @@ class AndorCam(BaseCam.BaseCam):
         if self._status() != self.IDLE:
             raise AndorError('Cannot start exposure: camera not idle.')
 
-        # TBD: for now, just use this, since we won't be binning.
-        self.safe_call(andor.SetImage,1,1,1,self.width,1,self.height)
         self.safe_call(andor.SetAcquisitionMode, 1)
         self.safe_call(andor.SetExposureTime, self.itime)
+        # TBD: for now, just use this, since we won't be binning.
+        # self.safe_call(andor.SetImage,1,1,1,self.width,1,self.height)
+        self.safe_call(andor.SetImage,self.binning,self.binning,1,self.width/self.binning,1,self.height/self.binning)
+
         # Note: Internal trigger mode is the default: no need to set anything for that.
 
         if self.openShutter:
@@ -121,9 +126,10 @@ class AndorCam(BaseCam.BaseCam):
 
     def _safe_fetchImage(self,cmd=None):
         """Wrap a call to GetAcquiredData16 in case of bad reads."""
-        image = np.zeros(self.width*self.height, dtype='uint16')
+        image = np.zeros((self.width/self.binning) * (self.height/self.binning), dtype='uint16')
+        print image.shape, self.width, self.height
         self.safe_call(andor.GetAcquiredData16,image)
-        return image.reshape(self.width,self.height)
+        return image.reshape(self.width/self.binning,self.height/self.binning)
 
     def _cooler_off(self):
         self.setpoint = 0
