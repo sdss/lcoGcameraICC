@@ -50,7 +50,8 @@ class AndorCam(BaseCam.BaseCam):
         
         Raises descriptive exception on call failure.
         """
-        print 'Calling: {}{}'.format(func.__name__,args)
+        if self.verbose:
+            print 'Calling: {}{}'.format(func.__name__,args)
         result = func(*args)
         # unpack the result: could be a single return value,
         # return value + one thing, or return value + many things.
@@ -94,6 +95,12 @@ class AndorCam(BaseCam.BaseCam):
     def set_binning(self, x, y=None):
         pass
 
+    #LCOHACK TBD: should fix this to just set_binning above generically.
+    def setBOSSFormat(self, cmd=None, doFinish=False):
+        self.binning = 2
+    def setFlatFormat(self, cmd=None, doFinish=False):
+        self.binning = 1
+
     def Unbinned(self):
         """Set the default binning for this camera/location."""
         self._checkSelf()
@@ -108,9 +115,8 @@ class AndorCam(BaseCam.BaseCam):
 
         self.safe_call(andor.SetAcquisitionMode, 1)
         self.safe_call(andor.SetExposureTime, self.itime)
-        # TBD: for now, just use this, since we won't be binning.
-        # self.safe_call(andor.SetImage,1,1,1,self.width,1,self.height)
-        self.safe_call(andor.SetImage,self.binning,self.binning,1,self.width/self.binning,1,self.height/self.binning)
+        # NOTE: SetImage wants hbin,vbin, then the on-chip image range.
+        self.safe_call(andor.SetImage,self.binning,self.binning,1,self.width,1,self.height)
 
         # Note: Internal trigger mode is the default: no need to set anything for that.
 
@@ -127,9 +133,9 @@ class AndorCam(BaseCam.BaseCam):
     def _safe_fetchImage(self,cmd=None):
         """Wrap a call to GetAcquiredData16 in case of bad reads."""
         image = np.zeros((self.width/self.binning) * (self.height/self.binning), dtype='uint16')
-        print image.shape, self.width, self.height
         self.safe_call(andor.GetAcquiredData16,image)
-        return image.reshape(self.width/self.binning,self.height/self.binning)
+        # flip horizontally, to match the image orientation at APO.
+        return np.fliplr(image.reshape(self.width/self.binning,self.height/self.binning))
 
     def _cooler_off(self):
         self.setpoint = 0

@@ -537,8 +537,8 @@ class CameraCmd(object):
 #        hdr.update('FULLY', self.m_ImagingRows)
         hdr.update('BEGX', imDict.get('begx', 0))
         hdr.update('BEGY', imDict.get('begy', 0))
-        hdr.update('BINX', imDict.get('binx', 1))
-        hdr.update('BINY', imDict.get('biny', 1))
+        hdr.update('BINX', imDict.get('binx', self.actor.cam.binning))
+        hdr.update('BINY', imDict.get('biny', self.actor.cam.binning))
 
         self.addPixelWcs(hdr)
 
