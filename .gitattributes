@@ -1,5 +1,7 @@
 * text=auto !eol
+etc/actorcore.module -text
 etc/apo.cfg -text
+etc/config.ini -text
 etc/ecamera.cfg -text
 etc/gcamera.cfg -text
 etc/lco.cfg -text
