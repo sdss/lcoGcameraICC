@@ -1,9 +1,9 @@
 * text=auto !eol
-etc/actorcore.module -text
 etc/apo.cfg -text
 etc/config.ini -text
 etc/ecamera.cfg -text
 etc/gcamera.cfg -text
+etc/gcameraICC.module -text
 etc/lco.cfg -text
 python/gcameraICC/Commands/CameraCmd.py -text
 python/gcameraICC/Commands/__init__.py -text
