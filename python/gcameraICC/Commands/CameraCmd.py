@@ -23,7 +23,7 @@ import actorcore.utility.svn
 
 class CameraCmd(object):
     """ Wrap camera commands.  """
-    
+
     def __init__(self, actor):
         self.actor = actor
         self.cam = actor.name[:4]
@@ -45,7 +45,7 @@ class CameraCmd(object):
         self.darkTemp = 99.9
         self.flatFile = None
         self.flatCartridge = -1
-        
+
         self.simRoot = None
         self.simSeqno = 1
 
@@ -55,7 +55,7 @@ class CameraCmd(object):
                                            opsKeys.Key("time", types.Float(), help="exposure time."),
                                            opsKeys.Key("mjd", types.String(), help="MJD for simulation sequence"),
                                            opsKeys.Key("cartridge", types.Int(), help="cartridge number; used to bind flats to images."),
-                                           opsKeys.Key("seqno", types.Int(), 
+                                           opsKeys.Key("seqno", types.Int(),
                                                        help="image number for simulation sequence."),
                                            opsKeys.Key("filename", types.String(),
                                                        help="the filename to write to"),
@@ -83,7 +83,7 @@ class CameraCmd(object):
 
     def pingCmd(self, cmd):
         """ Top-level "ping" command handler, responds if the actor is alive."""
-        
+
         cmd.finish('text="Pong."')
 
     def resync(self, cmd, doFinish=True):
@@ -93,11 +93,11 @@ class CameraCmd(object):
             self.findDarkAndFlat(dirname, self.seqno)
         except Exception, e:
             cmd.fail('text="failed to set directory, or dark and flat names: %s' % (e))
-            
-        cmd.respond('text="set dark, flat to %s,%s, cart=%d"' % (self.darkFile, self.flatFile, 
+
+        cmd.respond('text="set dark, flat to %s,%s, cart=%d"' % (self.darkFile, self.flatFile,
                                                                  self.flatCartridge))
         self.status(cmd, doFinish=doFinish)
-    
+
     def status(self, cmd, doFinish=True):
         """ Generate all status keywords. """
 
@@ -160,7 +160,7 @@ class CameraCmd(object):
                 break
 
         return match
-        
+
     def findDarkAndFlat(self, dirname, forSeqno):
         """
         Find most recent dark and flats images in the given directory.
@@ -177,7 +177,7 @@ class CameraCmd(object):
                 darkSeq = 0
         else:
             darkSeq = 0
-        
+
         self.darkFile = os.path.join(dirname, 'gimg-%04d.fits%s' % (darkSeq,self.ext)) if darkSeq else None
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
@@ -190,7 +190,7 @@ class CameraCmd(object):
                 flatSeq, flatCartridge = 0, -1
         else:
             flatSeq, flatCartridge = 0, -1
-        
+
         self.flatFile = os.path.join(dirname, 'gimg-%04d.fits%s' % (flatSeq,self.ext)) if flatSeq else None
         self.flatCartridge = flatCartridge
 
@@ -225,10 +225,10 @@ class CameraCmd(object):
         state = 'On' if self.simRoot else 'Off'
         resp = 'simulating=%s,%s,%d' % (state, self.simRoot, self.simSeqno)
         cmdFunc(resp)
-    
+
     def simulateOff(self, cmd):
         """ Turn off gcamera simulation: stop reading image files from disk. """
-        
+
         self.sendSimulatingKey(cmd.finish)
         self.simRoot = None
 
@@ -261,7 +261,7 @@ class CameraCmd(object):
 
     def genFilename(self, seqno):
         return '%s-%04d.fits' % (self.filePrefix, seqno)
-                       
+
     def genNextRealPath(self, cmd):
         """ Return the next filename to use. Exposures are numbered from 1 for each night. """
 
@@ -284,7 +284,7 @@ class CameraCmd(object):
             lastFile = os.path.basename(imgFiles[-1])
             m = re.match(gimgPattern, lastFile)
             if not m:
-                cmd.warn('text="no files matching %s in %s (last=%s)"' % (gimgPattern, 
+                cmd.warn('text="no files matching %s in %s (last=%s)"' % (gimgPattern,
                                                                           dataDir, lastFile))
                 seqno = 1
             else:
@@ -292,9 +292,9 @@ class CameraCmd(object):
 
         self.seqno = seqno
         return dataDir, self.genFilename(seqno)
-            
+
     def genNextSimPath(self, cmd):
-        """ Return the next filename to use. 
+        """ Return the next filename to use.
 
         Returns:
           dirname     - the full path of the file
@@ -306,7 +306,7 @@ class CameraCmd(object):
 
         pathname = os.path.join(self.simRoot, filename)
         if glob.glob(pathname+'*'):#os.path.isfile(pathname):
-            return self.simRoot, filename 
+            return self.simRoot, filename
         else:
             return None, None
 
@@ -322,7 +322,7 @@ class CameraCmd(object):
         Note the unwarranted chumminess with the camera data, compounded by not wanting to push
         non-u2 data up to the guider. So we pretend that we took a single itime exposure, and
         scale the pixels back into a pretend itime.
-        
+
         expType: 'dark' or 'expose'
         """
         if expType == 'expose':
@@ -331,9 +331,9 @@ class CameraCmd(object):
             exposeCmd = self.actor.cam.dark
         else:
             raise ValueError('Invalid gcamera exposure type in exposeStack: %s'%expType)
-        
+
         imDict = exposeCmd(itime, cmd)
-        
+
         if stack > 1:
             imList = [imDict['data'],]
             for i in range(2, stack+1):
@@ -346,13 +346,13 @@ class CameraCmd(object):
             imDict['exptimen'] = itime*stack
 
         return imDict
-    
+
     def expose(self, cmd, doFinish=True):
         """ expose/dark/flat - take an exposure
 
         dark: take a dark frame and set it as the currently active dark.
         flat: take a flat frame and set it as the currently active flat.
-        
+
         Args:
             time=SEC            - number of seconds per exposure.
             [filename=FILENAME] - write frame to this file (full path).
@@ -367,12 +367,12 @@ class CameraCmd(object):
         else:
             dirname, filename = self.getNextPath(cmd)
             pathname = os.path.join(dirname, filename)
-            
+
         stack = cmdKeys['stack'].values[0] if 'stack' in cmdKeys else 1
 
         if stack > 1 and itime > 8 and expType != 'dark':
             cmd.warn('text="Do you really mean to stack %0.1fs exposures?"' % (itime))
-        
+
         if self.simRoot:
             if not filename:
                 self.sendSimulatingKey('Off', cmd.respond)
@@ -387,9 +387,9 @@ class CameraCmd(object):
                 self.setFlatFormat(cmd, doFinish=False)
             else:
                 self.setBOSSFormat(cmd, doFinish=False)
-            
+
             self.findDarkAndFlat(dirname, self.seqno)
-            cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile, 
+            cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile,
                                                                self.darkFile,
                                                                self.flatCartridge))
             cmd.respond("stack=%d" % (stack))
@@ -411,7 +411,7 @@ class CameraCmd(object):
                 cmd.warn('exposureState="failed",0.0,0.0')
                 cmd.fail('text=%s' % (qstr("exposure failed: %s" % e)))
                 return
-            
+
             imDict['type'] = 'object' if (expType == 'expose') else expType
             imDict['filename'] = pathname
             imDict['ccdTemp'] = self.actor.cam.ccdTemp
@@ -421,7 +421,7 @@ class CameraCmd(object):
                 imDict['darkFile'] = self.darkFile
 
             self.writeFITS(imDict,cmd)
-        
+
         if expType == 'dark':
             self.darkFile = pathname + self.ext
             self.darkTemp = self.actor.cam.ccdTemp
@@ -431,7 +431,7 @@ class CameraCmd(object):
                 darknote.write('temp=%0.2f\n' % (self.darkTemp))
                 darknote.close()
                 cmd.respond('text="setting dark file for %0.1fC: %s"' % (self.darkTemp, self.darkFile))
-            
+
         elif expType == 'flat':
             self.flatFile = pathname + self.ext
             self.flatCartridge = cmdKeys['cartridge'].values[0] if ('cartridge' in cmdKeys) else 0
@@ -485,13 +485,13 @@ class CameraCmd(object):
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
         """ Return a proper ISO timestamp for t, or now if t==None. """
-        
+
         if t == None:
             t = time.time()
-            
+
         if zone == None:
             zone = ''
-            
+
         return time.strftime(format, time.gmtime(t)) \
                + ".%01d%s" % (10 * math.modf(t)[0], zone)
 
@@ -512,7 +512,7 @@ class CameraCmd(object):
         directory,basename = os.path.split(filename)
         darkFile = imDict.get('darkFile', "")
         flatFile = imDict.get('flatFile', "")
-        
+
         hdu = pyfits.PrimaryHDU(imDict['data'])
         hdr = hdu.header
         hdr.update('V_'+self.cam.upper(), self.version)
@@ -532,7 +532,7 @@ class CameraCmd(object):
         if 'stack' in imDict:
             hdr.update('STACK', imDict['stack'], 'number of stacked integrations')
             hdr.update('EXPTIMEN', imDict['exptimen'], 'exposure time for all integrations')
-            
+
 #        hdr.update('FULLX', self.m_ImagingCols)
 #        hdr.update('FULLY', self.m_ImagingRows)
         hdr.update('BEGX', imDict.get('begx', 0))
@@ -548,8 +548,8 @@ class CameraCmd(object):
         actorFits.extendHeader(cmd, hdr, tccCards)
         mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
         actorFits.extendHeader(cmd, hdr, mcpCards)
-        
+
         actorFits.writeFits(cmd,hdu,directory,basename,doCompress=self.doCompress)
-        
+
         del hdu
         del hdr
