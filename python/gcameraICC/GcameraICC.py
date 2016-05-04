@@ -60,9 +60,6 @@ class GcameraICC(ICC.SDSS_ICC):
         for actor in ['mcp','tcc']:
             self.models[actor] = opscore.actor.model.Model(actor)
 
-        # Loads the specific configuration file for the site.
-        self.loadSiteConfig()
-
     def prep_connectCamera(self,hostname=""):
         """Prepare to connect to the camera."""
         if self.cam:
@@ -104,25 +101,6 @@ class GcameraICC(ICC.SDSS_ICC):
 
     def connectionMade(self):
         reactor.callLater(3, self.connectCamera)
-
-    def loadSiteConfig(self, site=None):
-        """Merges the current config with the one specific for the site."""
-
-        site = self.location if site is None else site
-
-        etc = os.path.realpath(os.path.join(os.path.dirname(__file__),
-                                            '../../etc'))
-        siteConfig = os.path.join(etc, '{0}.cfg'.format(site.lower()))
-        assert os.path.exists(siteConfig), \
-            '{0} does not exist'.format(siteConfig)
-
-        self.config.read([siteConfig])
-
-        if isinstance(self.configFile, str):
-            self.configFile = [self.configFile]
-            self.configFile.append(siteConfig)
-        else:
-            self.configFile = siteConfig
 
 
 class GcameraAPO(GcameraICC):
