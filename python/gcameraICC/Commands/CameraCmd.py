@@ -537,8 +537,18 @@ class CameraCmd(object):
 #        hdr.update('FULLY', self.m_ImagingRows)
         hdr.update('BEGX', imDict.get('begx', 0))
         hdr.update('BEGY', imDict.get('begy', 0))
-        hdr.update('BINX', imDict.get('binx', self.actor.cam.binning))
-        hdr.update('BINY', imDict.get('biny', self.actor.cam.binning))
+        hdr.update('BINX', imDict.get('binx', self.actor.cam.m_pvtRoiBinningH))
+        hdr.update('BINY', imDict.get('biny', self.actor.cam.m_pvtRoiBinningV))
+
+        # Adds some camera-specific parameters
+        if 'camera' in self.actor.config._sections:
+            camera = self.actor.config._sections
+        else:
+            camera = {}
+
+        hdr.update('GAIN', float(camera.get('gain', -999)))
+        hdr.update('READNOIS', float(camera.get('readnoise', -999)))
+        hdr.update('PIXELSC', float(camera.get('pixelscale', -999)))
 
         self.addPixelWcs(hdr)
 
