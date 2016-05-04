@@ -18,13 +18,12 @@ class BaseCam(object):
     # a tuple enum for responses from your camera's temperature status output
     coolerStatusNames = ('Off','On')
 
-    def __init__(self, hostname="", verbose=True):
+    def __init__(self, verbose=True):
         """Connect to a guide camera and initialize it."""
 
         self.verbose = verbose
         self.cmd = None
 
-        self.hostname = hostname
         if not getattr(self,'camName',None):
             self.camName = 'unknown'
 

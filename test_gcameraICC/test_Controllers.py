@@ -110,6 +110,16 @@ class TestBaseCam(gcameraTester.GcameraTester):
         self.assertEqual(self.cam.ccdTemp,ccdTemp)
         self.assertEqual(self.cam.statusText,statusText)
 
+
+class TestAltaCam(TestBaseCam, unittest.TestCase):
+    """Tests for the Andor Ikon camera for LCO."""
+    def setUp(self):
+        super(TestAltaCam, self).setUp()
+        self.cam = andorcam.AndorCam()
+        andor.reset_mock()  # clear any function calls that init produced.
+        self.cmd.clear_msgs()  # clear startup messages
+
+
 class TestAndorCam(TestBaseCam,unittest.TestCase):
     """Tests for the Andor Ikon camera for LCO."""
     def setUp(self):

@@ -39,14 +39,12 @@ class TestGcameraICC(gcameraTester.GcameraTester,unittest.TestCase):
         self.assertIsInstance(self.gcamera,GcameraICC.GcameraAPO)
         self.assertEqual(TestHelper.logBuffer.basedir,'/data/logs/actors/gcamera')
         logged = TestHelper.logBuffer.getvalue()
-        # self.assertIsInstance(self.gcamera.actorState,GcameraICC.State)
         self.assertIn('attaching command set CameraCmd',logged)
         # self.assertIn('attaching command set CameraCmd_APO',logged)
 
     def test_init_lco(self):
         self.gcamera = GcameraICC.GcameraICC.newActor(location='lco',makeCmdrConnection=False)
         self.assertIsInstance(self.gcamera,GcameraICC.GcameraLCO)
-        # self.assertIsInstance(self.gcamera.actorState,GcameraICC.State)
         self.assertEqual(TestHelper.logBuffer.basedir,'/data/logs/actors/gcamera')
         logged = TestHelper.logBuffer.getvalue()
         self.assertIn('attaching command set CameraCmd',logged)

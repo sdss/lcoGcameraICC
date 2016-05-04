@@ -17,15 +17,16 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
     coolerStatusNames = ('Off', 'RampingToSetPoint', 'Correcting', 'RampingToAmbient', 
                          'AtAmbient', 'AtMax', 'AtMin', 'AtSetPoint')
 
-    def __init__(self, hostname):
+    def __init__(self, hostname=""):
         """ Connect to an Alta-E at the given IP address and start to initialize it. """
 
         self.camName = 'Apogee Alta'
+        self.hostname = hostname
 
         alta.CApnCamera.__init__(self)
-        BaseCam.BaseCam.__init__(self,hostname)
+        BaseCam.BaseCam.__init__(self)
 
-        # self.IDLE = alta.DRV_IDLE
+        self.IDLE = alta.DRV_IDLE
 
         # TBD: this is a guess
         self.shutter_time = 5 # in milliseconds
@@ -52,7 +53,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         self.doInit()
     
     def connect(self):
-        """ (Re-)initialize and already open connection. """
+        """ (Re-)initialize an already open connection. """
 
         ip = socket.gethostbyname(self.hostname)
         ipAddr = self.__addr2ip(ip)
