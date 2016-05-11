@@ -1,7 +1,7 @@
 import distutils.command.install as distInstall
 from distutils.core import Extension
 
-import sdss3tools
+#import sdss3tools
 import numpy
 import os
 
