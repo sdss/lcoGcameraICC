@@ -57,6 +57,14 @@ class BaseCam(object):
 
         self.m_pvtRoiBinningV, self.m_pvtRoiBinningH = 1,1
 
+    def __del__(self):
+        """If the objects gets destroyed, makes sure the camera shuts down."""
+
+        self._shutdown()
+
+        # Does whatever else the __del__ method should do.
+        super(BaseCam, self).__del__()
+
     def handle_error(self,e):
         """Handle an error, either outputting to a cmdr, or saving for later."""
         if self.verbose:
@@ -71,7 +79,7 @@ class BaseCam(object):
 
     def _checkSelf(self):
         """Always call this before communicating with the camera."""
-        
+
         if not self.ok:
             msg = "{} camera connection is down".format(self.camName)
             if self.errMsg:
@@ -277,7 +285,7 @@ class BaseCam(object):
             # print "starting state=%d, RESETTING" % (state)
             self.ResetSystem()
 
-        if state != 4 or state < 0: 
+        if state != 4 or state < 0:
             raise RuntimeError("bad imaging state=%d; please try gcamera reconnect before restarting the ICC" % (state))
 
         d = {}
@@ -335,12 +343,12 @@ class BaseCam(object):
 
     def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
         """ Return a proper ISO timestamp for t, or now if t==None. """
-        
+
         if t == None:
             t = time.time()
-            
+
         if zone == None:
             zone = ''
-            
+
         return time.strftime(format, time.gmtime(t)) \
                + ".%01d%s" % (10 * math.modf(t)[0], zone)
