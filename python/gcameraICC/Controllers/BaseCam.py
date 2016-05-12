@@ -5,7 +5,6 @@ import time
 import sys
 import math
 import traceback
-from time import sleep
 
 import numpy as np
 
