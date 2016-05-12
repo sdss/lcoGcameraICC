@@ -73,7 +73,7 @@ class CameraCmd(object):
             ('simulate', '(off)', self.simulateOff),
             ('simulate', '<mjd> <seqno>', self.simulateFromSeq),
             ('setTemp', '<temp>', self.setTemp),
-            ('expose', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
+            ('expose', '<time> [<cartridge>] [<filename>] [<stack>] [force]', self.expose),
             ('dark', '<time> [<filename>] [<stack>]', self.expose),
             ('flat', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
             ('reconnect', '', self.reconnect),
@@ -393,18 +393,29 @@ class CameraCmd(object):
                                                                self.darkFile,
                                                                self.flatCartridge))
             cmd.respond("stack=%d" % (stack))
+            doForce = 'force' in cmd.cmd.keywords
             try:
                 if expType == 'dark':
                     imDict = self.exposeStack(itime, stack, cmd=cmd, expType='dark')
                 else:
                     # We need to know about the dark to put it in the header.
-                    if not self.darkFile :
-                        cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')
-                        return
+                    if not self.darkFile:
+                        if doForce:
+                            cmd.warn('text="no available dark frame for '
+                                     'this MJD, but overriding because '
+                                     'force=True"')
+                        else:
+                            cmd.fail('exposureState="failed",0.0,0.0; text="no available dark frame for this MJD."')
+                            return
 
-                    if expType != 'flat' and not self.flatFile:
-                        cmd.fail('exposureState="failed",0.0,0.0; text="no available flat frames for this MJD."')
-                        return
+                    if expType != 'flat' and not self.flatFile and not doForce:
+                        if doForce:
+                            cmd.warn('text="no available flat frame for '
+                                     'this MJD, but overriding because '
+                                     'force=True"')
+                        else:
+                            cmd.fail('exposureState="failed",0.0,0.0; text="no available flat frames for this MJD."')
+                            return
 
                     imDict = self.exposeStack(itime, stack, cmd=cmd)
             except Exception, e:
