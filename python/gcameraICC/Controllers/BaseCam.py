@@ -5,6 +5,7 @@ import time
 import sys
 import math
 import traceback
+from time import sleep
 
 import numpy as np
 
@@ -56,14 +57,6 @@ class BaseCam(object):
         # TBD: CameraCmd and the hardcoded values it has.
 
         self.m_pvtRoiBinningV, self.m_pvtRoiBinningH = 1,1
-
-    def __del__(self):
-        """If the objects gets destroyed, makes sure the camera shuts down."""
-
-        self._shutdown()
-
-        # Does whatever else the __del__ method should do.
-        super(BaseCam, self).__del__()
 
     def handle_error(self,e):
         """Handle an error, either outputting to a cmdr, or saving for later."""

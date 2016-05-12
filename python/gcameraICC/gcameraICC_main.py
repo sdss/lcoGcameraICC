@@ -19,15 +19,24 @@ def pick_gcamera():
 
 def gcamera():
      return GcameraICC.GcameraICC.newActor('gcamera', location='lco', doConnect=True)
-    
+
 def ecamera():
     return GcameraICC.GcameraICC('ecamera', doConnect=True)
 
 
 def main():
     gcamera = pick_gcamera()
-    gcamera.run()
-    
+    try:
+        gcamera.run()
+    finally:
+        # Makes sure we have shutdown the camera before exiting.
+        # This is useful when the gcamera process dies dramatically without the
+        # user issuing the gcamera shutdown force command. This won't
+        # force the cooler to switch off but at least will improve our chances
+        # of reconnecting to the camera later on. This is specially critical
+        # for AndorCam, which is pretty sensitive about not shutting it down.
+        print('Shutting down the camera ... ')
+        gcamera.cam._shutdown()
+
 if __name__ == "__main__":
     main()
-
