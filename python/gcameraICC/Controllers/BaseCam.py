@@ -24,6 +24,8 @@ class BaseCam(object):
         self.verbose = verbose
         self.cmd = None
 
+        self._isShuttingDown = False
+
         if not getattr(self,'camName',None):
             self.camName = 'unknown'
 
@@ -240,6 +242,12 @@ class BaseCam(object):
         """
         self._checkSelf()
 
+        if self._isShuttingDown:
+            cmd.fail('camera is already shutting down.')
+            return
+
+        self._isShuttingDown = True
+
         self._cooler_off()
         # Check that we're above, or close to freezing
         while not((self.ccdTemp > self.safe_temp) or (np.isclose(self.ccdTemp, self.safe_temp, atol=0.5))):
@@ -249,6 +257,7 @@ class BaseCam(object):
                 self._check_temperature()
             time.sleep(self.shutdown_wait)
         self._shutdown()
+        self._isShuttingDown = False
 
     def _expose_old(self, itime, openShutter, filename, cmd=None, recursing=False):
         """

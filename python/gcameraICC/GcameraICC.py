@@ -57,7 +57,7 @@ class GcameraICC(ICC.SDSS_ICC):
         # generate the models for other actors, so we can access their information
         # when generating more detailed fits cards.
         self.models = {}
-        for actor in ['mcp','tcc']:
+        for actor in ['mcp', 'tcc', 'gcamera']:
             self.models[actor] = opscore.actor.model.Model(actor)
 
     def prep_connectCamera(self,hostname=""):
@@ -101,6 +101,16 @@ class GcameraICC(ICC.SDSS_ICC):
 
     def connectionMade(self):
         reactor.callLater(3, self.connectCamera)
+
+    def isCameraExposing(self, cmd):
+        """Returns whether the camera is actively taking an exposure."""
+
+        exposureState = self.models['gcamera'].keyVarDict['exposureState']
+
+        if exposureState[0] in ['integrating', 'reading']:
+            return False
+        else:
+            return True
 
 
 class GcameraAPO(GcameraICC):

@@ -359,6 +359,12 @@ class CameraCmd(object):
             [cartridge=N]       - set/override active cartridge number.
             [stack=N]           - stack this many exposures (total time: stack*time).
         """
+
+        # Checks if we are already exposing.
+        if self.actor.isCameraExposing(cmd):
+            cmd.fail('text="gcamera is currently exposing. Aborting."')
+            return
+
         expType = cmd.cmd.name
         cmdKeys = cmd.cmd.keywords
         itime = cmdKeys['time'].values[0]
