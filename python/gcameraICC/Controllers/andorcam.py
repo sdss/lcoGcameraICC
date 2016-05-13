@@ -47,7 +47,7 @@ class AndorCam(BaseCam.BaseCam):
     def safe_call(self,func,*args):
         """
         Call func with args, check return for success, return actual result, if any.
-        
+
         Raises descriptive exception on call failure.
         """
         if self.verbose:
@@ -135,7 +135,11 @@ class AndorCam(BaseCam.BaseCam):
         image = np.zeros((self.width/self.binning) * (self.height/self.binning), dtype='uint16')
         self.safe_call(andor.GetAcquiredData16,image)
         # flip horizontally, to match the image orientation at APO.
-        return np.fliplr(image.reshape(self.width/self.binning,self.height/self.binning))
+        npImgArray = np.fliplr(image.reshape(self.width/self.binning,self.height/self.binning))
+        # LCOHACK May Eng: Camera mounted upside down (rotate image 180, which)
+        # is equivalent to 2 more flips.
+        npImgArray = npImgArray[::-1,::-1]
+        return npImgArray
 
     def _cooler_off(self):
         self.setpoint = 0
