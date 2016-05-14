@@ -102,16 +102,6 @@ class GcameraICC(ICC.SDSS_ICC):
     def connectionMade(self):
         reactor.callLater(3, self.connectCamera)
 
-    def isCameraExposing(self, cmd):
-        """Returns whether the camera is actively taking an exposure."""
-
-        exposureState = self.models['gcamera'].keyVarDict['exposureState']
-
-        if exposureState[0] in ['integrating', 'reading']:
-            return False
-        else:
-            return True
-
 
 class GcameraAPO(GcameraICC):
     """APO version of this actor."""
