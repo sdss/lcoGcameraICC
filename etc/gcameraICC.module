@@ -44,10 +44,6 @@ module-whatis "Sets up $product/$version in your environment."
 #
 module load actorcore
 prereq actorcore
-module load tree
-prereq tree
-module load tcc
-prereq tcc
 # NOTE jkp: we need one or the other of these.
 # NOTE cs: for now just install andor_guider libraries directly
 # doesn't work with sdss4install yet
