@@ -14,19 +14,17 @@ class AndorCam(BaseCam.BaseCam):
                          'NotReached', 'OutOfRange', 'NotSupported',
                          'WasStableNowDrifting')
 
-    def __init__(self):
+    def __init__(self, verbose=False):
         """ Connect to an Andor ikon and start to initialize it. """
 
         self.camName = 'Andor iKon'
-        BaseCam.BaseCam.__init__(self)
+        BaseCam.BaseCam.__init__(self, verbose=verbose)
 
         self.IDLE = andor.DRV_IDLE
 
         # TBD: this is a guess
         self.shutter_time = 5 # in milliseconds
         self.read_time = 0.5
-
-        self.binning = 2
 
     def connect(self):
         """ (Re-)initialize and already open connection. """
@@ -51,7 +49,7 @@ class AndorCam(BaseCam.BaseCam):
         Raises descriptive exception on call failure.
         """
         if self.verbose:
-            print 'Calling: {}{}'.format(func.__name__,args)
+            print 'Calling: {}{}'.format(str(func),args)
         result = func(*args)
         # unpack the result: could be a single return value,
         # return value + one thing, or return value + many things.
@@ -92,21 +90,11 @@ class AndorCam(BaseCam.BaseCam):
 
         return self.cooler_status()
 
-    def set_binning(self, x, y=None):
-        pass
-
-    #LCOHACK TBD: should fix this to just set_binning above generically.
-    def setBOSSFormat(self, cmd=None, doFinish=False):
-        self.binning = 2
-    def setFlatFormat(self, cmd=None, doFinish=False):
-        self.binning = 1
-
-    def Unbinned(self):
-        """Set the default binning for this camera/location."""
+    def _set_binning(self):
         self._checkSelf()
-
-        self.safe_call(andor.SetReadMode,4)
-        self.safe_call(andor.SetImage,1,1,1,self.width,1,self.height)
+        self.safe_call(andor.SetReadMode, 4)
+        # NOTE: SetImage wants hbin,vbin, then the on-chip image range.
+        self.safe_call(andor.SetImage, self.binning, self.binning, 1, self.width, 1, self.height)
 
     def _prep_exposure(self):
 

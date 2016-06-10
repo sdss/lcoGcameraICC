@@ -1,7 +1,5 @@
 """Python OO interface for controlling an Apogee Alta camera."""
 
-__all__ = ['AltaCam']
-
 import alta
 import numpy as np
 
@@ -12,26 +10,31 @@ from traceback import print_exc
 
 import BaseCam
 
-class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
+
+class AltaCam(BaseCam.BaseCam, alta.CApnCamera):
     # The CoolerStatus enum values, with slightly shortened names.
-    coolerStatusNames = ('Off', 'RampingToSetPoint', 'Correcting', 'RampingToAmbient', 
+    coolerStatusNames = ('Off', 'RampingToSetPoint', 'Correcting', 'RampingToAmbient',
                          'AtAmbient', 'AtMax', 'AtMin', 'AtSetPoint')
 
-    def __init__(self, hostname=""):
+    def __init__(self, hostname="", verbose=False):
         """ Connect to an Alta-E at the given IP address and start to initialize it. """
 
         self.camName = 'Apogee Alta'
         self.hostname = hostname
 
         alta.CApnCamera.__init__(self)
-        BaseCam.BaseCam.__init__(self)
+        BaseCam.BaseCam.__init__(self, verbose=verbose)
 
         self.IDLE = alta.DRV_IDLE
 
+        self.width = 1024
+        self.height = 1024
+        # defines the overscan regions in each dimension
+        self.ow = 24
+        self.oh = 0
         # TBD: this is a guess
-        self.shutter_time = 5 # in milliseconds
+        self.shutter_time = 5  # in milliseconds
         self.read_time = 2.0
-
 
     def __del__(self):
         self.CloseDriver()
@@ -41,7 +44,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
 
         o1, o2, o3, o4 = map(int, addr.split('.'))
         return (o1 << 24) | (o2 << 16) | (o3 << 8) | o4
-        
+
     def doOpen(self):
         """ (Re-)open a connection to the camera at self.hostname. """
 
@@ -51,7 +54,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         except Exception, e:
             sys.stderr.write("failed to re-open a camera connection: %s\n" % (e))
         self.doInit()
-    
+
     def connect(self):
         """ (Re-)initialize an already open connection. """
 
@@ -72,7 +75,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         self.write_LedMode(0)
 
         return self.ok
-    
+
     def cooler_status(self):
         """ Return the cooler status keywords. """
 
@@ -91,7 +94,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         except:
             self.statusText = 'Invalid'
 
-        super(AltaCam,self).cooler_status()
+        super(AltaCam, self).cooler_status()
 
     def setCooler(self, setpoint):
         """ Set the cooler setpoint.
@@ -105,7 +108,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
 
         self.__checkSelf()
 
-        if setpoint == None:
+        if setpoint is None:
             self.write_CoolerEnable(0)
             return
 
@@ -114,38 +117,15 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
 
         return self.coolerStatus()
 
-    def setFan(self, level):
-        """ Set the fan power.
-
-        Args:
-           level - 0=Off, 1=low, 2=medium, 3=high.
-        """
-
-        self.__checkSelf()
-
-        if type(level) != type(1) or level < 0 or level > 3:
-            raise RuntimeError("setFan level must be an integer 0..3")
-
-        self.write_FanMode(level)
-
-    
-    def setBinning(self, x, y=None):
-        """ Set the readout binning.
-
-        Args:
-            x = binning factor along rows.
-            y ? binning factor along columns. If not passed in, same as x.
-        """
-
-        self.__checkSelf()
-
-        if y == None:
-            y = x
-
-        self.write_RoiBinningH(x)
-        self.write_RoiBinningV(y)
-        self.bin_x = x
-        self.bin_y = y
+    def _set_binning(self):
+        self.write_RoiBinningH(self._binning)
+        self.write_RoiBinningV(self._binning)
+        self.write_RoiPixelsH((self.width + self.ow)/self._binning)
+        self.write_RoiPixelsV((self.height + self.oh)/self._binning)
+        self.write_RoiStartX(1)
+        self.write_RoiStartY(1)
+        self.read_OverscanColumns()
+        self.write_DigitizeOverscan(1)
 
     def setWindow(self, x0, y0, x1, y1):
         """ Set the readout window, in binned pixels starting from 0,0. """
@@ -154,56 +134,12 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
 
         self.x0 = x0
         self.y0 = y0
-        
+
         self.write_RoiPixelsH(x1 - x0)
         self.write_RoiPixelsV(y1 - y0)
-        self.write_RoiStartX(x0 * self.bin_x)
-        self.write_RoiStartY(y0 * self.bin_y)
-        
-    def setBOSSFormat(self):
-        """Set up for 2x2 binning."""
-        self.__checkSelf()
+        self.write_RoiStartX(x0 * self._binning)
+        self.write_RoiStartY(y0 * self._binning)
 
-        w = 1024
-        h = 1024
-        # defines the overscan regions in each dimension
-        ow = 24
-        oh = 0
-        binx = 2
-        biny = 2
-
-        self.write_RoiBinningH(binx)
-        self.write_RoiBinningV(biny)
-
-        self.write_RoiPixelsH((w + ow)/binx)
-        self.write_RoiPixelsV((h + oh)/biny)
-        self.write_RoiStartX(1)
-        self.write_RoiStartY(1)
-        oc = self.read_OverscanColumns()
-        self.write_DigitizeOverscan(1)
-
-    def setFlatFormat(self):
-        """Set up for unbinned images."""
-        self.__checkSelf()
-
-        w = 1024
-        h = 1024
-        # defines the overscan regions in each dimension
-        ow = 24
-        oh = 0
-        binx = 1
-        biny = 1
-
-        self.write_RoiBinningH(binx)
-        self.write_RoiBinningV(biny)
-
-        self.write_RoiPixelsH((w + ow)/binx)
-        self.write_RoiPixelsV((h + oh)/biny)
-        self.write_RoiStartX(1)
-        self.write_RoiStartY(1)
-        oc = self.read_OverscanColumns()
-        self.write_DigitizeOverscan(1)
-        
     def _expose(self, itime, openShutter, filename, cmd=None, recursing=False):
         """ Take an exposure.
 
@@ -230,7 +166,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
             # print "starting state=%d, RESETTING" % (state)
             self.ResetSystem()
 
-        if state != 4 or state < 0: 
+        if state != 4 or state < 0:
             raise RuntimeError("bad imaging state=%d; please try gcamera reconnect before restarting the ICC" % (state))
 
         d = {}
@@ -248,7 +184,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
         for i in range(50):
             now = time.time()
             state = self.read_ImagingStatus()
-            if state < 0: 
+            if state < 0:
                 raise RuntimeError("bad state=%d; please try gcamera reconnect before restarting the ICC" % (state))
             if state == 3:
                 break
@@ -301,7 +237,7 @@ class AltaCam(BaseCam.BaseCam,alta.CApnCamera):
                 cmd.warn('text="IMAGE READ FAILED: %s"' % (ret))
             return None
         return image
-    
+
     def fetchImage(self, cmd=None):
         """ Return the current image. """
 
