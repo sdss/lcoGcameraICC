@@ -18,10 +18,12 @@ def pick_gcamera():
         return ecamera()
 
 def gcamera():
-     return GcameraICC.GcameraICC.newActor('gcamera', location='lco', doConnect=True)
+    # LCOHACK: default location should be APO.
+    return GcameraICC.GcameraICC.newActor('gcamera', location='lco', doConnect=True)
 
 def ecamera():
-    return GcameraICC.GcameraICC('ecamera', doConnect=True)
+    # LCOHACK: default location should be APO.
+    return GcameraICC.GcameraICC.newActor('ecamera', location='lco', doConnect=True)
 
 
 def main():
