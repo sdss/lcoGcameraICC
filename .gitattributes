@@ -20,10 +20,8 @@ python/gcameraICC/ecameraICC_main.py -text
 python/gcameraICC/gcameraICC_main.py -text
 python/gcameraICC/keydict.py -text
 /setup.py -text
-test_gcameraICC/BaseCamTester.py -text
 test_gcameraICC/gcameraTester.py -text
 test_gcameraICC/test_CameraCmd.py -text
-test_gcameraICC/test_altacam.py -text
-test_gcameraICC/test_andorcam.py -text
+test_gcameraICC/test_Controllers.py -text
 test_gcameraICC/test_gcameraICC.py -text
 ups/gcameraICC.table -text
