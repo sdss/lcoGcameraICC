@@ -18,7 +18,7 @@ class BaseCam(object):
     # a tuple enum for responses from your camera's temperature status output
     coolerStatusNames = ('Off','On')
 
-    def __init__(self, verbose=True):
+    def __init__(self, verbose=False):
         """Connect to a guide camera and initialize it."""
 
         self.verbose = verbose
@@ -35,7 +35,8 @@ class BaseCam(object):
             self.connect()
         except Exception as e:
             self.handle_error(e)
-        self.bin_x, self.bin_y = 1,1 # default binning
+
+        self._binning = 1  # default binning
         self.x0, self.y0 = 0, 0 # 0 point of the image
         self.ow,self.oh = 24, 0 # overscan size, unbinned pixels
 
@@ -57,7 +58,7 @@ class BaseCam(object):
         # TBD: It should be removed once I've got full tests in place for
         # TBD: CameraCmd and the hardcoded values it has.
 
-        self.m_pvtRoiBinningV, self.m_pvtRoiBinningH = 1,1
+        # self.m_pvtRoiBinningV, self.m_pvtRoiBinningH = 1,1
 
     def handle_error(self,e):
         """Handle an error, either outputting to a cmdr, or saving for later."""
@@ -127,21 +128,19 @@ class BaseCam(object):
         else:
             return setpoint
 
+    @property
+    def binning(self):
+        """Get or set the on-camera binning (both axes use this value)."""
+        return self._binning
+
+    @binning.setter
+    def binning(self, value):
+        self._binning = value
+        self._set_binning()
+
     @abc.abstractmethod
-    def set_binning(self, x, y=None):
-        """ Set the readout binning.
-
-        Args:
-            x (int): binning factor along rows.
-
-        Kwargs:
-            y (int): binning factor along columns. If not passed in, same as x.
-        """
-        pass
-
-    def setBOSSFormat(cmd, doFinish=False):
-        pass
-    def setFlatFormat(cmd, doFinish=False):
+    def _set_binning(self):
+        """Configure the camera's internal binning values."""
         pass
 
     def expose(self, itime, cmd):
@@ -341,15 +340,3 @@ class BaseCam(object):
         d['data'] = image
 
         return d
-
-    def getTS(self, t=None, format="%Y-%m-%d %H:%M:%S", zone="Z"):
-        """ Return a proper ISO timestamp for t, or now if t==None. """
-
-        if t == None:
-            t = time.time()
-
-        if zone == None:
-            zone = ''
-
-        return time.strftime(format, time.gmtime(t)) \
-               + ".%01d%s" % (10 * math.modf(t)[0], zone)
