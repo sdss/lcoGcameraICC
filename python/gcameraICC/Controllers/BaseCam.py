@@ -50,7 +50,7 @@ class BaseCam(object):
         self.drive = np.nan
         self.ccdTemp = np.nan
         self.heatsinkTemp = np.nan
-        self.fan = np.nan
+        self.fan = 1  # fan must be an integer, so we set it to 1 by default
         self.statusText = 'Unknown'
 
         # TBD: The stuff below here is only in place for testing.
