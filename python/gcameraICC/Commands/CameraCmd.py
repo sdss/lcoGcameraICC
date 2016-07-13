@@ -564,12 +564,17 @@ class CameraCmd(object):
 
         self.addPixelWcs(hdr)
 
-        # add in TCC and MCP cards, so the guider images have position and
-        # lamp/FFS state recorded.
-        tccCards = actorFits.tccCards(self.actor.models, cmd=cmd)
-        actorFits.extendHeader(cmd, hdr, tccCards)
-        mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
-        actorFits.extendHeader(cmd, hdr, mcpCards)
+        if self.actor.location == "LCO":
+            lcoTCCCards = actorFits.lcoTCCCards(self.actor.models, cmd=cmd)
+            actorFits.extendHeader(cmd, hdr, lcoTCCCards)
+        else:
+            # add in TCC and MCP cards, so the guider images have position and
+            # lamp/FFS state recorded.
+            tccCards = actorFits.tccCards(self.actor.models, cmd=cmd)
+            actorFits.extendHeader(cmd, hdr, tccCards)
+            mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
+            actorFits.extendHeader(cmd, hdr, mcpCards)
+
 
         actorFits.writeFits(cmd,hdu,directory,basename,doCompress=self.doCompress)
 
