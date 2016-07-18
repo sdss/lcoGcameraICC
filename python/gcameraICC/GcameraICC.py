@@ -24,9 +24,9 @@ class GcameraICC(ICC.SDSS_ICC):
         """Return the version of the actor based on our location."""
 
         location = GcameraICC._determine_location(location)
-        if location == 'apo':
+        if location == 'APO':
             return GcameraAPO(name,productName='gcameraICC',**kwargs)
-        elif location == 'lco':
+        elif location == 'LCO':
             return GcameraLCO(name,productName='gcameraICC',**kwargs)
         else:
             raise KeyError("Don't know my location: cannot return a working Actor!")
