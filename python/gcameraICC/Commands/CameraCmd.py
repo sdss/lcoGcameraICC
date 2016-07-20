@@ -43,6 +43,7 @@ class CameraCmd(object):
         # We track the names of any currently valid dark and flat files.
         self.biasFile = None
         self.darkFile = None
+        self.biasTemp = 99.9
         self.darkTemp = 99.9
         self.flatFile = None
         self.flatCartridge = -1
@@ -123,7 +124,7 @@ class CameraCmd(object):
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
             cmd.respond('dataDir=%s; nextSeqno=%d' % (self.dataDir, self.seqno))
             cmd.respond('flatCartridge=%s; biasFile=%s; darkFile=%s; flatFile=%s' % \
-                            (self.flatCartridge, self.darkFile,
+                            (self.flatCartridge, self.biasFile,
                              self.darkFile, self.flatFile))
             self.coolerStatus(cmd, doFinish=False)
         else:
@@ -393,7 +394,12 @@ class CameraCmd(object):
 
         expType = cmd.cmd.name
         cmdKeys = cmd.cmd.keywords
-        itime = cmdKeys['time'].values[0]
+
+        if expType == 'bias':
+            itime = 0.
+        else:
+            itime = cmdKeys['time'].values[0]
+
         if 'filename' in cmdKeys:
             pathname = cmdKeys['filename'].values[0]
         else:
@@ -479,6 +485,16 @@ class CameraCmd(object):
                 imDict['biasFile'] = self.biasFile
 
             self.writeFITS(imDict,cmd)
+
+        if expType == 'bias':
+            self.biasFile = pathname + self.ext
+            self.biasTemp = self.actor.cam.ccdTemp
+            if not self.simRoot:
+                biasnote = open(os.path.join(dirname, 'bias-%04d.dat' % (self.seqno)), 'w+')
+                biasnote.write('filename=%s\n' % (self.biasFile))
+                biasnote.write('temp=%0.2f\n' % (self.biasTemp))
+                biasnote.close()
+                cmd.respond('text="setting bias file for %0.1fC: %s"' % (self.biasTemp, self.biasFile))
 
         if expType == 'dark':
             self.darkFile = pathname + self.ext
