@@ -77,6 +77,7 @@ class CameraCmd(object):
             ('dark', '<time> [<filename>] [<stack>]', self.expose),
             ('flat', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
             ('reconnect', '', self.reconnect),
+            ('aph', '', self.reconnect),
             ('resync', '', self.resync),
             ('shutdown', '[force]', self.shutdown)
             ]
