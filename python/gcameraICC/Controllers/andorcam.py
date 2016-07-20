@@ -138,7 +138,9 @@ class AndorCam(BaseCam.BaseCam):
         npImgArray = np.fliplr(image.reshape(self.width/self.binning,self.height/self.binning))
         # LCOHACK May Eng: Camera mounted upside down (rotate image 180, which)
         # is equivalent to 2 more flips.
-        npImgArray = npImgArray[::-1,::-1]
+        # LCOHACK July Eng: Removed the flip as we mounted the camera with a different
+        # orientation.
+        npImgArray = npImgArray
         return npImgArray
 
     def _cooler_off(self):
