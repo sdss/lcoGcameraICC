@@ -41,6 +41,7 @@ class CameraCmd(object):
         self.filePrefix = self.actor.config.get(self.actor.name, 'filePrefix')
 
         # We track the names of any currently valid dark and flat files.
+        self.biasFile = None
         self.darkFile = None
         self.darkTemp = 99.9
         self.flatFile = None
@@ -74,6 +75,7 @@ class CameraCmd(object):
             ('simulate', '<mjd> <seqno>', self.simulateFromSeq),
             ('setTemp', '<temp>', self.setTemp),
             ('expose', '<time> [<cartridge>] [<filename>] [<stack>] [force]', self.expose),
+            ('bias', '[<stack>]', self.expose),
             ('dark', '<time> [<filename>] [<stack>]', self.expose),
             ('flat', '<time> [<cartridge>] [<filename>] [<stack>]', self.expose),
             ('reconnect', '', self.reconnect),
@@ -88,15 +90,22 @@ class CameraCmd(object):
         cmd.finish('text="Pong."')
 
     def resync(self, cmd, doFinish=True):
-        """ Resynchronize with the current guider frame numbers and find the correct dark and flat. """
+        """Resynchronize with the current guider frame numbers.
+
+        Finds the correct bias, dark, and flat.
+
+        """
+
         try:
             dirname, filename = self.genNextRealPath(cmd)
-            self.findDarkAndFlat(dirname, self.seqno)
-        except Exception, e:
-            cmd.fail('text="failed to set directory, or dark and flat names: %s' % (e))
+            self.findBiasAndDarkAndFlat(dirname, self.seqno)
+        except Exception, ee:
+            cmd.fail('text="failed to set directory, '
+                     'or bias, dark, and flat names: %s' % (ee))
 
-        cmd.respond('text="set dark, flat to %s,%s, cart=%d"' % (self.darkFile, self.flatFile,
-                                                                 self.flatCartridge))
+        cmd.respond('text="set bias, dark, flat to %s, %s, '
+                    'cart=%d"' % (self.darkFile, self.flatFile,
+                                  self.flatCartridge))
         self.status(cmd, doFinish=doFinish)
 
     def status(self, cmd, doFinish=True):
@@ -113,8 +122,9 @@ class CameraCmd(object):
             cmd.respond('cameraConnected=%s' % (cam != None))
             cmd.respond('binning=%d,%d' % (cam.m_pvtRoiBinningV, cam.m_pvtRoiBinningH))
             cmd.respond('dataDir=%s; nextSeqno=%d' % (self.dataDir, self.seqno))
-            cmd.respond('flatCartridge=%s; darkFile=%s; flatFile=%s' % \
-                            (self.flatCartridge, self.darkFile, self.flatFile))
+            cmd.respond('flatCartridge=%s; biasFile=%s; darkFile=%s; flatFile=%s' % \
+                            (self.flatCartridge, self.darkFile,
+                             self.darkFile, self.flatFile))
             self.coolerStatus(cmd, doFinish=False)
         else:
             cmd.warn('cameraConnected=%s' % (cam != None))
@@ -162,10 +172,10 @@ class CameraCmd(object):
 
         return match
 
-    def findDarkAndFlat(self, dirname, forSeqno):
+    def findBiasAndDarkAndFlat(self, dirname, forSeqno):
         """
         Find most recent dark and flats images in the given directory.
-        Set .darkFile, .flatFile, .flatCartridge
+        Set .biasFile, .darkFile, .flatFile, .flatCartridge
         """
 
         darkFiles = glob.glob(os.path.join(dirname, 'dark-*'))
@@ -179,7 +189,8 @@ class CameraCmd(object):
         else:
             darkSeq = 0
 
-        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits%s' % (darkSeq,self.ext)) if darkSeq else None
+        self.darkFile = os.path.join(dirname, 'gimg-%04d.fits%s' %
+                                     (darkSeq, self.ext)) if darkSeq else None
 
         flatFiles = glob.glob(os.path.join(dirname, 'flat-*'))
         flatNote = self.findFileMatch(flatFiles, forSeqno)
@@ -192,8 +203,23 @@ class CameraCmd(object):
         else:
             flatSeq, flatCartridge = 0, -1
 
-        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits%s' % (flatSeq,self.ext)) if flatSeq else None
+        self.flatFile = os.path.join(dirname, 'gimg-%04d.fits%s' %
+                                     (flatSeq, self.ext)) if flatSeq else None
         self.flatCartridge = flatCartridge
+
+        biasFiles = glob.glob(os.path.join(dirname, 'bias-*'))
+        biasNote = self.findFileMatch(biasFiles, forSeqno)
+        if biasNote:
+            m = re.search('.*/bias-(\d+)\.dat$', biasNote)
+            if m:
+                biasSeq = int(m.group(1))
+            else:
+                biasSeq = 0
+        else:
+            biasSeq = 0
+
+        self.biasFile = os.path.join(dirname, 'gimg-%04d.fits%s' %
+                                     (biasSeq, self.ext)) if biasSeq else None
 
     def setBOSSFormat(self, cmd, doFinish=True):
         """ Configure the camera for guiding images. """
@@ -330,6 +356,9 @@ class CameraCmd(object):
             exposeCmd = self.actor.cam.expose
         elif expType == 'dark':
             exposeCmd = self.actor.cam.dark
+        elif expType == 'bias':
+            exposeCmd = self.actor.cam.dark
+            itime = 0.
         else:
             raise ValueError('Invalid gcamera exposure type in exposeStack: %s'%expType)
 
@@ -349,8 +378,9 @@ class CameraCmd(object):
         return imDict
 
     def expose(self, cmd, doFinish=True):
-        """ expose/dark/flat - take an exposure
+        """ expose/dark/flat/bias - take an exposure
 
+        bias: take a bias frame and set it as the currently active bias.
         dark: take a dark frame and set it as the currently active dark.
         flat: take a flat frame and set it as the currently active flat.
 
@@ -390,16 +420,29 @@ class CameraCmd(object):
             else:
                 self.setBOSSFormat(cmd, doFinish=False)
 
-            self.findDarkAndFlat(dirname, self.seqno)
-            cmd.diag('text="found flat=%s dark=%s cart=%s"' % (self.flatFile,
-                                                               self.darkFile,
-                                                               self.flatCartridge))
+            self.findBiasAndDarkAndFlat(dirname, self.seqno)
+            cmd.diag('text="found bias=%s flat=%s dark=%s cart=%s"'
+                     % (self.biasFile, self.flatFile, self.darkFile,
+                        self.flatCartridge))
             cmd.respond("stack=%d" % (stack))
             doForce = 'force' in cmd.cmd.keywords
             try:
-                if expType == 'dark':
-                    imDict = self.exposeStack(itime, stack, cmd=cmd, expType='dark')
+                if expType == 'dark' or expType == 'bias':
+                    imDict = self.exposeStack(itime, stack, cmd=cmd,
+                                              expType=expType)
                 else:
+
+                    # For LCO, requires a bias frame.
+                    if not self.biasFile and self.actor.location == 'LCO':
+                        if doForce:
+                            cmd.warn('text="no available bias frame for '
+                                     'this MJD, but overriding because '
+                                     'force=True"')
+                        else:
+                            cmd.fail('exposureState="failed",0.0,0.0; '
+                                     'text="no available bias frame for this MJD."')
+                            return
+
                     # We need to know about the dark to put it in the header.
                     if not self.darkFile:
                         if doForce:
@@ -430,8 +473,10 @@ class CameraCmd(object):
             imDict['ccdTemp'] = self.actor.cam.ccdTemp
             if expType == 'expose':
                 imDict['flatFile'] = self.flatFile
-            if expType != "dark":
+            if expType not in ["dark", 'bias']:
                 imDict['darkFile'] = self.darkFile
+            if expType != 'bias':
+                imDict['biasFile'] = self.biasFile
 
             self.writeFITS(imDict,cmd)
 
@@ -523,6 +568,7 @@ class CameraCmd(object):
         """ Write the FITS frame for the current image. """
         filename = imDict['filename']
         directory,basename = os.path.split(filename)
+        biasFile = imDict.get('biasFile', "")
         darkFile = imDict.get('darkFile', "")
         flatFile = imDict.get('flatFile', "")
 
@@ -536,9 +582,12 @@ class CameraCmd(object):
         hdr.update('CCDTEMP', imDict.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
-        if imDict['type'] != "dark" and darkFile:
-            hdr.update('DARKFILE', darkFile)
-            hdr.update('FLATCART', self.flatCartridge)
+        if imDict['type'] not in ["dark", 'bias']:
+            if biasFile:
+                hdr.update('BIASFILE', biasFile)
+            if darkFile:
+                hdr.update('DARKFILE', darkFile)
+                hdr.update('FLATCART', self.flatCartridge)
         if imDict['type'] == 'object' and flatFile:
             hdr.update('FLATFILE', flatFile)
 
