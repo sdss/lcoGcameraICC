@@ -598,14 +598,19 @@ class CameraCmd(object):
         hdr.update('CCDTEMP', imDict.get('ccdTemp', 999.0), 'degrees C')
         hdr.update('FILENAME', filename)
         hdr.update("OBJECT", os.path.splitext(os.path.split(filename)[1])[0], "")
-        if imDict['type'] not in ["dark", 'bias']:
-            if biasFile:
-                hdr.update('BIASFILE', biasFile)
-            if darkFile:
+
+        if imDict['type'] != 'bias':
+            hdr.update('BIASFILE', biasFile)
+
+            if imDict['type'] != 'dark':
                 hdr.update('DARKFILE', darkFile)
+
+            if imDict['type'] == 'flat':
                 hdr.update('FLATCART', self.flatCartridge)
-        if imDict['type'] == 'object' and flatFile:
-            hdr.update('FLATFILE', flatFile)
+
+            if imDict['type'] == 'object':
+                hdr.update('FLATCART', self.flatCartridge)
+                hdr.update('FLATFILE', flatFile)
 
         if 'stack' in imDict:
             hdr.update('STACK', imDict['stack'], 'number of stacked integrations')
@@ -640,7 +645,6 @@ class CameraCmd(object):
             actorFits.extendHeader(cmd, hdr, tccCards)
             mcpCards = actorFits.mcpCards(self.actor.models, cmd=cmd)
             actorFits.extendHeader(cmd, hdr, mcpCards)
-
 
         actorFits.writeFits(cmd,hdu,directory,basename,doCompress=self.doCompress)
 

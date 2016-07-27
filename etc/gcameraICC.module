@@ -48,7 +48,7 @@ prereq actorcore
 # NOTE cs: for now just install andor_guider libraries directly
 # doesn't work with sdss4install yet
 
-#module load andor_guider
+module load andor_guider
 #module load apogee_guider
 
 #
