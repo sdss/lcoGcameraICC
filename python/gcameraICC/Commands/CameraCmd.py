@@ -296,7 +296,11 @@ class CameraCmd(object):
         gimgPattern = '^gimg-(\d{4})\.fits*'
 
         mjd = astroMJD.mjdFromPyTuple(time.gmtime())
-        fmjd = str(int(mjd + 0.3))
+
+        if self.actor.location == 'LCO':
+            fmjd = str(int(mjd + 0.4))
+        else:
+            fmjd = str(int(mjd + 0.3))
 
         dataDir = os.path.join(self.dataRoot, fmjd)
         if not os.path.isdir(dataDir):
