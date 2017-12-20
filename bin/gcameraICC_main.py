@@ -6,7 +6,8 @@ Start the gcameraICC to operate the APO or LCO guider.
 import os
 import sys
 
-import GcameraICC
+import gcameraICC import GcameraICC
+
 
 def pick_gcamera():
     """Start either gcamera or ecamera, depending on our name."""
@@ -17,9 +18,11 @@ def pick_gcamera():
     elif name.startswith('ecamera'):
         return ecamera()
 
+
 def gcamera():
     # LCOHACK: default location should be APO.
     return GcameraICC.GcameraICC.newActor('gcamera', location='lco', doConnect=True)
+
 
 def ecamera():
     # LCOHACK: default location should be APO.
@@ -39,6 +42,7 @@ def main():
         # for AndorCam, which is pretty sensitive about not shutting it down.
         print('Shutting down the camera ... ')
         gcamera.cam._shutdown()
+
 
 if __name__ == "__main__":
     main()

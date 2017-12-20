@@ -14,6 +14,8 @@ from actorcore import ICC
 import ConfigParser
 import os
 
+import gcameraICC
+
 
 class GcameraICC(ICC.SDSS_ICC):
     """An ICC to manage connections to a guide camera."""
@@ -47,10 +49,13 @@ class GcameraICC(ICC.SDSS_ICC):
             makeCmdrConnection (bool): establish self.cmdr as a command connection to the hub.
         """
 
-        self.headURL = "$HeadURL: https://svn.sdss.org/repo/operations/general/iccs/gcameraICC/branches/lco/python/gcameraICC/gcameraICC_main.py $"
+        self.version = gcameraICC.__version__
 
         self.cam = None
-        super(GcameraICC,self).__init__(name, productName=productName, configFile=configFile, makeCmdrConnection=makeCmdrConnection)
+        super(GcameraICC, self).__init__(name, productName=productName,
+                                         configFile=configFile,
+                                         productDir=(os.path.dirname(__file__) + '/../../'),
+                                         makeCmdrConnection=makeCmdrConnection)
 
         self.logger.setLevel(debugLevel)
 

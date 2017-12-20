@@ -1,0 +1,16 @@
+.. _lcoGcameraICC-changelog:
+
+==========
+Change Log
+==========
+
+This document records the main changes to the lcoGcameraICC code.
+
+.. _changelog-v1.0.0:
+1.0.0 (2017-12-20)
+-------------------
+
+Added
+^^^^^
+* Initial version of the sopActor fork for LCO.
+* Bumpversion and new version attribute.
