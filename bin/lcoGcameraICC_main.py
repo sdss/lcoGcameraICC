@@ -13,9 +13,9 @@ def pick_gcamera():
     """Start either gcamera or ecamera, depending on our name."""
 
     name = os.path.basename(sys.argv[0])
-    if name.startswith('gcamera'):
+    if name.startswith('lcoGcamera'):
         return gcamera()
-    elif name.startswith('ecamera'):
+    elif name.startswith('lcoEcamera'):
         return ecamera()
 
 

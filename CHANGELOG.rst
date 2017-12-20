@@ -6,6 +6,16 @@ Change Log
 
 This document records the main changes to the lcoGcameraICC code.
 
+.. _changelog-v1.0.1:
+1.0.1 (2017-12-20)
+-------------------
+
+Fixed
+^^^^^
+
+* Renamed ``gcameraICC_main.py`` to ``lcoGcameraICC_main.py``.
+
+
 .. _changelog-v1.0.0:
 1.0.0 (2017-12-20)
 -------------------
