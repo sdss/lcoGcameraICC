@@ -6,7 +6,7 @@ Start the gcameraICC to operate the APO or LCO guider.
 import os
 import sys
 
-import gcameraICC import GcameraICC
+from gcameraICC import GcameraICC
 
 
 def pick_gcamera():
