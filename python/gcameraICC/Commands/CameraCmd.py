@@ -27,7 +27,7 @@ class CameraCmd(object):
     def __init__(self, actor):
         self.actor = actor
         self.cam = actor.name[:4]
-        self.version = actorcore.utility.svn.simpleVersionName(actor.headURL)
+        self.version = actor.version
 
         # ecamera files should not be gzipped, to make processing in IRAF easier.
         if 'ecamera' in actor.name:
