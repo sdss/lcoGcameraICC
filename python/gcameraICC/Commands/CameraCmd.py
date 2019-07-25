@@ -487,8 +487,11 @@ class CameraCmd(object):
                 imDict['darkFile'] = self.darkFile
             if expType != 'bias':
                 imDict['biasFile'] = self.biasFile
+            if expType == 'flat':
+                self.flatCartridge = (cmdKeys['cartridge'].values[0]
+                                      if ('cartridge' in cmdKeys) else 0)
 
-            self.writeFITS(imDict,cmd)
+            self.writeFITS(imDict, cmd)
 
         if expType == 'bias':
             self.biasFile = pathname + self.ext
@@ -512,7 +515,6 @@ class CameraCmd(object):
 
         elif expType == 'flat':
             self.flatFile = pathname + self.ext
-            self.flatCartridge = cmdKeys['cartridge'].values[0] if ('cartridge' in cmdKeys) else 0
             self.setBOSSFormat(cmd, doFinish=False)
             if not self.simRoot:
                 flatnote = open(os.path.join(dirname, 'flat-%04d-%02d.dat' % (self.seqno, self.flatCartridge)), 'w+')
