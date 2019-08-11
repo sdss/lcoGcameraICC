@@ -7,8 +7,9 @@ Change Log
 This document records the main changes to the lcoGcameraICC code.
 
 .. _changelog-v1.0.2:
-1.0.2 (unreleased)
--------------------
+
+1.0.2 (2019-08-11)
+------------------
 
 Fixed
 ^^^^^
@@ -16,6 +17,7 @@ Fixed
 
 
 .. _changelog-v1.0.1:
+
 1.0.1 (2017-12-20)
 -------------------
 
@@ -25,6 +27,7 @@ Fixed
 
 
 .. _changelog-v1.0.0:
+
 1.0.0 (2017-12-20)
 -------------------
 
